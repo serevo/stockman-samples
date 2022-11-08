@@ -1,2 +1,1 @@
-# storex-samples
-STOCK-MAN サンプル
+# STOCK-MAN サンプル
