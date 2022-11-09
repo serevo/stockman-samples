@@ -5,9 +5,9 @@ Imports Storex
 
 <Export(GetType(IRepositoryModule))>
 <ExportMetadata(NameOf(IRepositoryModuleMetadata.Id), "39769087-866B-4C88-B116-BBB701631B23")>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.DisplayName), "オリジナルQR使用  簡易ファイルシステム")>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.Description), "先頭Pの1～10桁の部品名・先頭Sのシリアル番号・先頭Qの1～5桁の入り数のオリジナルQRをキーに、指定されたフォルダ内にデータを保存")>
-Public Class OriginalQrRepositoryModule
+<ExportMetadata(NameOf(IRepositoryModuleMetadata.DisplayName), "QR内容をMatchで判定  簡易ファイルシステム")>
+<ExportMetadata(NameOf(IRepositoryModuleMetadata.Description), "先頭Pの1～10桁の部品名・先頭Sのシリアル番号のQRと先頭Qの1～5桁の入り数のQRのペアをキーに、指定されたフォルダ内にデータを保存")>
+Public Class MatchRepositoryModule
     Implements IRepositoryModule
 
     Public ReadOnly Property IsConfiguable As Boolean Implements IModule.IsConfiguable
@@ -27,7 +27,7 @@ Public Class OriginalQrRepositoryModule
     End Function
 
     Dim RegisterMode As IMode
-    Dim ModeSetting As OriginalQrRepositoryModeSetting
+    Dim ModeSetting As MatchRepositoryModeSetting
     Dim RegisterUserInfo As IUserInfo
 
     Public Function PrepareAsync(mode As IMode, userInfo As IUserInfo) As Task Implements IRepositoryModule.PrepareAsync
@@ -35,11 +35,11 @@ Public Class OriginalQrRepositoryModule
             Dim str = JsonSerializer.Serialize(mode.RepositorySettings)
 
             Try
-                ModeSetting = JsonSerializer.Deserialize(Of OriginalQrRepositoryModeSetting)(str)
+                ModeSetting = JsonSerializer.Deserialize(Of MatchRepositoryModeSetting)(str)
             Catch ex As JsonException
             End Try
-        ElseIf TypeOf mode.RepositorySettings Is OriginalQrRepositoryModeSetting Then
-            ModeSetting = CType(mode.RepositorySettings, OriginalQrRepositoryModeSetting)
+        ElseIf TypeOf mode.RepositorySettings Is MatchRepositoryModeSetting Then
+            ModeSetting = CType(mode.RepositorySettings, MatchRepositoryModeSetting)
 
         ElseIf mode.RepositorySettings IsNot Nothing Then
             Throw New InvalidOperationException
@@ -52,29 +52,7 @@ Public Class OriginalQrRepositoryModule
     End Function
 
     Public Function SelectPrimaryElement(elements() As IElement) As IElement Implements IRepositoryModule.SelectPrimaryElement
-        Dim primaries = elements _
-            .Where(Function(x) TypeOf x Is Symbol) _
-            .Select(Function(x) CType(x, Symbol)) _
-            .Select(
-                Function(x)
-                    Dim primaryElement As OriginalQr = Nothing
-
-                    Dim result = OriginalQr.TryParse(x, primaryElement)
-
-                    Return New With {result, primaryElement}
-
-                End Function
-            ) _
-            .Where(Function(x) x.result) _
-            .Select(Function(x) x.primaryElement) _
-            .Distinct() _
-            .ToArray()
-
-        If primaries.Length = 1 Then
-            Return primaries(0)
-        End If
-
-        Return Nothing
+        Return MatchElement.Extract(elements.OfType(Of Symbol))
     End Function
 
     Public Function SelectSecondaryElements(primaryElement As IElement, elements() As IElement) As IElement() Implements IRepositoryModule.SelectSecondaryElements

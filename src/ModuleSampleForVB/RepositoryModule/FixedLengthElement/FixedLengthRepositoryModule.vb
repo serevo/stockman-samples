@@ -9,9 +9,9 @@ Imports Encoder = System.Drawing.Imaging.Encoder
 
 <Export(GetType(IRepositoryModule))>
 <ExportMetadata(NameOf(IRepositoryModuleMetadata.Id), "E0B3F83A-B417-43DB-8CCF-9916A2EB63C6")>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.DisplayName), "指定文字使用  簡易ファイルシステム")>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.Description), "設定した開始文字をキーに、指定されたフォルダ内にデータを保存")>
-Public Class HeaderSettingRepositoryModule
+<ExportMetadata(NameOf(IRepositoryModuleMetadata.DisplayName), "文字数固定キーシンボル  簡易ファイルシステム")>
+<ExportMetadata(NameOf(IRepositoryModuleMetadata.Description), "モード毎にキー条件指定、指定されたフォルダ内にデータを保存")>
+Public Class FixedLengthRepositoryModule
     Implements IRepositoryModule
 
     Public ReadOnly Property IsConfiguable As Boolean Implements IRepositoryModule.IsConfiguable
@@ -27,12 +27,12 @@ Public Class HeaderSettingRepositoryModule
     End Function
 
     Public Function EditModeAsync(mode As IMode) As Task Implements IRepositoryModule.EditModeAsync
-        HeaderRepositoryModeSettingForm.Show(mode)
+        FixedLengthRepositoryModeSettingForm.Show(mode)
         EditModeAsync = Task.CompletedTask
     End Function
 
     Dim RegisterMode As IMode
-    Dim ModeSetting As HeaderRepositoryModeSetting
+    Dim ModeSetting As FixedLengthRepositoryModeSetting
     Dim RegisterUserInfo As IUserInfo
 
     Public Function PrepareAsync(mode As IMode, userInfo As IUserInfo) As Task Implements IRepositoryModule.PrepareAsync
@@ -40,13 +40,13 @@ Public Class HeaderSettingRepositoryModule
             Dim str = JsonSerializer.Serialize(mode.RepositorySettings)
 
             Try
-                ModeSetting = JsonSerializer.Deserialize(Of HeaderRepositoryModeSetting)(str)
+                ModeSetting = JsonSerializer.Deserialize(Of FixedLengthRepositoryModeSetting)(str)
             Catch ex As JsonException
             End Try
-        ElseIf TypeOf mode.RepositorySettings Is HeaderRepositoryModeSetting Then
-            ModeSetting = CType(mode.RepositorySettings, HeaderRepositoryModeSetting)
+        ElseIf TypeOf mode.RepositorySettings Is FixedLengthRepositoryModeSetting Then
+            ModeSetting = CType(mode.RepositorySettings, FixedLengthRepositoryModeSetting)
         Else
-            Throw New InvalidOperationException
+            Throw New ModuleException("モードのレポジトリ設定が行われていません")
         End If
 
         RegisterMode = mode
@@ -57,9 +57,15 @@ Public Class HeaderSettingRepositoryModule
 
     Public Function SelectPrimaryElement(elements() As IElement) As IElement Implements IRepositoryModule.SelectPrimaryElement
         Dim primaries = elements _
-            .Where(Function(x) TypeOf x Is Symbol) _
-            .Select(Function(x) CType(x, Symbol)) _
-            .Where(Function(x) x.Value.StartsWith(ModeSetting.PrimaryStartWithFormat)) _
+            .OfType(Of Symbol) _
+            .Select(Function(x)
+                        Dim fixedLengthSymbol As FixedLengthSymbol = Nothing
+                        Dim result = FixedLengthSymbol.TryParse(x, ModeSetting, fixedLengthSymbol)
+
+                        Return New With {result, fixedLengthSymbol}
+                    End Function) _
+            .Where(Function(x) x.result) _
+            .Select(Function(x) x.fixedLengthSymbol) _
             .Distinct() _
             .ToArray()
 

@@ -118,18 +118,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthSymbol.vb" />
     <Compile Include="RepositoryModule\SecondaryMasterData.vb" />
-    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSetting.vb" />
-    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSettingForm.Designer.vb">
-      <DependentUpon>HeaderRepositoryModeSettingForm.vb</DependentUpon>
+    <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModeSetting.vb" />
+    <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModeSettingForm.Designer.vb">
+      <DependentUpon>FixedLengthRepositoryModeSettingForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSettingForm.vb">
+    <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModeSettingForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderSettingRepositoryModule.vb" />
-    <Compile Include="RepositoryModule\UseOriginalElement\OriginalQr.vb" />
-    <Compile Include="RepositoryModule\UseOriginalElement\OriginalQrRepositoryModule.vb" />
-    <Compile Include="RepositoryModule\UseOriginalElement\OriginalQrRepositoryModeSetting.vb" />
+    <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModule.vb" />
+    <Compile Include="RepositoryModule\PatternMatchElement\MatchElement.vb" />
+    <Compile Include="RepositoryModule\PatternMatchElement\MatchRepositoryModule.vb" />
+    <Compile Include="RepositoryModule\PatternMatchElement\MatchRepositoryModeSetting.vb" />
     <Compile Include="RepositoryModule\RepositoryConfigureForm.Designer.vb">
       <DependentUpon>RepositoryConfigureForm.vb</DependentUpon>
     </Compile>
@@ -154,8 +155,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSettingForm.resx">
-      <DependentUpon>HeaderRepositoryModeSettingForm.vb</DependentUpon>
+    <EmbeddedResource Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModeSettingForm.resx">
+      <DependentUpon>FixedLengthRepositoryModeSettingForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RepositoryModule\RepositoryConfigureForm.resx">
       <DependentUpon>RepositoryConfigureForm.vb</DependentUpon>
