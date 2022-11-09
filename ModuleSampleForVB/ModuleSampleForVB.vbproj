@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{177B6606-BF54-47B7-8E95-121E6AE7E51C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ModuleSampleForVB</RootNamespace>
+    <AssemblyName>ModuleSampleForVB</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>ModuleSampleForVB.xml</DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>ModuleSampleForVB.xml</DocumentationFile>
+    <DefineConstants>_MYFORMS=True</DefineConstants>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.Designer.vb">
+      <DependentUpon>CsvAuthenticationConfigureForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvFilterControl.xaml.vb">
+      <DependentUpon>CsvFilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvFilterListItem.vb" />
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvIdAuthenticationForm.Designer.vb">
+      <DependentUpon>CsvIdAuthenticationForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvIdAuthenticationForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvSelectNameAutenticationForm.Designer.vb">
+      <DependentUpon>CsvSelectNameAutenticationForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvSelectNameAutenticationForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvUseFilterType.vb" />
+    <Compile Include="AuthenticationModule\UseCsvFile\Settings.vb" />
+    <Compile Include="AuthenticationModule\UseCsvFile\CsvUserInfo.vb" />
+    <Compile Include="AuthenticationModule\UseCsvFile\UseCsvFileAuthenticationModule.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RepositoryModule\SecondaryMasterData.vb" />
+    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSetting.vb" />
+    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSettingForm.Designer.vb">
+      <DependentUpon>HeaderRepositoryModeSettingForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSettingForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RepositoryModule\SpecifiedHeader\HeaderSettingRepositoryModule.vb" />
+    <Compile Include="RepositoryModule\UseOriginalElement\OriginalQr.vb" />
+    <Compile Include="RepositoryModule\UseOriginalElement\OriginalQrRepositoryModule.vb" />
+    <Compile Include="RepositoryModule\UseOriginalElement\OriginalQrRepositoryModeSetting.vb" />
+    <Compile Include="RepositoryModule\RepositoryConfigureForm.Designer.vb">
+      <DependentUpon>RepositoryConfigureForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RepositoryModule\RepositoryConfigureForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RepositoryModule\Settings.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.resx">
+      <DependentUpon>CsvAuthenticationConfigureForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvIdAuthenticationForm.resx">
+      <DependentUpon>CsvIdAuthenticationForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvSelectNameAutenticationForm.resx">
+      <DependentUpon>CsvSelectNameAutenticationForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RepositoryModule\SpecifiedHeader\HeaderRepositoryModeSettingForm.resx">
+      <DependentUpon>HeaderRepositoryModeSettingForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RepositoryModule\RepositoryConfigureForm.resx">
+      <DependentUpon>RepositoryConfigureForm.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AuthenticationModule\UseCsvFile\CsvUserListSample.csv" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="RepositoryModule\SecandaryMasterSample.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AuthenticationModule\UseCsvFile\CsvFilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Storex.Core">
+      <Version>1.0.0-pre2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>7.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>
