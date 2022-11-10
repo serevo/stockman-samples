@@ -109,7 +109,7 @@ Public Class FixedLengthRepositoryModule
     End Function
 
     Public Async Function RegisterAsync(primaryElement As IElement, secondaryElement As IElement, datas() As CaptureResult, textDatas() As String, cancellationToken As CancellationToken) As Task Implements IRepositoryModule.RegisterAsync
-        Dim folderPath = My.Settings.RepositoryFolderPath
+        Dim folderPath = My.RepositorySettings.Default.RepositoryFolderPath
 
         If String.IsNullOrEmpty(folderPath) Then
             Throw New InvalidOperationException

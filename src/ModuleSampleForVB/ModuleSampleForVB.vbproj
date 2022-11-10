@@ -119,6 +119,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthSymbol.vb" />
+    <Compile Include="RepositoryModule\RepositorySettings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>RepositorySettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="RepositoryModule\SecondaryMasterData.vb" />
     <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModeSetting.vb" />
     <Compile Include="RepositoryModule\FixedLengthElement\FixedLengthRepositoryModeSettingForm.Designer.vb">
@@ -137,7 +142,6 @@
     <Compile Include="RepositoryModule\RepositoryConfigureForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RepositoryModule\Settings.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.resx">
@@ -163,6 +167,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="AuthenticationModule\UseCsvFile\CsvUserListSample.csv" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -172,6 +177,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="RepositoryModule\RepositorySettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>RepositorySettings.Designer.vb</LastGenOutput>
     </None>
     <None Include="RepositoryModule\SecandaryMasterSample.csv" />
   </ItemGroup>
