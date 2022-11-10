@@ -22,7 +22,7 @@ Public Class SecondaryMasterData
     End Sub
 
     Public Shared Function LoadSecondaryMasters() As SecondaryMasterData()
-        Dim filePath = My.Settings.SecondaryMasterFilePath
+        Dim filePath = My.RepositorySettings.Default.SecondaryMasterFilePath
 
         If String.IsNullOrEmpty(filePath) Then
             Return Array.Empty(Of SecondaryMasterData)

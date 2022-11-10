@@ -2,8 +2,8 @@
     Sub New()
         InitializeComponent()
 
-        FolderPathTextBox.Text = My.Settings.RepositoryFolderPath
-        MasterFilePathTextBox.Text = My.Settings.SecondaryMasterFilePath
+        FolderPathTextBox.Text = My.RepositorySettings.Default.RepositoryFolderPath
+        MasterFilePathTextBox.Text = My.RepositorySettings.Default.SecondaryMasterFilePath
 
     End Sub
 
@@ -19,31 +19,30 @@
     End Sub
 
     Private Sub FileSelectorButton_Click(sender As Object, e As EventArgs) Handles FileSelectorButton.Click
+        Using dialog As New OpenFileDialog
 
+            dialog.Title = "セカンダリの部材紐付けマスタに使用するファイルを選択してください"
+            dialog.FileName = MasterFilePathTextBox.Text
+            dialog.Filter = "CSVファイル|*.csv"
+
+            If dialog.ShowDialog(Me) = DialogResult.OK Then
+                MasterFilePathTextBox.Text = dialog.FileName
+            End If
+        End Using
     End Sub
 
     Private Sub ApplyButton_Click(sender As Object, e As EventArgs) Handles ApplyButton.Click
 
-        Dim isFolderNothing = String.IsNullOrEmpty(FolderPathTextBox.Text.TrimEnd)
-        Dim isFileNothing = String.IsNullOrEmpty(MasterFilePathTextBox.Text.TrimEnd)
-
-        If isFolderNothing Or isFileNothing Then
-            If isFolderNothing Then
-                ErrorProvider.SetError(FolderPathTextBox, "選択してください")
-            End If
-
-            If isFileNothing Then
-                ErrorProvider.SetError(MasterFilePathTextBox, "選択してください")
-            End If
-
+        If String.IsNullOrEmpty(FolderPathTextBox.Text.TrimEnd) Then
+            ErrorProvider.SetError(FolderPathTextBox, "選択してください")
             Return
         Else
             ErrorProvider.Clear()
         End If
 
-        My.Settings.RepositoryFolderPath = FolderPathTextBox.Text
-        My.Settings.SecondaryMasterFilePath = MasterFilePathTextBox.Text
-        My.Settings.Save()
+        My.RepositorySettings.Default.RepositoryFolderPath = FolderPathTextBox.Text
+        My.RepositorySettings.Default.SecondaryMasterFilePath = MasterFilePathTextBox.Text
+        My.RepositorySettings.Default.Save()
     End Sub
 
 End Class

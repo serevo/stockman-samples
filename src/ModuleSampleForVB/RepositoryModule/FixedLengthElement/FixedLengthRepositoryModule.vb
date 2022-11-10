@@ -36,6 +36,7 @@ Public Class FixedLengthRepositoryModule
     Dim RegisterUserInfo As IUserInfo
 
     Public Function PrepareAsync(mode As IMode, userInfo As IUserInfo) As Task Implements IRepositoryModule.PrepareAsync
+
         If TypeOf mode.RepositorySettings Is JsonElement Then
             Dim str = JsonSerializer.Serialize(mode.RepositorySettings)
 
@@ -45,6 +46,7 @@ Public Class FixedLengthRepositoryModule
             End Try
         ElseIf TypeOf mode.RepositorySettings Is FixedLengthRepositoryModeSetting Then
             ModeSetting = CType(mode.RepositorySettings, FixedLengthRepositoryModeSetting)
+
         Else
             Throw New ModuleException("モードのレポジトリ設定が行われていません")
         End If
@@ -109,7 +111,7 @@ Public Class FixedLengthRepositoryModule
     End Function
 
     Public Async Function RegisterAsync(primaryElement As IElement, secondaryElement As IElement, datas() As CaptureResult, textDatas() As String, cancellationToken As CancellationToken) As Task Implements IRepositoryModule.RegisterAsync
-        Dim folderPath = My.Settings.RepositoryFolderPath
+        Dim folderPath = My.RepositorySettings.Default.RepositoryFolderPath
 
         If String.IsNullOrEmpty(folderPath) Then
             Throw New InvalidOperationException

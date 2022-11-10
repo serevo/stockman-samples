@@ -7,7 +7,7 @@ Public Class FixedLengthSymbol
 
     Protected Overrides ReadOnly Property SerialNumber As String
 
-    Public Shared ReadOnly ValidSymbolTypes() As SymbolType =
+    Shared ReadOnly ValidSymbolTypes() As SymbolType =
     {
        SymbolType.QrCode
     }
@@ -28,8 +28,14 @@ Public Class FixedLengthSymbol
     End Sub
 
     Public Shared Function TryParse(symbol As Symbol, setting As FixedLengthRepositoryModeSetting, ByRef fixedLengthSymbol As FixedLengthSymbol) As Boolean
+        If ValidSymbolTypes.Contains(symbol.Type) And symbol.Value.Length = setting.PrimaryValueLength And symbol.Value.StartsWith(setting.PrimaryStartWithFormat) Then
+            Dim part = symbol.Value.Substring(setting.PartStartIndex - 1, setting.PartLength)
+            Dim serial = symbol.Value.Substring(setting.SerialStartIndex - 1, setting.SerialLength)
 
+            fixedLengthSymbol = New FixedLengthSymbol(part, serial, symbol.Type, symbol.Value)
+            Return True
+        End If
 
-
+        Return False
     End Function
 End Class
