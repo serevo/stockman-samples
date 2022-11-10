@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class CsvIdAuthenticationForm
+Partial Class AuthenticationForm1
     Inherits System.Windows.Forms.Form
 
     'フォームがコンポーネントの一覧をクリーンアップするために dispose をオーバーライドします。
@@ -34,10 +34,10 @@ Partial Class CsvIdAuthenticationForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(10, 20)
+        Me.Label1.Location = New System.Drawing.Point(22, 20)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 12)
-        Me.Label1.TabIndex = 7
+        Me.Label1.TabIndex = 0
         Me.Label1.Text = "IDを入力してください"
         '
         'InputCancelButton
@@ -46,7 +46,7 @@ Partial Class CsvIdAuthenticationForm
         Me.InputCancelButton.Location = New System.Drawing.Point(235, 86)
         Me.InputCancelButton.Name = "InputCancelButton"
         Me.InputCancelButton.Size = New System.Drawing.Size(75, 23)
-        Me.InputCancelButton.TabIndex = 6
+        Me.InputCancelButton.TabIndex = 3
         Me.InputCancelButton.Text = "キャンセル"
         Me.InputCancelButton.UseVisualStyleBackColor = True
         '
@@ -55,35 +55,43 @@ Partial Class CsvIdAuthenticationForm
         Me.OkButton.Location = New System.Drawing.Point(134, 84)
         Me.OkButton.Name = "OkButton"
         Me.OkButton.Size = New System.Drawing.Size(78, 26)
-        Me.OkButton.TabIndex = 5
+        Me.OkButton.TabIndex = 2
         Me.OkButton.Text = "OK"
         Me.OkButton.UseVisualStyleBackColor = True
         '
         'NumTextBox
         '
-        Me.NumTextBox.Location = New System.Drawing.Point(12, 50)
+        Me.NumTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NumTextBox.Location = New System.Drawing.Point(24, 48)
         Me.NumTextBox.Name = "NumTextBox"
-        Me.NumTextBox.Size = New System.Drawing.Size(274, 19)
-        Me.NumTextBox.TabIndex = 4
+        Me.NumTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.NumTextBox.Size = New System.Drawing.Size(276, 19)
+        Me.NumTextBox.TabIndex = 1
         '
         'ErrorProvider
         '
         Me.ErrorProvider.ContainerControl = Me
         '
-        'CsvIdAuthenticationForm
+        'AuthenticationForm1
         '
+        Me.AcceptButton = Me.OkButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(324, 123)
+        Me.CancelButton = Me.InputCancelButton
+        Me.ClientSize = New System.Drawing.Size(324, 121)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.InputCancelButton)
         Me.Controls.Add(Me.OkButton)
         Me.Controls.Add(Me.NumTextBox)
-        Me.Name = "CsvIdAuthenticationForm"
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "AuthenticationForm1"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "IDユーザー認証"
+        Me.Text = "ユーザー認証"
         CType(Me.ErrorProvider, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class CsvSelectNameAutenticationForm
+Partial Class AuthenticationForm2
     Inherits System.Windows.Forms.Form
 
     'フォームがコンポーネントの一覧をクリーンアップするために dispose をオーバーライドします。
@@ -26,27 +26,27 @@ Partial Class CsvSelectNameAutenticationForm
         Me.InputCancelButton = New System.Windows.Forms.Button()
         Me.OkButton = New System.Windows.Forms.Button()
         Me.ErrorProvider = New System.Windows.Forms.ErrorProvider(Me.components)
-        Me.UserInfoComboBox = New System.Windows.Forms.ComboBox()
-        Me.ElementHost1 = New System.Windows.Forms.Integration.ElementHost()
-        Me.CsvFilterControl = New ModuleSampleForVB.CsvFilterControl()
+        Me.UserInfoComboBox = New System.Windows.Forms.ListBox()
         CType(Me.ErrorProvider, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'InputCancelButton
         '
+        Me.InputCancelButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.InputCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.InputCancelButton.Location = New System.Drawing.Point(327, 116)
+        Me.InputCancelButton.Location = New System.Drawing.Point(306, 330)
         Me.InputCancelButton.Name = "InputCancelButton"
-        Me.InputCancelButton.Size = New System.Drawing.Size(75, 23)
+        Me.InputCancelButton.Size = New System.Drawing.Size(81, 26)
         Me.InputCancelButton.TabIndex = 11
         Me.InputCancelButton.Text = "キャンセル"
         Me.InputCancelButton.UseVisualStyleBackColor = True
         '
         'OkButton
         '
+        Me.OkButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.OkButton.Enabled = False
-        Me.OkButton.Location = New System.Drawing.Point(216, 116)
+        Me.OkButton.Location = New System.Drawing.Point(222, 330)
         Me.OkButton.Name = "OkButton"
         Me.OkButton.Size = New System.Drawing.Size(78, 26)
         Me.OkButton.TabIndex = 10
@@ -59,33 +59,36 @@ Partial Class CsvSelectNameAutenticationForm
         '
         'UserInfoComboBox
         '
-        Me.UserInfoComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.UserInfoComboBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UserInfoComboBox.Font = New System.Drawing.Font("MS UI Gothic", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.UserInfoComboBox.FormattingEnabled = True
-        Me.UserInfoComboBox.Location = New System.Drawing.Point(47, 80)
+        Me.UserInfoComboBox.IntegralHeight = False
+        Me.UserInfoComboBox.ItemHeight = 33
+        Me.UserInfoComboBox.Location = New System.Drawing.Point(12, 12)
         Me.UserInfoComboBox.Name = "UserInfoComboBox"
-        Me.UserInfoComboBox.Size = New System.Drawing.Size(326, 20)
+        Me.UserInfoComboBox.Size = New System.Drawing.Size(375, 304)
         Me.UserInfoComboBox.TabIndex = 12
         '
-        'ElementHost1
+        'AuthenticationForm2
         '
-        Me.ElementHost1.Location = New System.Drawing.Point(47, 12)
-        Me.ElementHost1.Name = "ElementHost1"
-        Me.ElementHost1.Size = New System.Drawing.Size(326, 42)
-        Me.ElementHost1.TabIndex = 13
-        Me.ElementHost1.Text = "ElementHost1"
-        Me.ElementHost1.Child = Me.CsvFilterControl
-        '
-        'CsvSelectNameAutenticationForm
-        '
+        Me.AcceptButton = Me.OkButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(436, 170)
-        Me.Controls.Add(Me.ElementHost1)
+        Me.CancelButton = Me.InputCancelButton
+        Me.ClientSize = New System.Drawing.Size(400, 368)
         Me.Controls.Add(Me.UserInfoComboBox)
         Me.Controls.Add(Me.InputCancelButton)
         Me.Controls.Add(Me.OkButton)
-        Me.Name = "CsvSelectNameAutenticationForm"
-        Me.Text = "CsvSelectNameAutenticationForm"
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "AuthenticationForm2"
+        Me.ShowIcon = False
+        Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.Text = "ユーザー選択"
         CType(Me.ErrorProvider, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -93,7 +96,5 @@ Partial Class CsvSelectNameAutenticationForm
     Friend WithEvents InputCancelButton As Button
     Friend WithEvents OkButton As Button
     Friend WithEvents ErrorProvider As ErrorProvider
-    Friend WithEvents UserInfoComboBox As ComboBox
-    Friend WithEvents ElementHost1 As Integration.ElementHost
-    Friend CsvFilterControl As CsvFilterControl
+    Friend WithEvents UserInfoComboBox As ListBox
 End Class
