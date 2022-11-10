@@ -77,32 +77,22 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.Designer.vb">
-      <DependentUpon>CsvAuthenticationConfigureForm.vb</DependentUpon>
+    <Compile Include="AuthenticationModule\AuthenticationModuleHelper.vb" />
+    <Compile Include="AuthenticationModule\AuthenticationForm1.Designer.vb">
+      <DependentUpon>AuthenticationForm1.vb</DependentUpon>
     </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.vb">
+    <Compile Include="AuthenticationModule\AuthenticationForm1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvFilterControl.xaml.vb">
-      <DependentUpon>CsvFilterControl.xaml</DependentUpon>
+    <Compile Include="AuthenticationModule\AuthenticationForm2.Designer.vb">
+      <DependentUpon>AuthenticationForm2.vb</DependentUpon>
     </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvFilterListItem.vb" />
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvIdAuthenticationForm.Designer.vb">
-      <DependentUpon>CsvIdAuthenticationForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvIdAuthenticationForm.vb">
+    <Compile Include="AuthenticationModule\AuthenticationForm2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvSelectNameAutenticationForm.Designer.vb">
-      <DependentUpon>CsvSelectNameAutenticationForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvSelectNameAutenticationForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvUseFilterType.vb" />
-    <Compile Include="AuthenticationModule\UseCsvFile\Settings.vb" />
-    <Compile Include="AuthenticationModule\UseCsvFile\CsvUserInfo.vb" />
-    <Compile Include="AuthenticationModule\UseCsvFile\UseCsvFileAuthenticationModule.vb" />
+    <Compile Include="AuthenticationModule\UserInfo.vb" />
+    <Compile Include="AuthenticationModule\AuthenticationModule2.vb" />
+    <Compile Include="AuthenticationModule\AuthenticationModule1.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -144,14 +134,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvAuthenticationConfigureForm.resx">
-      <DependentUpon>CsvAuthenticationConfigureForm.vb</DependentUpon>
+    <EmbeddedResource Include="AuthenticationModule\AuthenticationForm1.resx">
+      <DependentUpon>AuthenticationForm1.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvIdAuthenticationForm.resx">
-      <DependentUpon>CsvIdAuthenticationForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AuthenticationModule\UseCsvFile\CsvSelectNameAutenticationForm.resx">
-      <DependentUpon>CsvSelectNameAutenticationForm.vb</DependentUpon>
+    <EmbeddedResource Include="AuthenticationModule\AuthenticationForm2.resx">
+      <DependentUpon>AuthenticationForm2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -168,7 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="AuthenticationModule\UseCsvFile\CsvUserListSample.csv" />
+    <None Include="SampleUsers.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -188,12 +177,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AuthenticationModule\UseCsvFile\CsvFilterControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Storex.Core">
       <Version>1.0.0-pre2</Version>
     </PackageReference>
@@ -201,5 +184,6 @@
       <Version>4.7.2</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
