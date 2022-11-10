@@ -29,13 +29,27 @@ Public Class FixedLengthSymbol
 
     Public Shared Function TryParse(symbol As Symbol, setting As FixedLengthRepositoryModeSetting, ByRef fixedLengthSymbol As FixedLengthSymbol) As Boolean
         If ValidSymbolTypes.Contains(symbol.Type) And symbol.Value.Length = setting.PrimaryValueLength And symbol.Value.StartsWith(setting.PrimaryStartWithFormat) Then
-            Dim part = symbol.Value.Substring(setting.PartStartIndex - 1, setting.PartLength)
-            Dim serial = symbol.Value.Substring(setting.SerialStartIndex - 1, setting.SerialLength)
+            Dim part = symbol.Value.Substring(setting.PartStartIndex - 1, setting.PartLength).TrimEnd
+            Dim serial = symbol.Value.Substring(setting.SerialStartIndex - 1, setting.SerialLength).TrimEnd
 
             fixedLengthSymbol = New FixedLengthSymbol(part, serial, symbol.Type, symbol.Value)
             Return True
         End If
 
         Return False
+    End Function
+
+    Public Overrides Function Equals(obj As Object) As Boolean
+        Dim symbol = TryCast(obj, FixedLengthSymbol)
+        Return symbol IsNot Nothing AndAlso
+               MyBase.Equals(obj) AndAlso
+               Type = symbol.Type AndAlso
+               Value = symbol.Value AndAlso
+               PartNumber = symbol.PartNumber AndAlso
+               SerialNumber = symbol.SerialNumber
+    End Function
+
+    Public Overrides Function GetHashCode() As Integer
+        Return (MyBase.GetHashCode(), Type, Value, PartNumber, SerialNumber).GetHashCode()
     End Function
 End Class

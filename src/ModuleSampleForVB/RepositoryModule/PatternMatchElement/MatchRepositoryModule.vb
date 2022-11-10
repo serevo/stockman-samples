@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel.Composition
 Imports System.Text.Json
 Imports System.Threading
+Imports System.Windows
 Imports Storex
 
 <Export(GetType(IRepositoryModule))>
@@ -83,7 +84,7 @@ Public Class MatchRepositoryModule
     End Function
 
     Public Function RegisterAsync(primaryElement As IElement, secondaryElement As IElement, captureResults() As CaptureResult, tags() As String) As Task Implements IRepositoryModule.RegisterAsync
-        Throw New NotImplementedException()
+        RegisterAsync = RegisterAsync(primaryElement, secondaryElement, captureResults, tags, CancellationToken.None)
     End Function
 
     Public Function RegisterAsync(primaryElement As IElement, secondaryElement As IElement, captureResults() As CaptureResult, tags() As String, cancellationToken As CancellationToken) As Task Implements IRepositoryModule.RegisterAsync

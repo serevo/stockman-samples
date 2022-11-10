@@ -82,10 +82,10 @@ Public Class FixedLengthRepositoryModule
     Public Function SelectSecondaryElements(primaryElement As IElement, elements() As IElement) As IElement() Implements IRepositoryModule.SelectSecondaryElements
         Dim primaryPartNum = primaryElement.PartNumber
 
-        If RegisterMode.UseSecondaryElement And String.IsNullOrEmpty(primaryPartNum) = False Then
+        If String.IsNullOrEmpty(primaryPartNum) = False Then
 
             Dim secondaries = elements _
-                .Where(Function(x) x.PartNumber = primaryElement.PartNumber) _
+                .Where(Function(x) x.PartNumber = primaryPartNum) _
                 .ToArray()
 
             If secondaries.Length > 0 Then
@@ -99,6 +99,7 @@ Public Class FixedLengthRepositoryModule
                 .ToArray()
 
             If secondaries.Length > 0 Then
+
                 Return secondaries
             End If
         End If

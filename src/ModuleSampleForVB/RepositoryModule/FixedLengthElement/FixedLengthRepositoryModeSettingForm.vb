@@ -30,11 +30,11 @@ Public Class FixedLengthRepositoryModeSettingForm
             SerialLengthNumericUpDown.Value = definition.SerialLength
         End If
 
-        If String.IsNullOrEmpty(PrimaryStartWithTextBox.Text.TrimEnd) Then
-            ErrorProvider.SetError(PrimaryStartWithTextBox, "入力してください")
-            errors.Add(NameOf(PrimaryStartWithTextBox))
-            OkButton.Enabled = False
-        End If
+        'If String.IsNullOrEmpty(PrimaryStartWithTextBox.Text.TrimEnd) Then
+        '    ErrorProvider.SetError(PrimaryStartWithTextBox, "入力してください")
+        '    errors.Add(NameOf(PrimaryStartWithTextBox))
+        '    OkButton.Enabled = False
+        'End If
 
     End Sub
 
