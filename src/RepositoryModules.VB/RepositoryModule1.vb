@@ -32,12 +32,12 @@ Public Class RepositoryModule1
 
     Public Function PrepareAsync(Mode As IMode, UserInfo As IUser) As Task Implements IRepositoryModule.PrepareAsync
 
-        If Not File.Exists(My.Settings.FilePath) Then
+        If Not File.Exists(MySettings.Default.FilePath) Then
 
             Throw New RepositoryModuleException("概要データ ファイルが正しく設定されていません。")
         End If
 
-        If Not Directory.Exists(My.Settings.FolderPath) Then
+        If Not Directory.Exists(MySettings.Default.FolderPath) Then
 
             Throw New RepositoryModuleException("詳細データ フォルダが正しく設定されていません。")
         End If
@@ -98,7 +98,7 @@ Public Class RepositoryModule1
 
         Dim Timestamp As Date = Now
 
-        Dim MyFile = New FileInfo(My.Settings.FilePath)
+        Dim MyFile = New FileInfo(MySettings.Default.FilePath)
 
         Using SW = New StreamWriter(MyFile.FullName, True, TextEncoding)
 
@@ -126,7 +126,7 @@ Public Class RepositoryModule1
                 }))
         End Using
 
-        Dim MyFolder = New DirectoryInfo(My.Settings.FolderPath)
+        Dim MyFolder = New DirectoryInfo(MySettings.Default.FolderPath)
 
         MyFolder = MyFolder.CreateSubdirectory($"{Timestamp:yyyy-MM-dd HH-mm-ss.fff}")
 

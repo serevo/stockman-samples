@@ -38,7 +38,7 @@ SDK に含まれる API のリファレンスです。必要に応じて参照�
 
 
 
-### `AuthenticationModule1` [/src/AuthenticationModules](https://github.com/serevo/storex-samples/tree/main/src/AuthenticationModules1)
+### `AuthenticationModule1` [/src/AuthenticationModules](https://github.com/serevo/storex-samples/tree/main/src/AuthenticationModules)
 
 CSVファイル (ID と 氏名)  を使用し、ダイアログボックスでユーザーに入力された ID で認証します。モジュール設定として CSV ファイルを選択します。他に次の型も使用します。
   - `AuthenticationForm1`: 認証用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
@@ -47,7 +47,7 @@ CSVファイル (ID と 氏名)  を使用し、ダイアログボックスで�
 
 
 
-### `AuthenticationModule2` [/src/AuthenticationModules](https://github.com/serevo/storex-samples/tree/main/src/AuthenticationModules1)
+### `AuthenticationModule2` [/src/AuthenticationModules](https://github.com/serevo/storex-samples/tree/main/src/AuthenticationModules)
 
 CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧から選択して認証します。モジュール設定として CSV ファイルを選択します。他に次の型も使用します。
 
@@ -57,7 +57,7 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
 
 
 
-### `RepositoryModule1` [/src/RepositoryModules1](https://github.com/serevo/storex-samples/tree/main/src/RepositoryModules1)
+### `RepositoryModule1` [/src/RepositoryModules](https://github.com/serevo/storex-samples/tree/main/src/RepositoryModules)
 
 １つのファイル (概要データ) と１つのフォルダー (詳細データ) でデータを管理します。モジュール設定としてダイアログボックスでこれらの場所を選択します。データ保管モジュールは、検出されたシンボルから主要なラベルを特定する役割もありますが、このサンプルではプライマリ ラベル として指定文字で始まる固定長テキストと、セカンダリ ラベルとして C-3 ラベルを扱うよう、モードの設定で構成します。他に次の型も使用します。
 

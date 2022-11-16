@@ -3,15 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AuthenticationModules1.VB", "AuthenticationModules1\AuthenticationModules1.VB.vbproj", "{177B6606-BF54-47B7-8E95-121E6AE7E51C}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RepositoryModules1.VB", "RepositoryModules1\RepositoryModules1.VB.vbproj", "{6A204044-DD22-4513-A69A-4C2DCA024061}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{32409CEE-34D8-4DFC-8030-317C8CEE5C26}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_common", "_common", "{32409CEE-34D8-4DFC-8030-317C8CEE5C26}"
 	ProjectSection(SolutionItems) = preProject
-		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AuthenticationModules.VB", "AuthenticationModules.VB\AuthenticationModules.VB.vbproj", "{177B6606-BF54-47B7-8E95-121E6AE7E51C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VB", "VB", "{03918C13-8181-42E6-B01E-459146578968}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CS", "CS", "{6CEC1244-4C31-4772-9007-33779B96B757}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationModules.CS", "AuthenticationModules.CS\AuthenticationModules.CS.csproj", "{D301DE69-BBE9-48AC-87F7-68D902C0DE75}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RepositoryModules.VB", "RepositoryModules.VB\RepositoryModules.VB.vbproj", "{6A204044-DD22-4513-A69A-4C2DCA024061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryModules.CS", "RepositoryModules.CS\RepositoryModules.CS.csproj", "{D4F228AD-F0FE-44DF-9368-4E31981A6C06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +30,27 @@ Global
 		{177B6606-BF54-47B7-8E95-121E6AE7E51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{177B6606-BF54-47B7-8E95-121E6AE7E51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{177B6606-BF54-47B7-8E95-121E6AE7E51C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D301DE69-BBE9-48AC-87F7-68D902C0DE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D301DE69-BBE9-48AC-87F7-68D902C0DE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D301DE69-BBE9-48AC-87F7-68D902C0DE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D301DE69-BBE9-48AC-87F7-68D902C0DE75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A204044-DD22-4513-A69A-4C2DCA024061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A204044-DD22-4513-A69A-4C2DCA024061}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A204044-DD22-4513-A69A-4C2DCA024061}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A204044-DD22-4513-A69A-4C2DCA024061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F228AD-F0FE-44DF-9368-4E31981A6C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F228AD-F0FE-44DF-9368-4E31981A6C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F228AD-F0FE-44DF-9368-4E31981A6C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F228AD-F0FE-44DF-9368-4E31981A6C06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{177B6606-BF54-47B7-8E95-121E6AE7E51C} = {03918C13-8181-42E6-B01E-459146578968}
+		{D301DE69-BBE9-48AC-87F7-68D902C0DE75} = {6CEC1244-4C31-4772-9007-33779B96B757}
+		{6A204044-DD22-4513-A69A-4C2DCA024061} = {03918C13-8181-42E6-B01E-459146578968}
+		{D4F228AD-F0FE-44DF-9368-4E31981A6C06} = {6CEC1244-4C31-4772-9007-33779B96B757}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D87FBC1C-92A8-4071-9F80-DA4E2209658B}

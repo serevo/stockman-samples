@@ -8,20 +8,20 @@ Friend Class AuthenticationModuleHelper
         Using Dialog As New OpenFileDialog
 
             Dialog.Title = "ユーザーリストファイルを選択してください"
-            Dialog.FileName = My.Settings.UsersFilePath
+            Dialog.FileName = MySettings.Default.UsersFilePath
             Dialog.Filter = "CSVファイル|*.csv"
 
             If Dialog.ShowDialog() = DialogResult.OK Then
 
-                My.Settings.UsersFilePath = Dialog.FileName
-                My.Settings.Save()
+                MySettings.Default.UsersFilePath = Dialog.FileName
+                MySettings.Default.Save()
             End If
         End Using
     End Sub
 
     Public Shared Function ReadUsersFile() As User()
 
-        Dim FilePath = My.Settings.UsersFilePath
+        Dim FilePath = MySettings.Default.UsersFilePath
 
         If String.IsNullOrEmpty(FilePath) Then Return Nothing
 

@@ -55,14 +55,14 @@ Friend Class ConfigForm1
 
         Using Form = New ConfigForm1()
 
-            Form.FileTextBox.Text = My.Settings.FilePath
-            Form.FolderTextBox.Text = My.Settings.FolderPath
+            Form.FileTextBox.Text = MySettings.Default.FilePath
+            Form.FolderTextBox.Text = MySettings.Default.FolderPath
 
             If Form.ShowDialog() = DialogResult.OK Then
 
-                My.Settings.FilePath = Form.FileTextBox.Text
-                My.Settings.FolderPath = Form.FolderTextBox.Text
-                My.Settings.Save()
+                MySettings.Default.FilePath = Form.FileTextBox.Text
+                MySettings.Default.FolderPath = Form.FolderTextBox.Text
+                MySettings.Default.Save()
             End If
         End Using
     End Sub
