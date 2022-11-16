@@ -1,11 +1,7 @@
-﻿Imports System.ComponentModel.Composition
-Imports System.Threading
+﻿Imports System.Threading
 Imports Storex
 
-<Export(GetType(IAuthenticationModule))>
-<ExportMetadata(NameOf(IAuthenticationModuleMetadata.Id), "FCB29577-7E5B-4B0C-A514-B8E636AAF13D")>
-<ExportMetadata(NameOf(IAuthenticationModuleMetadata.DisplayName), "簡易認証 (ID入力)")>
-<ExportMetadata(NameOf(IAuthenticationModuleMetadata.Description), "CSVファイル (ID と 氏名) を使用します")>
+<AuthenticationModuleExport("FCB29577-7E5B-4B0C-A514-B8E636AAF13D", "簡易認証 (ID入力)", Description:="CSVファイル (ID と 氏名) を使用します")>
 Public Class AuthenticationModule1
     Implements IAuthenticationModule
 

@@ -1,11 +1,7 @@
-﻿Imports System.ComponentModel.Composition
-Imports System.Threading
+﻿Imports System.Threading
 Imports Storex
 
-<Export(GetType(IAuthenticationModule))>
-<ExportMetadata(NameOf(IAuthenticationModuleMetadata.Id), "faf8d1ba-dd95-48d8-8f2e-146c3ad81681")>
-<ExportMetadata(NameOf(IAuthenticationModuleMetadata.DisplayName), "簡易認証 (氏名選択)")>
-<ExportMetadata(NameOf(IAuthenticationModuleMetadata.Description), "CSVファイル (ID と 氏名) を使用します")>
+<AuthenticationModuleExport("faf8d1ba-dd95-48d8-8f2e-146c3ad81681", "簡易認証 (氏名選択)", Description:="CSVファイル (ID と 氏名) を使用します")>
 Public Class UseCsvFileAuthenticationModule
     Implements IAuthenticationModule
 

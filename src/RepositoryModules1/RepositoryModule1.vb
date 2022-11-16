@@ -1,13 +1,9 @@
-﻿Imports System.ComponentModel.Composition
-Imports System.IO
+﻿Imports System.IO
 Imports System.Text
 Imports System.Threading
 Imports Storex
 
-<Export(GetType(IRepositoryModule))>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.Id), "E0B3F83A-B417-43DB-8CCF-9916A2EB63C6")>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.DisplayName), "簡易ファイルシステム")>
-<ExportMetadata(NameOf(IRepositoryModuleMetadata.Description), "モードでシンボル内容等を設定します")>
+<RepositoryModuleExport("E0B3F83A-B417-43DB-8CCF-9916A2EB63C6", "簡易ファイルシステム", Description:="モードでシンボル内容等を設定します")>
 Public Class RepositoryModule1
     Implements IRepositoryModule
 
