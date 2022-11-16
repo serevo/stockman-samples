@@ -1,6 +1,6 @@
 # STOCK-MAN モジュール サンプル & 開発ガイド
 
-STOCK-MAN アプリ用モジュールの開発を支援するためのサンプルとガイドです。サンプルはそのままビルドして組み込み、アプリを「とりあえず使ってみる」ために活用することもできます。
+STOCK-MAN アプリ用モジュールの開発を支援するためのサンプルとガイドです。サンプルコードはそのままビルドして組み込み、アプリを「とりあえず使ってみる」ために活用することもできます。
 
 
 
@@ -12,13 +12,11 @@ STOCK-MAN アプリ用モジュールの開発を支援するためのサンプ�
 
 
 
-
 ### API リファレンス
 
 [![Storex.Core on fuget.org](https://www.fuget.org/packages/Storex.Core/badge.svg)](https://www.fuget.org/packages/Storex.Core)
 
 SDK に含まれる API のリファレンスです。必要に応じて参照してください。
-
 
 
 
@@ -32,13 +30,41 @@ SDK に含まれる API のリファレンスです。必要に応じて参照�
 
 
 
-## モジュール サンプル
+## 属性とメタデータ
 
-このサンプルは、クイックスタートとして素早く内容を理解してモジュールの開発を開始できるよう、副次的な内容は極力省かれています。また単純なテキストファイルやフォルダに読み書きする内容になっていますので、そのまま組み込んでアプリをまずは使ってみるために活用することもできます。
+モジュールを新規で開発する場合、そのモジュールをアプリで認識するには上記インターフェイスの実装に加え、次のように属性の指定が必要です。
+
+``` VB
+' ユーザー認証モジュールの例 (VB)
+<AuthenticationModuleExport("42dc1253-5ca5-43ce-8eb9-558c8094cf5a", "社員証認証")>
+Public Class MyAuthenticationModule
+    Implements IAuthenticationModule
+```
+
+``` CS
+// データ保管モジュールの例 (C#)
+[RepositoryModuleExport("3051d137-3611-4911-b71c-8ecaeb7f9a7c", "社内DB", Description = "xx サーバーの SQL Server")]
+public class MyRepositoryModule : IRepositoryModule
+```
+
+属性にはモジュールに関する次の追加情報 (メタデータ) が必要です。
+
+
+| 名前        | 説明                                                        |
+| ----------- | ----------------------------------------------------------- |
+| Id          | モジュールを一意に識別できる文字列。Guid の文字列表現推奨。 |
+| DisplayName | モジュールの表示名。                                        |
+| Description | モジュールの補足説明。 省略可。                                     |
 
 
 
-### `AuthenticationModule1` [/src/AuthenticationModules](https://github.com/serevo/storex-samples/tree/main/src/AuthenticationModules)
+## サンプルモジュール
+
+このサンプルは、クイックスタートとして素早く内容を理解してモジュールの開発を開始できるよう、副次的な内容は極力省かれています。また単純なテキストファイルやフォルダに読み書きする内容になっていますので、そのまま組み込んでアプリをまずは使ってみるために活用することもできます。コードはそれぞれ Visual Basic .NET と C# の両方で書かれており、ビルド後のファイルは全て `src\bin` に出力されます (各プロジェクトフォルダーではありません)。
+
+
+
+### `AuthenticationModule1`
 
 CSVファイル (ID と 氏名)  を使用し、ダイアログボックスでユーザーに入力された ID で認証します。モジュール設定として CSV ファイルを選択します。他に次の型も使用します。
   - `AuthenticationForm1`: 認証用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
@@ -47,7 +73,7 @@ CSVファイル (ID と 氏名)  を使用し、ダイアログボックスで�
 
 
 
-### `AuthenticationModule2` [/src/AuthenticationModules](https://github.com/serevo/storex-samples/tree/main/src/AuthenticationModules)
+### `AuthenticationModule2`
 
 CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧から選択して認証します。モジュール設定として CSV ファイルを選択します。他に次の型も使用します。
 
@@ -57,40 +83,10 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
 
 
 
-### `RepositoryModule1` [/src/RepositoryModules](https://github.com/serevo/storex-samples/tree/main/src/RepositoryModules)
+### `RepositoryModule1`
 
 １つのファイル (概要データ) と１つのフォルダー (詳細データ) でデータを管理します。モジュール設定としてダイアログボックスでこれらの場所を選択します。データ保管モジュールは、検出されたシンボルから主要なラベルを特定する役割もありますが、このサンプルではプライマリ ラベル として指定文字で始まる固定長テキストと、セカンダリ ラベルとして C-3 ラベルを扱うよう、モードの設定で構成します。他に次の型も使用します。
 
   - `ConfigForm1`: モジュール設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
   - `ModeConfigForm1`:  モード設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
   - `LabelDefinition1`: プライマリ ラベル用の 固定長テキスト定義とロジック
-
-
-
-## 属性とメタデータ
-
-モジュールを新規で開発する場合、そのモジュールをアプリで認識するには上記インターフェイスの実装に加え、以下の例のように属性の指定が必要です。また属性にはモジュールに関する次の追加情報 (メタデータ) が必要です。
-
-ユーザー認証モジュールの例 (VB)
-
-``` VB
-<AuthenticationModuleExport("42dc1253-5ca5-43ce-8eb9-558c8094cf5a", "社員証認証")>
-Public Class MyAuthenticationModule
-    Implements IAuthenticationModule
-```
-
-
-データ保管モジュールの例 (C#)
-``` CS
-[RepositoryModuleExport("3051d137-3611-4911-b71c-8ecaeb7f9a7c", "社内DB", Description = "xx サーバーの SQL Server")]
-public class MyRepositoryModule : IRepositoryModule
-```
-
-メタデータ
-
-
-| 名前        | 説明                                                        |
-| ----------- | ----------------------------------------------------------- |
-| Id          | モジュールを一意に識別できる文字列。Guid の文字列表現推奨。 |
-| DisplayName | モジュールの表示名。                                        |
-| Description | モジュールの補足説明。 省略可。                                     |
