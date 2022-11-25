@@ -19,238 +19,265 @@ namespace RepositoryModules
 
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            OkButton = new Button();
-            OkButton.Click += new EventHandler(OkButton_Click);
-            PrimaryPrefixKeyTextBox = new TextBox();
-            ErrorProvider = new ErrorProvider(components);
-            PrimaryItemStartUpDown = new NumericUpDown();
-            Label2 = new Label();
-            Label3 = new Label();
-            PrimaryItemLengthUpDown = new NumericUpDown();
-            Label4 = new Label();
-            Label6 = new Label();
-            PrimarySerialLengthUpDown = new NumericUpDown();
-            Label7 = new Label();
-            PrimarySerialStartUpDown = new NumericUpDown();
-            InputCancelButton = new Button();
-            HasNoSecondaryRadio = new RadioButton();
-            IsSecondaryRequiredRadio = new RadioButton();
-            HasSecondaryRadio = new RadioButton();
-            GroupBox1 = new GroupBox();
-            ((System.ComponentModel.ISupportInitialize)ErrorProvider).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PrimaryItemStartUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PrimaryItemLengthUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PrimarySerialLengthUpDown).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PrimarySerialStartUpDown).BeginInit();
-            GroupBox1.SuspendLayout();
-            SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            this.OkButton = new System.Windows.Forms.Button();
+            this.PrimaryPrefixKeyTextBox = new System.Windows.Forms.TextBox();
+            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.PrimaryItemStartUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Label2 = new System.Windows.Forms.Label();
+            this.Label3 = new System.Windows.Forms.Label();
+            this.PrimaryItemLengthUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Label4 = new System.Windows.Forms.Label();
+            this.Label6 = new System.Windows.Forms.Label();
+            this.PrimarySerialLengthUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Label7 = new System.Windows.Forms.Label();
+            this.PrimarySerialStartUpDown = new System.Windows.Forms.NumericUpDown();
+            this.InputCancelButton = new System.Windows.Forms.Button();
+            this.IsSecondaryLabelRequiredCheck = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimaryItemStartUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimaryItemLengthUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimarySerialLengthUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimarySerialStartUpDown)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.SuspendLayout();
             // 
             // OkButton
             // 
-            OkButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            OkButton.DialogResult = DialogResult.OK;
-            OkButton.Location = new Point(209, 426);
-            OkButton.Name = "OkButton";
-            OkButton.Size = new Size(75, 23);
-            OkButton.TabIndex = 11;
-            OkButton.Text = "OK";
-            OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OkButton.Location = new System.Drawing.Point(257, 500);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.TabIndex = 2;
+            this.OkButton.Text = "OK";
+            this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // PrimaryPrefixKeyTextBox
             // 
-            PrimaryPrefixKeyTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PrimaryPrefixKeyTextBox.Location = new Point(34, 47);
-            PrimaryPrefixKeyTextBox.Name = "PrimaryPrefixKeyTextBox";
-            PrimaryPrefixKeyTextBox.Size = new Size(318, 19);
-            PrimaryPrefixKeyTextBox.TabIndex = 1;
+            this.PrimaryPrefixKeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrimaryPrefixKeyTextBox.Location = new System.Drawing.Point(25, 55);
+            this.PrimaryPrefixKeyTextBox.Name = "PrimaryPrefixKeyTextBox";
+            this.PrimaryPrefixKeyTextBox.Size = new System.Drawing.Size(341, 19);
+            this.PrimaryPrefixKeyTextBox.TabIndex = 1;
             // 
             // ErrorProvider
             // 
-            ErrorProvider.ContainerControl = this;
+            this.ErrorProvider.ContainerControl = this;
             // 
             // PrimaryItemStartUpDown
             // 
-            PrimaryItemStartUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PrimaryItemStartUpDown.Location = new Point(34, 110);
-            PrimaryItemStartUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            PrimaryItemStartUpDown.Name = "PrimaryItemStartUpDown";
-            PrimaryItemStartUpDown.Size = new Size(318, 19);
-            PrimaryItemStartUpDown.TabIndex = 3;
-            PrimaryItemStartUpDown.TextAlign = HorizontalAlignment.Right;
-            PrimaryItemStartUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            this.PrimaryItemStartUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrimaryItemStartUpDown.Location = new System.Drawing.Point(25, 118);
+            this.PrimaryItemStartUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.PrimaryItemStartUpDown.Name = "PrimaryItemStartUpDown";
+            this.PrimaryItemStartUpDown.Size = new System.Drawing.Size(341, 19);
+            this.PrimaryItemStartUpDown.TabIndex = 3;
+            this.PrimaryItemStartUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PrimaryItemStartUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // Label2
             // 
-            Label2.AutoSize = true;
-            Label2.Location = new Point(32, 89);
-            Label2.Name = "Label2";
-            Label2.Size = new Size(85, 12);
-            Label2.TabIndex = 2;
-            Label2.Text = "品番  開始位置";
+            this.Label2.AutoSize = true;
+            this.Label2.Location = new System.Drawing.Point(23, 97);
+            this.Label2.Name = "Label2";
+            this.Label2.Size = new System.Drawing.Size(85, 12);
+            this.Label2.TabIndex = 2;
+            this.Label2.Text = "品番  開始位置";
             // 
             // Label3
             // 
-            Label3.AutoSize = true;
-            Label3.Location = new Point(32, 149);
-            Label3.Name = "Label3";
-            Label3.Size = new Size(69, 12);
-            Label3.TabIndex = 4;
-            Label3.Text = "品番 文字数";
+            this.Label3.AutoSize = true;
+            this.Label3.Location = new System.Drawing.Point(23, 157);
+            this.Label3.Name = "Label3";
+            this.Label3.Size = new System.Drawing.Size(69, 12);
+            this.Label3.TabIndex = 4;
+            this.Label3.Text = "品番 文字数";
             // 
             // PrimaryItemLengthUpDown
             // 
-            PrimaryItemLengthUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PrimaryItemLengthUpDown.Location = new Point(34, 170);
-            PrimaryItemLengthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            PrimaryItemLengthUpDown.Name = "PrimaryItemLengthUpDown";
-            PrimaryItemLengthUpDown.Size = new Size(318, 19);
-            PrimaryItemLengthUpDown.TabIndex = 5;
-            PrimaryItemLengthUpDown.TextAlign = HorizontalAlignment.Right;
-            PrimaryItemLengthUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            this.PrimaryItemLengthUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrimaryItemLengthUpDown.Location = new System.Drawing.Point(25, 178);
+            this.PrimaryItemLengthUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.PrimaryItemLengthUpDown.Name = "PrimaryItemLengthUpDown";
+            this.PrimaryItemLengthUpDown.Size = new System.Drawing.Size(341, 19);
+            this.PrimaryItemLengthUpDown.TabIndex = 5;
+            this.PrimaryItemLengthUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PrimaryItemLengthUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // Label4
             // 
-            Label4.AutoSize = true;
-            Label4.Location = new Point(32, 26);
-            Label4.Name = "Label4";
-            Label4.Size = new Size(104, 12);
-            Label4.TabIndex = 0;
-            Label4.Text = "主シンボル開始文字";
+            this.Label4.AutoSize = true;
+            this.Label4.Location = new System.Drawing.Point(23, 34);
+            this.Label4.Name = "Label4";
+            this.Label4.Size = new System.Drawing.Size(96, 12);
+            this.Label4.TabIndex = 0;
+            this.Label4.Text = "シンボル 開始文字";
             // 
             // Label6
             // 
-            Label6.AutoSize = true;
-            Label6.Location = new Point(32, 266);
-            Label6.Name = "Label6";
-            Label6.Size = new Size(81, 12);
-            Label6.TabIndex = 8;
-            Label6.Text = "シリアル 文字数";
+            this.Label6.AutoSize = true;
+            this.Label6.Location = new System.Drawing.Point(23, 274);
+            this.Label6.Name = "Label6";
+            this.Label6.Size = new System.Drawing.Size(81, 12);
+            this.Label6.TabIndex = 8;
+            this.Label6.Text = "シリアル 文字数";
             // 
             // PrimarySerialLengthUpDown
             // 
-            PrimarySerialLengthUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PrimarySerialLengthUpDown.Location = new Point(34, 287);
-            PrimarySerialLengthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            PrimarySerialLengthUpDown.Name = "PrimarySerialLengthUpDown";
-            PrimarySerialLengthUpDown.Size = new Size(318, 19);
-            PrimarySerialLengthUpDown.TabIndex = 9;
-            PrimarySerialLengthUpDown.TextAlign = HorizontalAlignment.Right;
-            PrimarySerialLengthUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            this.PrimarySerialLengthUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrimarySerialLengthUpDown.Location = new System.Drawing.Point(25, 295);
+            this.PrimarySerialLengthUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.PrimarySerialLengthUpDown.Name = "PrimarySerialLengthUpDown";
+            this.PrimarySerialLengthUpDown.Size = new System.Drawing.Size(341, 19);
+            this.PrimarySerialLengthUpDown.TabIndex = 9;
+            this.PrimarySerialLengthUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PrimarySerialLengthUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // Label7
             // 
-            Label7.AutoSize = true;
-            Label7.Location = new Point(32, 209);
-            Label7.Name = "Label7";
-            Label7.Size = new Size(93, 12);
-            Label7.TabIndex = 6;
-            Label7.Text = "シリアル 開始位置";
+            this.Label7.AutoSize = true;
+            this.Label7.Location = new System.Drawing.Point(23, 217);
+            this.Label7.Name = "Label7";
+            this.Label7.Size = new System.Drawing.Size(93, 12);
+            this.Label7.TabIndex = 6;
+            this.Label7.Text = "シリアル 開始位置";
             // 
             // PrimarySerialStartUpDown
             // 
-            PrimarySerialStartUpDown.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PrimarySerialStartUpDown.Location = new Point(34, 230);
-            PrimarySerialStartUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            PrimarySerialStartUpDown.Name = "PrimarySerialStartUpDown";
-            PrimarySerialStartUpDown.Size = new Size(318, 19);
-            PrimarySerialStartUpDown.TabIndex = 7;
-            PrimarySerialStartUpDown.TextAlign = HorizontalAlignment.Right;
-            PrimarySerialStartUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            this.PrimarySerialStartUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrimarySerialStartUpDown.Location = new System.Drawing.Point(25, 238);
+            this.PrimarySerialStartUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.PrimarySerialStartUpDown.Name = "PrimarySerialStartUpDown";
+            this.PrimarySerialStartUpDown.Size = new System.Drawing.Size(341, 19);
+            this.PrimarySerialStartUpDown.TabIndex = 7;
+            this.PrimarySerialStartUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PrimarySerialStartUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // InputCancelButton
             // 
-            InputCancelButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            InputCancelButton.DialogResult = DialogResult.Cancel;
-            InputCancelButton.Location = new Point(290, 426);
-            InputCancelButton.Name = "InputCancelButton";
-            InputCancelButton.Size = new Size(81, 23);
-            InputCancelButton.TabIndex = 12;
-            InputCancelButton.Text = "キャンセル";
-            InputCancelButton.UseVisualStyleBackColor = true;
+            this.InputCancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.InputCancelButton.Location = new System.Drawing.Point(338, 500);
+            this.InputCancelButton.Name = "InputCancelButton";
+            this.InputCancelButton.Size = new System.Drawing.Size(81, 23);
+            this.InputCancelButton.TabIndex = 3;
+            this.InputCancelButton.Text = "キャンセル";
+            this.InputCancelButton.UseVisualStyleBackColor = true;
             // 
-            // HasNoSecondaryRadio
+            // IsSecondaryLabelRequiredCheck
             // 
-            HasNoSecondaryRadio.AutoSize = true;
-            HasNoSecondaryRadio.Location = new Point(6, 27);
-            HasNoSecondaryRadio.Name = "HasNoSecondaryRadio";
-            HasNoSecondaryRadio.Size = new Size(42, 16);
-            HasNoSecondaryRadio.TabIndex = 0;
-            HasNoSecondaryRadio.TabStop = true;
-            HasNoSecondaryRadio.Text = "なし";
-            HasNoSecondaryRadio.UseVisualStyleBackColor = true;
+            this.IsSecondaryLabelRequiredCheck.AutoSize = true;
+            this.IsSecondaryLabelRequiredCheck.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.IsSecondaryLabelRequiredCheck.Location = new System.Drawing.Point(28, 43);
+            this.IsSecondaryLabelRequiredCheck.Name = "IsSecondaryLabelRequiredCheck";
+            this.IsSecondaryLabelRequiredCheck.Size = new System.Drawing.Size(255, 16);
+            this.IsSecondaryLabelRequiredCheck.TabIndex = 0;
+            this.IsSecondaryLabelRequiredCheck.Text = "必須にする (品名が一致する C-3 ラベルが必要)";
+            this.IsSecondaryLabelRequiredCheck.UseVisualStyleBackColor = true;
             // 
-            // IsSecondaryRequiredRadio
+            // groupBox1
             // 
-            IsSecondaryRequiredRadio.AutoSize = true;
-            IsSecondaryRequiredRadio.Location = new Point(107, 27);
-            IsSecondaryRequiredRadio.Name = "IsSecondaryRequiredRadio";
-            IsSecondaryRequiredRadio.Size = new Size(47, 16);
-            IsSecondaryRequiredRadio.TabIndex = 2;
-            IsSecondaryRequiredRadio.TabStop = true;
-            IsSecondaryRequiredRadio.Text = "必須";
-            IsSecondaryRequiredRadio.UseVisualStyleBackColor = true;
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.Label4);
+            this.groupBox1.Controls.Add(this.PrimaryPrefixKeyTextBox);
+            this.groupBox1.Controls.Add(this.PrimaryItemStartUpDown);
+            this.groupBox1.Controls.Add(this.Label2);
+            this.groupBox1.Controls.Add(this.Label6);
+            this.groupBox1.Controls.Add(this.PrimaryItemLengthUpDown);
+            this.groupBox1.Controls.Add(this.PrimarySerialLengthUpDown);
+            this.groupBox1.Controls.Add(this.Label3);
+            this.groupBox1.Controls.Add(this.Label7);
+            this.groupBox1.Controls.Add(this.PrimarySerialStartUpDown);
+            this.groupBox1.Location = new System.Drawing.Point(22, 23);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(386, 345);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "プライマリ ラベル";
             // 
-            // HasSecondaryRadio
+            // groupBox2
             // 
-            HasSecondaryRadio.AutoSize = true;
-            HasSecondaryRadio.Location = new Point(54, 27);
-            HasSecondaryRadio.Name = "HasSecondaryRadio";
-            HasSecondaryRadio.Size = new Size(47, 16);
-            HasSecondaryRadio.TabIndex = 1;
-            HasSecondaryRadio.TabStop = true;
-            HasSecondaryRadio.Text = "任意";
-            HasSecondaryRadio.UseVisualStyleBackColor = true;
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.IsSecondaryLabelRequiredCheck);
+            this.groupBox2.Location = new System.Drawing.Point(22, 387);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(386, 89);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "セカンダリ ラベル";
             // 
-            // GroupBox1
+            // ModeConfigForm1
             // 
-            GroupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            GroupBox1.Controls.Add(HasNoSecondaryRadio);
-            GroupBox1.Controls.Add(HasSecondaryRadio);
-            GroupBox1.Controls.Add(IsSecondaryRequiredRadio);
-            GroupBox1.Location = new Point(34, 343);
-            GroupBox1.Name = "GroupBox1";
-            GroupBox1.Size = new Size(318, 58);
-            GroupBox1.TabIndex = 10;
-            GroupBox1.TabStop = false;
-            GroupBox1.Text = "副シンボル (C-3 ラベル)";
-            // 
-            // ModeRepositorySettingsForm1
-            // 
-            AcceptButton = OkButton;
-            AutoScaleDimensions = new SizeF(6.0f, 12.0f);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(384, 461);
-            Controls.Add(GroupBox1);
-            Controls.Add(InputCancelButton);
-            Controls.Add(Label6);
-            Controls.Add(PrimarySerialLengthUpDown);
-            Controls.Add(Label7);
-            Controls.Add(PrimarySerialStartUpDown);
-            Controls.Add(Label4);
-            Controls.Add(Label3);
-            Controls.Add(PrimaryItemLengthUpDown);
-            Controls.Add(Label2);
-            Controls.Add(PrimaryItemStartUpDown);
-            Controls.Add(OkButton);
-            Controls.Add(PrimaryPrefixKeyTextBox);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "ModeRepositorySettingsForm1";
-            ShowIcon = false;
-            ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterParent;
-            Text = "モード設定";
-            ((System.ComponentModel.ISupportInitialize)ErrorProvider).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PrimaryItemStartUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PrimaryItemLengthUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PrimarySerialLengthUpDown).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PrimarySerialStartUpDown).EndInit();
-            GroupBox1.ResumeLayout(false);
-            GroupBox1.PerformLayout();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AcceptButton = this.OkButton;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(432, 535);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.InputCancelButton);
+            this.Controls.Add(this.OkButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "ModeConfigForm1";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "モード設定";
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimaryItemStartUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimaryItemLengthUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimarySerialLengthUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimarySerialStartUpDown)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.ResumeLayout(false);
 
         }
 
@@ -268,9 +295,8 @@ namespace RepositoryModules
         internal Label Label7;
         internal NumericUpDown PrimarySerialStartUpDown;
         internal Button InputCancelButton;
-        internal GroupBox GroupBox1;
-        internal RadioButton HasNoSecondaryRadio;
-        internal RadioButton HasSecondaryRadio;
-        internal RadioButton IsSecondaryRequiredRadio;
+        private CheckBox IsSecondaryLabelRequiredCheck;
+        private GroupBox groupBox2;
+        private GroupBox groupBox1;
     }
 }

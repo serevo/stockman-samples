@@ -1,12 +1,11 @@
 ﻿using System;
-using Newtonsoft.Json;
 using Storex;
 
 namespace RepositoryModules
 {
-    public class LabelDefinition1
+    public class FixedLengthSpec
     {
-        public static string KeyForPrimary { get; private set; } = "2026aedc-358d-41c5-a6a3-e03abe5ae5b3";
+        public static string PropertyKeyForPrimary { get; } = "2026aedc-358d-41c5-a6a3-e03abe5ae5b3";
 
         public string PrefixKey { get; set; }
 
@@ -36,37 +35,6 @@ namespace RepositoryModules
             else
             {
                 label = null;
-
-                return false;
-            }
-        }
-
-        public static bool TryExtract(IMode mode, string name, out LabelDefinition1 definition)
-        {
-            if (mode.ExtendedProperties.TryGetValue(name, out var objValue) && objValue is LabelDefinition1 value)
-            {
-                definition = value;
-
-                return true;
-            }
-            else if (objValue != null)
-            {
-                try
-                {
-                    definition = JsonConvert.DeserializeObject<LabelDefinition1>(JsonConvert.SerializeObject(objValue));
-
-                    return true;
-                }
-                catch (JsonException)
-                {
-                    definition = null;
-
-                    return false;
-                }
-            }
-            else
-            {
-                definition = null;
 
                 return false;
             }

@@ -27,44 +27,34 @@ namespace RepositoryModules
 
         public static void Configure(IMode Mode)
         {
-            LabelDefinition1 primaryLabelDefinition = LabelDefinition1.TryExtract(Mode, LabelDefinition1.KeyForPrimary, out primaryLabelDefinition) ?
-                primaryLabelDefinition :
-                new LabelDefinition1();
+            FixedLengthSpec primaryLabelSpec= Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, out primaryLabelSpec) ?
+                primaryLabelSpec :
+                new FixedLengthSpec();
+
+            SecondaryLabelCriteria secondaryLabelCriteria = Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, out secondaryLabelCriteria) ?
+                secondaryLabelCriteria :
+                new SecondaryLabelCriteria();
 
             using (var form = new ModeConfigForm1())
             {
-                form.PrimaryPrefixKeyTextBox.Text = primaryLabelDefinition.PrefixKey;
-                form.PrimaryItemStartUpDown.Value = primaryLabelDefinition.ItemNumberStartIndex;
-                form.PrimaryItemLengthUpDown.Value = primaryLabelDefinition.ItemNumberLength;
-                form.PrimarySerialStartUpDown.Value = primaryLabelDefinition.SerialNumberStartIndex;
-                form.PrimarySerialLengthUpDown.Value = primaryLabelDefinition.SerialNumberLength;
-
-                if (Mode.IsSecondaryLabelRequired)
-                {
-                    form.IsSecondaryRequiredRadio.Checked = true;
-                }
-                else if (Mode.HasSecondaryLabel)
-                {
-                    form.HasSecondaryRadio.Checked = true;
-                }
-                else
-                {
-                    form.HasNoSecondaryRadio.Checked = true;
-                }
+                form.PrimaryPrefixKeyTextBox.Text = primaryLabelSpec.PrefixKey;
+                form.PrimaryItemStartUpDown.Value = primaryLabelSpec.ItemNumberStartIndex;
+                form.PrimaryItemLengthUpDown.Value = primaryLabelSpec.ItemNumberLength;
+                form.PrimarySerialStartUpDown.Value = primaryLabelSpec.SerialNumberStartIndex;
+                form.PrimarySerialLengthUpDown.Value = primaryLabelSpec.SerialNumberLength;
+                form.IsSecondaryLabelRequiredCheck.Checked = secondaryLabelCriteria.IsRequired;
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    Mode.HasC3Label = true;
-                    Mode.HasSecondaryLabel = form.HasSecondaryRadio.Checked | form.IsSecondaryRequiredRadio.Checked;
-                    Mode.IsSecondaryLabelRequired = form.IsSecondaryRequiredRadio.Checked;
+                    primaryLabelSpec.PrefixKey = form.PrimaryPrefixKeyTextBox.Text;
+                    primaryLabelSpec.ItemNumberStartIndex = (int)Math.Round(form.PrimaryItemStartUpDown.Value);
+                    primaryLabelSpec.ItemNumberLength = (int)Math.Round(form.PrimaryItemLengthUpDown.Value);
+                    primaryLabelSpec.SerialNumberStartIndex = (int)Math.Round(form.PrimarySerialStartUpDown.Value);
+                    primaryLabelSpec.SerialNumberLength = (int)Math.Round(form.PrimarySerialLengthUpDown.Value);
+                    secondaryLabelCriteria.IsRequired = form.IsSecondaryLabelRequiredCheck.Checked;
 
-                    primaryLabelDefinition.PrefixKey = form.PrimaryPrefixKeyTextBox.Text;
-                    primaryLabelDefinition.ItemNumberStartIndex = (int)Math.Round(form.PrimaryItemStartUpDown.Value);
-                    primaryLabelDefinition.ItemNumberLength = (int)Math.Round(form.PrimaryItemLengthUpDown.Value);
-                    primaryLabelDefinition.SerialNumberStartIndex = (int)Math.Round(form.PrimarySerialStartUpDown.Value);
-                    primaryLabelDefinition.SerialNumberLength = (int)Math.Round(form.PrimarySerialLengthUpDown.Value);
-
-                    Mode.ExtendedProperties[LabelDefinition1.KeyForPrimary] = primaryLabelDefinition;
+                    Mode.ExtendedProperties[FixedLengthSpec.PropertyKeyForPrimary] = primaryLabelSpec;
+                    Mode.ExtendedProperties[SecondaryLabelCriteria.PropertyKey] = secondaryLabelCriteria;
                 }
             }
         }
