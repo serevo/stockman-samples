@@ -93,7 +93,7 @@ namespace RepositoryModules
         public async Task RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags, CancellationToken cancellationToken)
         {
             if (_secondaryLabelCriteria.IsRequired & secondary is null)
-                throw new RepositoryModuleException("セカンダリ ラベルは必須です。");
+                throw new RepositoryModuleException("C-3 ラベルが必要です。");
 
             var timestamp = DateTime.Now;
 

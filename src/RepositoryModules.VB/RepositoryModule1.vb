@@ -96,7 +96,7 @@ Public Class RepositoryModule1
 
         If SecondaryLabelCriteria.IsRequired And Secondary Is Nothing Then
 
-            Throw New RepositoryModuleException("セカンダリ ラベルは必須です。")
+            Throw New RepositoryModuleException("C-3 ラベルが必要です。")
         End If
 
         Dim Timestamp As Date = Now
