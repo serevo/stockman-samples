@@ -27,7 +27,7 @@ namespace RepositoryModules
 
         public static void Configure(IMode Mode)
         {
-            FixedLengthSpec primaryLabelSpec= Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, out primaryLabelSpec) ?
+            FixedLengthSpec primaryLabelSpec = Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, out primaryLabelSpec) ?
                 primaryLabelSpec :
                 new FixedLengthSpec();
 

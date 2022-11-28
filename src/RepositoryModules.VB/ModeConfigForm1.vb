@@ -7,13 +7,11 @@ Friend Class ModeConfigForm1
         InitializeComponent()
     End Sub
 
-    Private Sub OkButton_Click(sender As Object, e As EventArgs) Handles OkButton.Click
+    Private Sub OkButton_Click(sender As Object, e As EventArgs)
 
-        If String.IsNullOrEmpty(PrimaryPrefixKeyTextBox.Text.TrimEnd) Then
-
+        If String.IsNullOrEmpty(PrimaryPrefixKeyTextBox.Text.TrimEnd()) Then
             ErrorProvider.SetError(PrimaryPrefixKeyTextBox, "入力してください")
         Else
-
             ErrorProvider.SetError(PrimaryPrefixKeyTextBox, Nothing)
         End If
 
@@ -22,42 +20,32 @@ Friend Class ModeConfigForm1
 
     Public Shared Sub Configure(Mode As IMode)
 
-        Dim PrimaryLabelDefinition As LabelDefinition1 = Nothing
+        Dim PrimaryLabelSpec As FixedLengthSpec = Nothing
+        Dim SecondaryLabelCriteria As SecondaryLabelCriteria = Nothing
 
-        PrimaryLabelDefinition = If(LabelDefinition1.TryExtract(Mode, LabelDefinition1.KeyForPrimary, PrimaryLabelDefinition), PrimaryLabelDefinition, New LabelDefinition1)
+        PrimaryLabelSpec = If(Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, primaryLabelSpec), primaryLabelSpec, New FixedLengthSpec())
+        SecondaryLabelCriteria = If(Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, SecondaryLabelCriteria), SecondaryLabelCriteria, New SecondaryLabelCriteria())
 
-        Using Form = New ModeConfigForm1()
+        Using form = New ModeConfigForm1()
 
-            Form.PrimaryPrefixKeyTextBox.Text = PrimaryLabelDefinition.PrefixKey
-            Form.PrimaryItemStartUpDown.Value = PrimaryLabelDefinition.ItemNumberStartIndex
-            Form.PrimaryItemLengthUpDown.Value = PrimaryLabelDefinition.ItemNumberLength
-            Form.PrimarySerialStartUpDown.Value = PrimaryLabelDefinition.SerialNumberStartIndex
-            Form.PrimarySerialLengthUpDown.Value = PrimaryLabelDefinition.SerialNumberLength
+            form.PrimaryPrefixKeyTextBox.Text = PrimaryLabelSpec.PrefixKey
+            form.PrimaryItemStartUpDown.Value = PrimaryLabelSpec.ItemNumberStartIndex
+            form.PrimaryItemLengthUpDown.Value = PrimaryLabelSpec.ItemNumberLength
+            form.PrimarySerialStartUpDown.Value = PrimaryLabelSpec.SerialNumberStartIndex
+            form.PrimarySerialLengthUpDown.Value = PrimaryLabelSpec.SerialNumberLength
+            form.IsSecondaryLabelRequiredCheck.Checked = SecondaryLabelCriteria.IsRequired
 
-            If Mode.IsSecondaryLabelRequired Then
+            If form.ShowDialog() = DialogResult.OK Then
 
-                Form.IsSecondaryRequiredRadio.Checked = True
-            ElseIf Mode.HasSecondaryLabel Then
+                PrimaryLabelSpec.PrefixKey = form.PrimaryPrefixKeyTextBox.Text
+                PrimaryLabelSpec.ItemNumberStartIndex = Math.Round(form.PrimaryItemStartUpDown.Value)
+                PrimaryLabelSpec.ItemNumberLength = Math.Round(form.PrimaryItemLengthUpDown.Value)
+                PrimaryLabelSpec.SerialNumberStartIndex = Math.Round(form.PrimarySerialStartUpDown.Value)
+                PrimaryLabelSpec.SerialNumberLength = Math.Round(form.PrimarySerialLengthUpDown.Value)
+                SecondaryLabelCriteria.IsRequired = form.IsSecondaryLabelRequiredCheck.Checked
 
-                Form.HasSecondaryRadio.Checked = True
-            Else
-
-                Form.HasNoSecondaryRadio.Checked = True
-            End If
-
-            If Form.ShowDialog() = DialogResult.OK Then
-
-                Mode.HasC3Label = True
-                Mode.HasSecondaryLabel = Form.HasSecondaryRadio.Checked Or Form.IsSecondaryRequiredRadio.Checked
-                Mode.IsSecondaryLabelRequired = Form.IsSecondaryRequiredRadio.Checked
-
-                PrimaryLabelDefinition.PrefixKey = Form.PrimaryPrefixKeyTextBox.Text
-                PrimaryLabelDefinition.ItemNumberStartIndex = CInt(Form.PrimaryItemStartUpDown.Value)
-                PrimaryLabelDefinition.ItemNumberLength = CInt(Form.PrimaryItemLengthUpDown.Value)
-                PrimaryLabelDefinition.SerialNumberStartIndex = CInt(Form.PrimarySerialStartUpDown.Value)
-                PrimaryLabelDefinition.SerialNumberLength = CInt(Form.PrimarySerialLengthUpDown.Value)
-
-                Mode.ExtendedProperties(LabelDefinition1.KeyForPrimary) = PrimaryLabelDefinition
+                Mode.ExtendedProperties(FixedLengthSpec.PropertyKeyForPrimary) = PrimaryLabelSpec
+                Mode.ExtendedProperties(SecondaryLabelCriteria.PropertyKey) = SecondaryLabelCriteria
             End If
         End Using
     End Sub
