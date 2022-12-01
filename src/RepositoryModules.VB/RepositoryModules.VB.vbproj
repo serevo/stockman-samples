@@ -80,7 +80,6 @@
       <DependentUpon>Application.myapp</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="LabelDefinition1.vb" />
     <Compile Include="ModeConfigForm1.Designer.vb">
       <DependentUpon>ModeConfigForm1.vb</DependentUpon>
     </Compile>
@@ -121,8 +120,13 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Storex.Core">
-      <Version>1.0.0-rc2</Version>
+      <Version>1.0.0-rc3</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FixedLengthSpec.vb" />
+    <Compile Include="ModeHelper.vb" />
+    <Compile Include="SecondaryLabelCriteria.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

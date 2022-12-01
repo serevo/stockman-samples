@@ -47,19 +47,21 @@
     <Compile Include="ConfigForm1.Designer.cs">
       <DependentUpon>ConfigForm1.cs</DependentUpon>
     </Compile>
-    <Compile Include="LabelDefinition1.cs" />
+    <Compile Include="FixedLengthSpec.cs" />
     <Compile Include="ModeConfigForm1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ModeConfigForm1.Designer.cs">
       <DependentUpon>ModeConfigForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModeHelper.cs" />
     <Compile Include="MySettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MySettings.settings</DependentUpon>
     </Compile>
     <Compile Include="RepositoryModule1.cs" />
+    <Compile Include="SecondaryLabelCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MySettings.settings">
@@ -80,7 +82,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Storex.Core">
-      <Version>1.0.0-rc2</Version>
+      <Version>1.0.0-rc3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

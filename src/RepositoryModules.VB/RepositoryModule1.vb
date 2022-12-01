@@ -9,10 +9,12 @@ Public Class RepositoryModule1
 
     Friend ReadOnly TextEncoding As Encoding = Encoding.GetEncoding("shift_jis")
 
-    Dim CurrentMode As IMode
-    Dim CurrentUser As IUser
+    Private CurrentMode As IMode
+    Private CurrentUser As IUser
+    Private PrimaryLabelSpec As FixedLengthSpec
+    Private SecondaryLabelCriteria As SecondaryLabelCriteria
 
-    Public ReadOnly Property IsConfiguable As Boolean = True Implements IRepositoryModule.IsConfiguable
+    Public ReadOnly Property IsConfiguable As Boolean = True Implements IModule.IsConfiguable
 
     Public ReadOnly Property IsModeConfiguable As Boolean = True Implements IRepositoryModule.CanConfigureMode
 
@@ -42,8 +44,9 @@ Public Class RepositoryModule1
             Throw New RepositoryModuleException("詳細データ フォルダが正しく設定されていません。")
         End If
 
-        If Not LabelDefinition1.TryExtract(Mode, LabelDefinition1.KeyForPrimary) Then
 
+        If Not Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, PrimaryLabelSpec) _
+            Or Not Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, SecondaryLabelCriteria) Then
             Throw New RepositoryModuleException("モードが構成されていません。")
         End If
 
@@ -60,9 +63,9 @@ Public Class RepositoryModule1
             .Select(
                 Function(x)
 
-                    Dim LabelDefinition As LabelDefinition1 = Nothing
+                    Dim LabelDefinition As FixedLengthSpec = Nothing
                     Dim Label As BasicLabel = Nothing
-                    Dim IsMatch = LabelDefinition1.TryExtract(CurrentMode, LabelDefinition1.KeyForPrimary, LabelDefinition) AndAlso LabelDefinition.TryGeneraLabel(x, Label)
+                    Dim IsMatch = PrimaryLabelSpec.TryGeneraLabel(x, Label)
 
                     Return New With {IsMatch, Label}
                 End Function
@@ -76,17 +79,12 @@ Public Class RepositoryModule1
 
     Public Function FindSecondaryLabels(Primary As ILabel, Sources() As ILabelSource) As ILabel() Implements IRepositoryModule.FindSecondaryLabels
 
-        If CurrentMode.HasSecondaryLabel Then
+        Dim MatchSymbols = Sources _
+            .OfType(Of C3Label) _
+            .Where(Function(x) x.PartNumber = Primary.ItemNumber) _
+            .ToArray()
 
-            Dim MatchSymbols = Sources _
-                .OfType(Of C3Label) _
-                .Where(Function(x) x.PartNumber = Primary.ItemNumber) _
-                .ToArray()
-
-            Return MatchSymbols
-        End If
-
-        Return Array.Empty(Of ILabel)
+        Return MatchSymbols
     End Function
 
     Public Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String) As Task Implements IRepositoryModule.RegisterAsync
@@ -95,6 +93,11 @@ Public Class RepositoryModule1
     End Function
 
     Public Async Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String, cancellationToken As CancellationToken) As Task Implements IRepositoryModule.RegisterAsync
+
+        If SecondaryLabelCriteria.IsRequired And Secondary Is Nothing Then
+
+            Throw New RepositoryModuleException("C-3 ラベルが必要です。")
+        End If
 
         Dim Timestamp As Date = Now
 

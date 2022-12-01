@@ -48,7 +48,8 @@ namespace RepositoryModules
                 throw new RepositoryModuleException("詳細データ フォルダが正しく設定されていません。");
             }
 
-            if (!LabelDefinition1.TryExtract(Mode, LabelDefinition1.KeyForPrimary, out var _))
+            if (!Mode.TryExtractProperty<FixedLengthSpec>(FixedLengthSpec.PropertyKeyForPrimary, out var _priaryLabelFixedLengthSpec) |
+                !Mode.TryExtractProperty<SecondaryLabelCriteria>(SecondaryLabelCriteria.PropertyKey, out var _secondaryLabelCriteria))
             {
                 throw new RepositoryModuleException("モードが構成されていません。");
             }
@@ -59,30 +60,29 @@ namespace RepositoryModules
             return Task.CompletedTask;
         }
 
+        FixedLengthSpec _primaryLabelSpec;
+
         public ILabel FindPrimaryLabel(ILabelSource[] sources)
         {
             var labels = sources
                 .OfType<Symbol>()
-                .Select(x => LabelDefinition1.TryExtract(_currentMode, LabelDefinition1.KeyForPrimary, out var labelDefinition) && labelDefinition.TryGeneraLabel(x, out var label) ? label : null)
+                .Select(x => _primaryLabelSpec.TryGeneraLabel(x, out var label) ? label : null)
                 .Where(x => x != null)
                 .ToArray();
 
             return labels.Length == 1 ? labels[0] : null;
         }
 
+        SecondaryLabelCriteria _secondaryLabelCriteria;
+
         public ILabel[] FindSecondaryLabels(ILabel primary, ILabelSource[] sources)
         {
-            if (_currentMode.HasSecondaryLabel)
-            {
-                var labels = sources
-                    .OfType<C3Label>()
-                    .Where(x => x.PartNumber == primary.ItemNumber)
-                    .ToArray();
+            var labels = sources
+                .OfType<C3Label>()
+                .Where(x => x.PartNumber == primary.ItemNumber)
+                .ToArray();
 
-                return labels;
-            }
-
-            return Array.Empty<ILabel>();
+            return labels;
         }
 
         public Task RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags)
@@ -92,6 +92,9 @@ namespace RepositoryModules
 
         public async Task RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags, CancellationToken cancellationToken)
         {
+            if (_secondaryLabelCriteria.IsRequired & secondary is null)
+                throw new RepositoryModuleException("C-3 ラベルが必要です。");
+
             var timestamp = DateTime.Now;
 
             var myFile = new FileInfo(MySettings.Default.FilePath);
