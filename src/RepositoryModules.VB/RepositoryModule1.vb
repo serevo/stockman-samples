@@ -106,7 +106,7 @@ Public Class RepositoryModule1
 
         If SecondaryLabelCriteria.IsRequired And Secondary Is Nothing Then
 
-            If MsgBox("C-3 ラベルが必要です。無視して登録しますか。", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo Or MsgBoxStyle.ApplicationModal, "警告") Then
+            If MsgBox("C-3 ラベルが必要です。無視して登録しますか。", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo Or MsgBoxStyle.ApplicationModal, "警告") = MsgBoxResult.No Then
 
                 Return False
             End If
