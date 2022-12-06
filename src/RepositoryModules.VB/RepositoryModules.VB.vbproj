@@ -120,7 +120,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Storex.Core">
-      <Version>1.0.0-rc3</Version>
+      <Version>1.0.0-rc4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

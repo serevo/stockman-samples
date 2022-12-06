@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Storex;
 
 namespace RepositoryModules
@@ -48,8 +49,8 @@ namespace RepositoryModules
                 throw new RepositoryModuleException("詳細データ フォルダが正しく設定されていません。");
             }
 
-            if (!Mode.TryExtractProperty<FixedLengthSpec>(FixedLengthSpec.PropertyKeyForPrimary, out var _priaryLabelFixedLengthSpec) |
-                !Mode.TryExtractProperty<SecondaryLabelCriteria>(SecondaryLabelCriteria.PropertyKey, out var _secondaryLabelCriteria))
+            if (!Mode.TryExtractProperty<FixedLengthSpec>(FixedLengthSpec.PropertyKeyForPrimary, out _priaryLabelFixedLengthSpec) |
+                !Mode.TryExtractProperty<SecondaryLabelCriteria>(SecondaryLabelCriteria.PropertyKey, out _secondaryLabelCriteria))
             {
                 throw new RepositoryModuleException("モードが構成されていません。");
             }
@@ -60,13 +61,13 @@ namespace RepositoryModules
             return Task.CompletedTask;
         }
 
-        FixedLengthSpec _primaryLabelSpec;
+        FixedLengthSpec _priaryLabelFixedLengthSpec;
 
         public ILabel FindPrimaryLabel(ILabelSource[] sources)
         {
             var labels = sources
                 .OfType<Symbol>()
-                .Select(x => _primaryLabelSpec.TryGeneraLabel(x, out var label) ? label : null)
+                .Select(x => _priaryLabelFixedLengthSpec.TryGeneraLabel(x, out var label) ? label : null)
                 .Where(x => x != null)
                 .ToArray();
 
@@ -85,15 +86,30 @@ namespace RepositoryModules
             return labels;
         }
 
-        public Task RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags)
+        public Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags)
         {
             return RegisterAsync(primary, secondary, captureDatas, tags, CancellationToken.None);
         }
 
-        public async Task RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags, CancellationToken cancellationToken)
+        public async Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags, CancellationToken cancellationToken)
         {
+            if (!File.Exists(MySettings.Default.FilePath))
+            {
+                throw new RepositoryModuleException("概要データ ファイルが存在しません。");
+            }
+
+            if (!Directory.Exists(MySettings.Default.FolderPath))
+            {
+                throw new RepositoryModuleException("詳細データ フォルダが存在しません。");
+            }
+
             if (_secondaryLabelCriteria.IsRequired & secondary is null)
-                throw new RepositoryModuleException("C-3 ラベルが必要です。");
+            {
+                if (MessageBox.Show("C-3 ラベルが必要です。無視して登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+                {
+                    return false;
+                }
+            }
 
             var timestamp = DateTime.Now;
 
@@ -156,6 +172,8 @@ namespace RepositoryModules
             {
                 File.WriteAllLines($@"{mFolder.FullName}\tags.txt", tags);
             }
+
+            return true;
         }
 
         public void Dispose()

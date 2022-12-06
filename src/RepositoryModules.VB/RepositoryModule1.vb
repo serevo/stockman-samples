@@ -87,16 +87,29 @@ Public Class RepositoryModule1
         Return MatchSymbols
     End Function
 
-    Public Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String) As Task Implements IRepositoryModule.RegisterAsync
+    Public Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String) As Task(Of Boolean) Implements IRepositoryModule.RegisterAsync
 
         Return RegisterAsync(Primary, Secondary, CaptureDatas, Tags, CancellationToken.None)
     End Function
 
-    Public Async Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String, cancellationToken As CancellationToken) As Task Implements IRepositoryModule.RegisterAsync
+    Public Async Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String, cancellationToken As CancellationToken) As Task(Of Boolean) Implements IRepositoryModule.RegisterAsync
+
+        If Not File.Exists(MySettings.Default.FilePath) Then
+
+            Throw New RepositoryModuleException("概要データ ファイルが存在しません。")
+        End If
+
+        If Not Directory.Exists(MySettings.Default.FolderPath) Then
+
+            Throw New RepositoryModuleException("詳細データ フォルダが存在しません。")
+        End If
 
         If SecondaryLabelCriteria.IsRequired And Secondary Is Nothing Then
 
-            Throw New RepositoryModuleException("C-3 ラベルが必要です。")
+            If MsgBox("C-3 ラベルが必要です。無視して登録しますか。", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo Or MsgBoxStyle.ApplicationModal, "警告") Then
+
+                Return False
+            End If
         End If
 
         Dim Timestamp As Date = Now
@@ -158,6 +171,8 @@ Public Class RepositoryModule1
 
             File.WriteAllLines($"{MyFolder.FullName}\tags.txt", Tags)
         End If
+
+        Return True
     End Function
 
     Public Sub Dispose() Implements IDisposable.Dispose
