@@ -89,4 +89,5 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
 
   - `ConfigForm1`: モジュール設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
   - `ModeConfigForm1`:  モード設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
-  - `LabelDefinition1`: プライマリ ラベル用の 固定長テキスト定義とロジック
+  - `FixedLengthSpec`: プライマリ ラベル用 固定長テキスト定義とロジック
+  - `SecondaryLabelCriteria`: セカンダリ ラベル 条件
