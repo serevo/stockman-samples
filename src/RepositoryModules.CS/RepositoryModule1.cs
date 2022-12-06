@@ -105,7 +105,7 @@ namespace RepositoryModules
 
             if (_secondaryLabelCriteria.IsRequired & secondary is null)
             {
-                if (MessageBox.Show("C-3 ラベルが必要です。無視して登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+                if (MessageBox.Show("C-3 ラベルが必要です。無視して登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 {
                     return false;
                 }
