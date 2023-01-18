@@ -32,7 +32,7 @@ Public Class RepositoryModule1
         Return Task.CompletedTask
     End Function
 
-    Public Function PrepareAsync(Mode As IMode, UserInfo As IUser) As Task Implements IRepositoryModule.PrepareAsync
+    Public Function PrepareAsync(Mode As IMode, UserInfo As IUser) As Task(Of Boolean) Implements IRepositoryModule.PrepareAsync
 
         If Not File.Exists(MySettings.Default.FilePath) Then
 
@@ -53,7 +53,7 @@ Public Class RepositoryModule1
         CurrentMode = Mode
         CurrentUser = UserInfo
 
-        Return Task.CompletedTask
+        Return Task.FromResult(True)
     End Function
 
     Public Function FindPrimaryLabel(Sources() As ILabelSource) As ILabel Implements IRepositoryModule.FindPrimaryLabel
