@@ -87,6 +87,7 @@
     <Compile Include="AuthenticationForm2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MySettings.vb" />
     <Compile Include="User.vb" />
     <Compile Include="AuthenticationModule2.vb" />
     <Compile Include="AuthenticationModule1.vb" />
@@ -121,6 +122,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Serevo.WapToolkit">
+      <Version>1.0.0-rc.3</Version>
+    </PackageReference>
     <PackageReference Include="Storex.Core">
       <Version>1.0.0-rc6</Version>
     </PackageReference>
