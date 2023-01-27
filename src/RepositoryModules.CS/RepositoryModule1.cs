@@ -63,7 +63,7 @@ namespace RepositoryModules
 
         FixedLengthSpec _priaryLabelFixedLengthSpec;
 
-        public ILabel FindPrimaryLabel(ILabelSource[] sources)
+        public Task<ILabel> FindPrimaryLabelAsync(ILabelSource[] sources)
         {
             var labels = sources
                 .OfType<Symbol>()
@@ -71,19 +71,20 @@ namespace RepositoryModules
                 .Where(x => x != null)
                 .ToArray();
 
-            return labels.Length == 1 ? labels[0] : null;
+            return Task.FromResult(labels.Length == 1 ? labels[0] : null);
         }
 
         SecondaryLabelCriteria _secondaryLabelCriteria;
 
-        public ILabel[] FindSecondaryLabels(ILabel primary, ILabelSource[] sources)
+        public Task<ILabel[]> FindSecondaryLabelsAsync(ILabel primary, ILabelSource[] sources)
         {
             var labels = sources
                 .OfType<C3Label>()
                 .Where(x => x.PartNumber == primary.ItemNumber)
+                .Cast<ILabel>()
                 .ToArray();
 
-            return labels;
+            return Task.FromResult(labels);
         }
 
         public Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags)

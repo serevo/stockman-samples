@@ -56,7 +56,9 @@ Public Class RepositoryModule1
         Return Task.FromResult(True)
     End Function
 
-    Public Function FindPrimaryLabel(Sources() As ILabelSource) As ILabel Implements IRepositoryModule.FindPrimaryLabel
+    Public Async Function FindPrimaryLabelAsync(Sources() As ILabelSource) As Task(Of ILabel) Implements IRepositoryModule.FindPrimaryLabelAsync
+
+        Await Task.CompletedTask
 
         Dim MatchSymbols = Sources _
             .OfType(Of Symbol) _
@@ -77,11 +79,14 @@ Public Class RepositoryModule1
         Return If(MatchSymbols.Length = 1, MatchSymbols(0), Nothing)
     End Function
 
-    Public Function FindSecondaryLabels(Primary As ILabel, Sources() As ILabelSource) As ILabel() Implements IRepositoryModule.FindSecondaryLabels
+    Public Async Function FindSecondaryLabelsAsync(Primary As ILabel, Sources() As ILabelSource) As Task(Of ILabel()) Implements IRepositoryModule.FindSecondaryLabelsAsync
+
+        Await Task.CompletedTask
 
         Dim MatchSymbols = Sources _
             .OfType(Of C3Label) _
             .Where(Function(x) x.PartNumber = Primary.ItemNumber) _
+            .Cast(Of ILabel) _
             .ToArray()
 
         Return MatchSymbols
