@@ -55,6 +55,7 @@
       <DependentUpon>ModeConfigForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="ModeHelper.cs" />
+    <Compile Include="MySettings.cs" />
     <Compile Include="MySettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -80,6 +81,9 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Serevo.WapToolkit">
+      <Version>1.0.0-rc.3</Version>
     </PackageReference>
     <PackageReference Include="Storex.Core">
       <Version>1.0.0-rc6</Version>
