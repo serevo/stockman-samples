@@ -23,21 +23,21 @@ namespace RepositoryModules
 
         public bool CanConfigureMode => true;
 
-        public Task ConfigureAsync()
+        public Task ConfigureAsync(CancellationToken cancellationToken)
         {
             ConfigForm1.Configure();
 
             return Task.CompletedTask;
         }
 
-        public Task ConfigureModeAsync(IMode mode)
+        public Task ConfigureModeAsync(IMode mode, CancellationToken cancellationToken)
         {
             ModeConfigForm1.Configure(mode);
 
             return Task.CompletedTask;
         }
 
-        public Task<bool> PrepareAsync(IMode Mode, IUser UserInfo)
+        public Task<bool> PrepareAsync(IMode Mode, IUser UserInfo, CancellationToken cancellationToken)
         {
             if (!File.Exists(MySettings.Default.FilePath))
             {
@@ -63,7 +63,7 @@ namespace RepositoryModules
 
         FixedLengthSpec _priaryLabelFixedLengthSpec;
 
-        public Task<ILabel> FindPrimaryLabelAsync(ILabelSource[] sources)
+        public Task<ILabel> FindPrimaryLabelAsync(ILabelSource[] sources, CancellationToken cancellationToken)
         {
             var labels = sources
                 .OfType<Symbol>()
@@ -76,7 +76,7 @@ namespace RepositoryModules
 
         SecondaryLabelCriteria _secondaryLabelCriteria;
 
-        public Task<ILabel[]> FindSecondaryLabelsAsync(ILabel primary, ILabelSource[] sources)
+        public Task<ILabel[]> FindSecondaryLabelsAsync(ILabel primary, ILabelSource[] sources, CancellationToken cancellationToken)
         {
             var labels = sources
                 .OfType<C3Label>()
@@ -85,11 +85,6 @@ namespace RepositoryModules
                 .ToArray();
 
             return Task.FromResult(labels);
-        }
-
-        public Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags)
-        {
-            return RegisterAsync(primary, secondary, captureDatas, tags, CancellationToken.None);
         }
 
         public async Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags, CancellationToken cancellationToken)

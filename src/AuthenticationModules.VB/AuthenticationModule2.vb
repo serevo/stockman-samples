@@ -11,17 +11,12 @@ Public Class UseCsvFileAuthenticationModule
         End Get
     End Property
 
-    Public Function ConfigureAsync() As Task Implements IAuthenticationModule.ConfigureAsync
+    Public Function ConfigureAsync(cancellationToken As CancellationToken) As Task Implements IAuthenticationModule.ConfigureAsync
 
         AuthenticationModuleHelper.PickUsersFileAndSaveToSetting()
 
         ConfigureAsync = Task.CompletedTask
 
-    End Function
-
-    Public Async Function AuthenticateAsync() As Task(Of IUser) Implements IAuthenticationModule.AuthenticateAsync
-
-        Return Await AuthenticateAsync(cancellationToken:=CancellationToken.None)
     End Function
 
     Public Function AuthenticateAsync(cancellationToken As CancellationToken) As Task(Of IUser) Implements IAuthenticationModule.AuthenticateAsync
