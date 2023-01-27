@@ -1,66 +1,23 @@
 # STOCK-MAN モジュール サンプル
 
-STOCK-MAN アプリ用モジュールの開発を支援するためのサンプルとガイドです。サンプルは単純なテキストファイルやフォルダに読み書きする内容になっていますので、そのままビルドして組み込み、アプリを「まずは使ってみる」こともできます。
+STOCK-MAN アプリ用モジュールの開発を支援するためのサンプルです。これらのサンプルはクイックスタートとして素早く内容を理解してモジュールの開発を開始できるよう、副次的な内容は極力省かれています。また単純なテキストファイルやフォルダに読み書きする内容になっていますので、そのままビルドして組み込み、「アプリをまずは使ってみるため」こともできます。
 
 
 
-## STOCK-MAN SDK
+STOCK-MAN やモジュール開発の概要については次のページをご覧ください。
 
-[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Storex.Core)](https://www.nuget.org/packages/Storex.Core)
-
-新規でモジュールを開発する場合は、[nuget.org](https://www.nuget.org/)  で公開されている適切なバージョンの [NuGet](https://learn.microsoft.com/ja-jp/nuget/) パッケージへの参照をプロジェクトに追加してください。本サンプル内のプロジェクトには既に追加されています。
-
-
-
-### API リファレンス
-
-[![Storex.Core on fuget.org](https://www.fuget.org/packages/Storex.Core/badge.svg)](https://www.fuget.org/packages/Storex.Core)
-
-SDK に含まれる API のリファレンスです。必要に応じて参照してください。
+- [STOCK-MAN](https://docs.serevo.net/stockman) 
+- [モジュール開発 - STOCK-MAN](https://docs.serevo.net/stockman/modules-dev)
 
 
 
-## モジュールの種類とインターフェイス
+## サンプルの種類
 
-開発してアプリに組み込むことができるモジュールの種類とインターフェイスを次の表に示します。
-| モジュールの種類       | インターフェイス      |
-| ---------------------- | --------------------- |
-| ユーザー認証モジュール | `IAuthenticationModule` |
-| データ保管モジュール   | `IRepositoryModule`     |
+サンプルには次の３種類のモジュールが含まれており、それぞれが Visual Basic .NET と C# の両方で書かれています。尚、ビルド後のファイルは全て `src\bin` フォルダーに出力されます。
 
-
-
-## 属性とメタデータ
-
-モジュールをアプリで認識するには上記インターフェイスの実装に加え、次のように属性の指定が必要です。
-
-``` VB
-' ユーザー認証モジュールの例 (VB)
-<AuthenticationModuleExport("42dc1253-5ca5-43ce-8eb9-558c8094cf5a", "社員証認証")>
-Public Class MyAuthenticationModule
-    Implements IAuthenticationModule
-```
-
-``` CS
-// データ保管モジュールの例 (C#)
-[RepositoryModuleExport("3051d137-3611-4911-b71c-8ecaeb7f9a7c", "社内DB", Description = "xx サーバーの SQL Server")]
-public class MyRepositoryModule : IRepositoryModule
-```
-
-属性にはモジュールに関する次の追加情報 (メタデータ) が必要です。
-
-
-| 名前        | 説明                                                        |
-| ----------- | ----------------------------------------------------------- |
-| Id          | モジュールを一意に識別できる文字列。Guid の文字列表現推奨。 |
-| DisplayName | モジュールの表示名。                                        |
-| Description | モジュールの補足説明。 省略可。                                     |
-
-
-
-## サンプルモジュール
-
-このサンプルは、クイックスタートとして素早く内容を理解してモジュールの開発を開始できるよう、副次的な内容は極力省かれています。また単純なテキストファイルやフォルダに読み書きする内容になっていますので、そのままビルドして組み込み、「アプリをまずは使ってみるため」こともできます。コードはそれぞれ Visual Basic .NET と C# の両方で書かれており、ビルド後のファイルは全て `src\bin` に出力されます (各プロジェクトフォルダーではありません)。
+- AuthenticationModule1: ユーザー認証モジュール
+- AuthenticationModule2 ユーザー認証モジュール
+- RepositoryModule1: データ保管モジュール
 
 
 
@@ -91,3 +48,11 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
   - `ModeConfigForm1`:  モード設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
   - `FixedLengthSpec`: プライマリ ラベル用 固定長テキスト定義とロジック
   - `SecondaryLabelCriteria`: セカンダリ ラベル 条件
+
+
+
+## モジュール設定の永続化
+
+各モジュールの設定について、設定値の永続化には [WAP Tool-kit](https://github.com/serevo/wap-toolkit) の `WapDataContainerSettingsProvider` を使用します。詳しくは下記ガイドをご覧ください。
+
+[モジュール開発 - STOCK-MAN](https://docs.serevo.net/stockman/modules-dev)
