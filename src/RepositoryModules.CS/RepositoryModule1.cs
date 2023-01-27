@@ -37,7 +37,7 @@ namespace RepositoryModules
             return Task.CompletedTask;
         }
 
-        public Task PrepareAsync(IMode Mode, IUser UserInfo)
+        public Task<bool> PrepareAsync(IMode Mode, IUser UserInfo)
         {
             if (!File.Exists(MySettings.Default.FilePath))
             {
@@ -58,7 +58,7 @@ namespace RepositoryModules
             _currentMode = Mode;
             _currentUser = UserInfo;
 
-            return Task.CompletedTask;
+            return Task.FromResult(true);
         }
 
         FixedLengthSpec _priaryLabelFixedLengthSpec;
