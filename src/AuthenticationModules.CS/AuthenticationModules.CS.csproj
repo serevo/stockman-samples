@@ -55,6 +55,7 @@
     <Compile Include="AuthenticationModule1.cs" />
     <Compile Include="AuthenticationModule2.cs" />
     <Compile Include="AuthenticationModuleHelper.cs" />
+    <Compile Include="MySettings.cs" />
     <Compile Include="MySettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -78,6 +79,9 @@
     <None Include="Users.csv" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Serevo.WapToolkit">
+      <Version>1.0.0-rc.3</Version>
+    </PackageReference>
     <PackageReference Include="Storex.Core">
       <Version>1.0.0-rc6</Version>
     </PackageReference>
