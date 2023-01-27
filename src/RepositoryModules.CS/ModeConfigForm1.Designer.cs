@@ -286,7 +286,6 @@ namespace RepositoryModules
         internal ErrorProvider ErrorProvider;
         internal Label Label2;
         internal NumericUpDown PrimaryItemStartUpDown;
-        internal CheckBox ExtractPartCheckBox;
         internal Label Label3;
         internal NumericUpDown PrimaryItemLengthUpDown;
         internal Label Label4;
