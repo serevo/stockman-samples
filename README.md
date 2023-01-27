@@ -7,7 +7,7 @@ STOCK-MAN アプリ用モジュールの開発を支援するためのサンプ�
 STOCK-MAN やモジュール開発の概要については次のページをご覧ください。
 
 - [STOCK-MAN](https://docs.serevo.net/stockman) 
-- [モジュール開発 - STOCK-MAN](https://docs.serevo.net/stockman/modules-dev)
+- [モジュール開発 - STOCK-MAN ガイド](https://docs.serevo.net/stockman/modules-dev)
 
 
 
@@ -53,6 +53,4 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
 
 ## モジュール設定の永続化
 
-各モジュールの設定について、設定値の永続化には [WAP Tool-kit](https://github.com/serevo/wap-toolkit) の `WapDataContainerSettingsProvider` を使用します。詳しくは下記ガイドをご覧ください。
-
-[モジュール開発 - STOCK-MAN](https://docs.serevo.net/stockman/modules-dev)
+各モジュールの設定について、設定値の永続化には [WAP Tool-kit](https://github.com/serevo/wap-toolkit) の `WapDataContainerSettingsProvider` を使用します。詳しくはこのページの冒頭に記載のガイドをご覧ください。
