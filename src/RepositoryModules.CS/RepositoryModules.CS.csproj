@@ -82,7 +82,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Storex.Core">
-      <Version>0.0.0-pr.7.*</Version>
+      <Version>0.0.0-pr.8.*</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
