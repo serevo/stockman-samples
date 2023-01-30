@@ -18,21 +18,21 @@ Public Class RepositoryModule1
 
     Public ReadOnly Property IsModeConfiguable As Boolean = True Implements IRepositoryModule.CanConfigureMode
 
-    Public Function ConfigureAsync() As Task Implements IModule.ConfigureAsync
+    Public Function ConfigureAsync(cancellationToken As CancellationToken) As Task Implements IModule.ConfigureAsync
 
         ConfigForm1.Configure()
 
         Return Task.CompletedTask
     End Function
 
-    Public Function ConfigureModeAsync(Mode As IMode) As Task Implements IRepositoryModule.ConfigureModeAsync
+    Public Function ConfigureModeAsync(Mode As IMode, cancellationToken As CancellationToken) As Task Implements IRepositoryModule.ConfigureModeAsync
 
         ModeConfigForm1.Configure(Mode)
 
         Return Task.CompletedTask
     End Function
 
-    Public Function PrepareAsync(Mode As IMode, UserInfo As IUser) As Task(Of Boolean) Implements IRepositoryModule.PrepareAsync
+    Public Function PrepareAsync(Mode As IMode, UserInfo As IUser, cancellationToken As CancellationToken) As Task(Of Boolean) Implements IRepositoryModule.PrepareAsync
 
         If Not File.Exists(MySettings.Default.FilePath) Then
 
@@ -56,7 +56,9 @@ Public Class RepositoryModule1
         Return Task.FromResult(True)
     End Function
 
-    Public Function FindPrimaryLabel(Sources() As ILabelSource) As ILabel Implements IRepositoryModule.FindPrimaryLabel
+    Public Async Function FindPrimaryLabelAsync(Sources() As ILabelSource, cancellationToken As CancellationToken) As Task(Of ILabel) Implements IRepositoryModule.FindPrimaryLabelAsync
+
+        Await Task.CompletedTask
 
         Dim MatchSymbols = Sources _
             .OfType(Of Symbol) _
@@ -77,19 +79,17 @@ Public Class RepositoryModule1
         Return If(MatchSymbols.Length = 1, MatchSymbols(0), Nothing)
     End Function
 
-    Public Function FindSecondaryLabels(Primary As ILabel, Sources() As ILabelSource) As ILabel() Implements IRepositoryModule.FindSecondaryLabels
+    Public Async Function FindSecondaryLabelsAsync(Primary As ILabel, Sources() As ILabelSource, cancellationToken As CancellationToken) As Task(Of ILabel()) Implements IRepositoryModule.FindSecondaryLabelsAsync
+
+        Await Task.CompletedTask
 
         Dim MatchSymbols = Sources _
             .OfType(Of C3Label) _
             .Where(Function(x) x.PartNumber = Primary.ItemNumber) _
+            .Cast(Of ILabel) _
             .ToArray()
 
         Return MatchSymbols
-    End Function
-
-    Public Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String) As Task(Of Boolean) Implements IRepositoryModule.RegisterAsync
-
-        Return RegisterAsync(Primary, Secondary, CaptureDatas, Tags, CancellationToken.None)
     End Function
 
     Public Async Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String, cancellationToken As CancellationToken) As Task(Of Boolean) Implements IRepositoryModule.RegisterAsync

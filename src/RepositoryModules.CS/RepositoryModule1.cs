@@ -23,21 +23,21 @@ namespace RepositoryModules
 
         public bool CanConfigureMode => true;
 
-        public Task ConfigureAsync()
+        public Task ConfigureAsync(CancellationToken cancellationToken)
         {
             ConfigForm1.Configure();
 
             return Task.CompletedTask;
         }
 
-        public Task ConfigureModeAsync(IMode mode)
+        public Task ConfigureModeAsync(IMode mode, CancellationToken cancellationToken)
         {
             ModeConfigForm1.Configure(mode);
 
             return Task.CompletedTask;
         }
 
-        public Task<bool> PrepareAsync(IMode Mode, IUser UserInfo)
+        public Task<bool> PrepareAsync(IMode Mode, IUser UserInfo, CancellationToken cancellationToken)
         {
             if (!File.Exists(MySettings.Default.FilePath))
             {
@@ -63,7 +63,7 @@ namespace RepositoryModules
 
         FixedLengthSpec _priaryLabelFixedLengthSpec;
 
-        public ILabel FindPrimaryLabel(ILabelSource[] sources)
+        public Task<ILabel> FindPrimaryLabelAsync(ILabelSource[] sources, CancellationToken cancellationToken)
         {
             var labels = sources
                 .OfType<Symbol>()
@@ -71,24 +71,20 @@ namespace RepositoryModules
                 .Where(x => x != null)
                 .ToArray();
 
-            return labels.Length == 1 ? labels[0] : null;
+            return Task.FromResult(labels.Length == 1 ? labels[0] : null);
         }
 
         SecondaryLabelCriteria _secondaryLabelCriteria;
 
-        public ILabel[] FindSecondaryLabels(ILabel primary, ILabelSource[] sources)
+        public Task<ILabel[]> FindSecondaryLabelsAsync(ILabel primary, ILabelSource[] sources, CancellationToken cancellationToken)
         {
             var labels = sources
                 .OfType<C3Label>()
                 .Where(x => x.PartNumber == primary.ItemNumber)
+                .Cast<ILabel>()
                 .ToArray();
 
-            return labels;
-        }
-
-        public Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags)
-        {
-            return RegisterAsync(primary, secondary, captureDatas, tags, CancellationToken.None);
+            return Task.FromResult(labels);
         }
 
         public async Task<bool> RegisterAsync(ILabel primary, ILabel secondary, CaptureData[] captureDatas, string[] tags, CancellationToken cancellationToken)

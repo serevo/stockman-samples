@@ -9,16 +9,11 @@ namespace AuthenticationModules
     {
         public bool IsConfiguable => true;
 
-        public Task ConfigureAsync()
+        public Task ConfigureAsync(CancellationToken cancellationToken)
         {
             AuthenticationModuleHelper.PickUsersFileAndSaveToSetting();
 
             return Task.CompletedTask;
-        }
-
-        public async Task<IUser> AuthenticateAsync()
-        {
-            return await AuthenticateAsync(cancellationToken: CancellationToken.None);
         }
 
         public Task<IUser> AuthenticateAsync(CancellationToken cancellationToken)
