@@ -59,9 +59,3 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
   - `ModeConfigForm1`:  モード設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
   - `FixedLengthSpec`: プライマリ ラベル用 固定長テキスト定義とロジック
   - `SecondaryLabelCriteria`: セカンダリ ラベル 条件
-
-
-
-## モジュール設定の永続化
-
-各モジュールの設定について、設定値の永続化には [WAP Tool-kit](https://github.com/serevo/wap-toolkit) の `WapDataContainerSettingsProvider` を使用します。詳しくはこのページの冒頭に記載のガイドをご覧ください。
