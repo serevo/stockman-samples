@@ -13,7 +13,7 @@ STOCK-MAN やモジュール開発の概要については次のページをご�
 
 ## バイナリのダウンロード
 
-1. [リリース](https://github.com/serevo/storex-samples/releases) ページより任意のバージョンの bin.zip をダウンロードします。バージョン番号は `{SDKのバージョン}-{リリース日(年２桁)}(.{同日内連番})` となっています。モジュールで使用可能な SDK のバージョンは、原則アプリで直接参照する SDK とメジャー番号が同じで、且つマイナー番号が同じか低いものとなっています。例えばアプリで v1.2.0 が参照されている場合、モジュールで使用可能なのは v1.0.0 以上 v1.3.0 未満です。
+1. [リリース](https://github.com/serevo/storex-samples/releases) ページより任意のバージョンの bin.zip をダウンロードします。バージョン番号は `{SDKのバージョン}-{日付(年月日各２桁/コミット日)}(.{同日内連番})` となっています。モジュールで使用可能な SDK のバージョンは、原則アプリで直接参照する SDK とメジャー番号が同じで、且つマイナー番号が同じか低いものとなっています。例えばアプリで v1.2.0 が参照されている場合、モジュールで使用可能なのは v1.0.0 以上 v1.3.0 未満です。
 
 2. ダウンロードしたファイルが Windows で ZoneID によりマークされている場合、それらのファイルはブロックされ正常に読み込めません。必要に応じて [ブロックを解除](https://learn.microsoft.com/ja-jp/deployoffice/security/internet-macros-blocked#guidance-on-allowing-vba-macros-to-run-in-files-you-trust) します。
 3. bin.zip を解凍して使用します。
