@@ -33,9 +33,16 @@ namespace RepositoryModules
             this.Label7 = new System.Windows.Forms.Label();
             this.PrimarySerialStartUpDown = new System.Windows.Forms.NumericUpDown();
             this.InputCancelButton = new System.Windows.Forms.Button();
-            this.IsSecondaryLabelRequiredCheck = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.OtherLabelsComboBox = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.SpecifiedByConditionComboBox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.EqualsToPrimaryComboBox = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.NoneLabelBehaviorComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PrimaryItemStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PrimaryItemLengthUpDown)).BeginInit();
@@ -49,7 +56,7 @@ namespace RepositoryModules
             // 
             this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(257, 500);
+            this.OkButton.Location = new System.Drawing.Point(257, 679);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 2;
@@ -199,23 +206,12 @@ namespace RepositoryModules
             // 
             this.InputCancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.InputCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.InputCancelButton.Location = new System.Drawing.Point(338, 500);
+            this.InputCancelButton.Location = new System.Drawing.Point(338, 679);
             this.InputCancelButton.Name = "InputCancelButton";
             this.InputCancelButton.Size = new System.Drawing.Size(81, 23);
             this.InputCancelButton.TabIndex = 3;
             this.InputCancelButton.Text = "キャンセル";
             this.InputCancelButton.UseVisualStyleBackColor = true;
-            // 
-            // IsSecondaryLabelRequiredCheck
-            // 
-            this.IsSecondaryLabelRequiredCheck.AutoSize = true;
-            this.IsSecondaryLabelRequiredCheck.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.IsSecondaryLabelRequiredCheck.Location = new System.Drawing.Point(28, 43);
-            this.IsSecondaryLabelRequiredCheck.Name = "IsSecondaryLabelRequiredCheck";
-            this.IsSecondaryLabelRequiredCheck.Size = new System.Drawing.Size(255, 16);
-            this.IsSecondaryLabelRequiredCheck.TabIndex = 0;
-            this.IsSecondaryLabelRequiredCheck.Text = "必須にする (品名が一致する C-3 ラベルが必要)";
-            this.IsSecondaryLabelRequiredCheck.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -242,20 +238,99 @@ namespace RepositoryModules
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.IsSecondaryLabelRequiredCheck);
-            this.groupBox2.Location = new System.Drawing.Point(22, 387);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.OtherLabelsComboBox);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.SpecifiedByConditionComboBox);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.EqualsToPrimaryComboBox);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.NoneLabelBehaviorComboBox);
+            this.groupBox2.Location = new System.Drawing.Point(22, 389);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 89);
+            this.groupBox2.Size = new System.Drawing.Size(386, 255);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "セカンダリ ラベル";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(27, 203);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(78, 12);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "その他C3ラベル";
+            // 
+            // OtherLabelsComboBox
+            // 
+            this.OtherLabelsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.OtherLabelsComboBox.FormattingEnabled = true;
+            this.OtherLabelsComboBox.Location = new System.Drawing.Point(25, 218);
+            this.OtherLabelsComboBox.Name = "OtherLabelsComboBox";
+            this.OtherLabelsComboBox.Size = new System.Drawing.Size(341, 20);
+            this.OtherLabelsComboBox.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(23, 145);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(134, 12);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "対応表と一致するC3ラベル";
+            // 
+            // SpecifiedByConditionComboBox
+            // 
+            this.SpecifiedByConditionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.SpecifiedByConditionComboBox.FormattingEnabled = true;
+            this.SpecifiedByConditionComboBox.Location = new System.Drawing.Point(25, 160);
+            this.SpecifiedByConditionComboBox.Name = "SpecifiedByConditionComboBox";
+            this.SpecifiedByConditionComboBox.Size = new System.Drawing.Size(341, 20);
+            this.SpecifiedByConditionComboBox.TabIndex = 12;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(23, 87);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(136, 12);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "部品名が一致するC3ラベル";
+            // 
+            // EqualsToPrimaryComboBox
+            // 
+            this.EqualsToPrimaryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EqualsToPrimaryComboBox.FormattingEnabled = true;
+            this.EqualsToPrimaryComboBox.Location = new System.Drawing.Point(25, 102);
+            this.EqualsToPrimaryComboBox.Name = "EqualsToPrimaryComboBox";
+            this.EqualsToPrimaryComboBox.Size = new System.Drawing.Size(341, 20);
+            this.EqualsToPrimaryComboBox.TabIndex = 10;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(23, 29);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(77, 12);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "シンボル無し時";
+            // 
+            // NoneLabelBehaviorComboBox
+            // 
+            this.NoneLabelBehaviorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.NoneLabelBehaviorComboBox.FormattingEnabled = true;
+            this.NoneLabelBehaviorComboBox.Location = new System.Drawing.Point(25, 44);
+            this.NoneLabelBehaviorComboBox.Name = "NoneLabelBehaviorComboBox";
+            this.NoneLabelBehaviorComboBox.Size = new System.Drawing.Size(341, 20);
+            this.NoneLabelBehaviorComboBox.TabIndex = 1;
             // 
             // ModeConfigForm1
             // 
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 535);
+            this.ClientSize = new System.Drawing.Size(432, 714);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.InputCancelButton);
@@ -294,8 +369,15 @@ namespace RepositoryModules
         internal Label Label7;
         internal NumericUpDown PrimarySerialStartUpDown;
         internal Button InputCancelButton;
-        private CheckBox IsSecondaryLabelRequiredCheck;
         private GroupBox groupBox2;
         private GroupBox groupBox1;
+        internal Label label8;
+        private ComboBox OtherLabelsComboBox;
+        internal Label label5;
+        private ComboBox SpecifiedByConditionComboBox;
+        internal Label label1;
+        private ComboBox EqualsToPrimaryComboBox;
+        internal Label label9;
+        private ComboBox NoneLabelBehaviorComboBox;
     }
 }

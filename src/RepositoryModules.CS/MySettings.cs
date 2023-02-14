@@ -1,5 +1,5 @@
-﻿using Serevo.WapToolkit;
-using System.Configuration;
+﻿using System.Configuration;
+using Serevo.WapToolkit;
 
 namespace RepositoryModules
 {
