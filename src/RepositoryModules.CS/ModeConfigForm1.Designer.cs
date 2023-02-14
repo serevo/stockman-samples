@@ -248,7 +248,7 @@ namespace RepositoryModules
             this.groupBox2.Controls.Add(this.NoneLabelBehaviorComboBox);
             this.groupBox2.Location = new System.Drawing.Point(22, 389);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 255);
+            this.groupBox2.Size = new System.Drawing.Size(386, 271);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "セカンダリ ラベル";
@@ -256,7 +256,7 @@ namespace RepositoryModules
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(27, 203);
+            this.label8.Location = new System.Drawing.Point(26, 213);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(78, 12);
             this.label8.TabIndex = 15;
@@ -266,7 +266,7 @@ namespace RepositoryModules
             // 
             this.OtherLabelsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.OtherLabelsComboBox.FormattingEnabled = true;
-            this.OtherLabelsComboBox.Location = new System.Drawing.Point(25, 218);
+            this.OtherLabelsComboBox.Location = new System.Drawing.Point(25, 233);
             this.OtherLabelsComboBox.Name = "OtherLabelsComboBox";
             this.OtherLabelsComboBox.Size = new System.Drawing.Size(341, 20);
             this.OtherLabelsComboBox.TabIndex = 14;
@@ -274,7 +274,7 @@ namespace RepositoryModules
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(23, 145);
+            this.label5.Location = new System.Drawing.Point(23, 149);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(134, 12);
             this.label5.TabIndex = 13;
@@ -284,7 +284,7 @@ namespace RepositoryModules
             // 
             this.SpecifiedByConditionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SpecifiedByConditionComboBox.FormattingEnabled = true;
-            this.SpecifiedByConditionComboBox.Location = new System.Drawing.Point(25, 160);
+            this.SpecifiedByConditionComboBox.Location = new System.Drawing.Point(25, 170);
             this.SpecifiedByConditionComboBox.Name = "SpecifiedByConditionComboBox";
             this.SpecifiedByConditionComboBox.Size = new System.Drawing.Size(341, 20);
             this.SpecifiedByConditionComboBox.TabIndex = 12;
@@ -292,7 +292,7 @@ namespace RepositoryModules
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 87);
+            this.label1.Location = new System.Drawing.Point(23, 86);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(136, 12);
             this.label1.TabIndex = 11;
@@ -302,7 +302,7 @@ namespace RepositoryModules
             // 
             this.EqualsToPrimaryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.EqualsToPrimaryComboBox.FormattingEnabled = true;
-            this.EqualsToPrimaryComboBox.Location = new System.Drawing.Point(25, 102);
+            this.EqualsToPrimaryComboBox.Location = new System.Drawing.Point(25, 107);
             this.EqualsToPrimaryComboBox.Name = "EqualsToPrimaryComboBox";
             this.EqualsToPrimaryComboBox.Size = new System.Drawing.Size(341, 20);
             this.EqualsToPrimaryComboBox.TabIndex = 10;
@@ -310,7 +310,7 @@ namespace RepositoryModules
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(23, 29);
+            this.label9.Location = new System.Drawing.Point(23, 23);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(77, 12);
             this.label9.TabIndex = 9;
