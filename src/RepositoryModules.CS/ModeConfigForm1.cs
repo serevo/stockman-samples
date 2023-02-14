@@ -8,11 +8,11 @@ namespace RepositoryModules
 {
     partial class ModeConfigForm1
     {
-        static readonly IReadOnlyList<SecondaryLabelBehaviorViewModel> SecondaryLabelBehaviorViewModels = new[]
+        static readonly IReadOnlyList<KeyValuePair<string, SecondaryLabelBehavior>> SecondaryLabelBehaviorViewModels = new[]
         {
-            new SecondaryLabelBehaviorViewModel("許可", SecondaryLabelBehavior.Default),
-            new SecondaryLabelBehaviorViewModel("警告を表示", SecondaryLabelBehavior.Warnning),
-            new SecondaryLabelBehaviorViewModel("拒否", SecondaryLabelBehavior.Deny)
+            new KeyValuePair<string, SecondaryLabelBehavior>("許可", SecondaryLabelBehavior.Default),
+            new KeyValuePair<string, SecondaryLabelBehavior>("警告を表示", SecondaryLabelBehavior.Warnning),
+            new KeyValuePair<string, SecondaryLabelBehavior>("拒否", SecondaryLabelBehavior.Deny)
         };
 
         public ModeConfigForm1()
@@ -60,12 +60,12 @@ namespace RepositoryModules
                 form.NoneLabelBehaviorComboBox.DisplayMember
                     = form.EqualsToPrimaryComboBox.DisplayMember
                     = form.SpecifiedByConditionComboBox.DisplayMember
-                    = form.OtherLabelsComboBox.DisplayMember = nameof(SecondaryLabelBehaviorViewModel.Display);
+                    = form.OtherLabelsComboBox.DisplayMember = "Key";
 
                 form.NoneLabelBehaviorComboBox.ValueMember
                     = form.EqualsToPrimaryComboBox.ValueMember
                     = form.SpecifiedByConditionComboBox.ValueMember
-                    = form.OtherLabelsComboBox.ValueMember = nameof(SecondaryLabelBehaviorViewModel.Behavior);
+                    = form.OtherLabelsComboBox.ValueMember ="Value";
 
                 form.NoneLabelBehaviorComboBox.SelectedValue = secondaryLabelCriteria.NoLabelBehavior;
                 form.EqualsToPrimaryComboBox.SelectedValue = secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior;

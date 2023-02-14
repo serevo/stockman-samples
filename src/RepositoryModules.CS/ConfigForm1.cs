@@ -33,13 +33,6 @@ namespace RepositoryModules
                 return;
             }
 
-            if (!File.Exists(SecondaryConditionFileTextBox.Text))
-            {
-                ErrorProvider.SetError(SecondaryConditionFileButton, "ファイルを選択してください。");
-
-                return;
-            }
-
             DialogResult = DialogResult.OK;
         }
 

@@ -64,7 +64,6 @@
       <DependentUpon>MySettings.settings</DependentUpon>
     </Compile>
     <Compile Include="RepositoryModule1.cs" />
-    <Compile Include="SecondaryLabelBehaviorViewModel.cs" />
     <Compile Include="SecondaryLabelCriteria.cs" />
     <Compile Include="SecondaryLabelBehavior.cs" />
   </ItemGroup>

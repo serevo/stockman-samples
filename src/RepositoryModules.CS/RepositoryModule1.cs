@@ -147,31 +147,30 @@ namespace RepositoryModules
                 return false;
             }
             else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
-                & secondary?.ItemNumber == primary.ItemNumber)
+                && secondary?.ItemNumber == primary.ItemNumber)
             {
-                if (MessageBox.Show("C-3 ラベルはプライマリシンボルの部品名と一致するものが選択されています。登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                if (MessageBox.Show("C-3 ラベルはプライマリラベルの品番と一致するものが選択されています。登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 {
                     return false;
                 }
             }
             else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
-                & _secondaryConditions.SingleOrDefault(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.SecondaryLabelPartNumber == secondary?.ItemNumber) != null)
+                && _secondaryConditions.SingleOrDefault(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.SecondaryLabelPartNumber == secondary?.ItemNumber) != null)
             {
-                if (MessageBox.Show("C-3 ラベルは対応表と一致するものが選択されています。登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                if (MessageBox.Show("指定された C-3 ラベルは、プライマリ ラベルの品番とは一致しませんが対応表で指定されている品番です。登録を続行しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 {
                     return false;
                 }
             }
             else if (_secondaryLabelCriteria.OtherLabelsBehavior == SecondaryLabelBehavior.Warnning
-                & secondary != null & primary.ItemNumber != secondary?.ItemNumber
-                & _secondaryConditions.SingleOrDefault(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.SecondaryLabelPartNumber == secondary?.ItemNumber) == null)
+                && secondary != null && primary.ItemNumber != secondary.ItemNumber
+                && _secondaryConditions.SingleOrDefault(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.SecondaryLabelPartNumber == secondary.ItemNumber) == null)
             {
-                if (MessageBox.Show("C-3 ラベルは主ラベルや対応表と一致しないものが選択されています。登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                if (MessageBox.Show("C-3 ラベルはプライマリラベルや対応表と一致しないものが選択されています。登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
                 {
                     return false;
                 }
             }
-
 
             var timestamp = DateTime.Now;
 
