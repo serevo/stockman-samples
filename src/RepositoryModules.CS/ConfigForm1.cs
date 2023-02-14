@@ -17,6 +17,8 @@ namespace RepositoryModules
 
             ErrorProvider.SetError(FolderButton, null);
 
+            ErrorProvider.SetError(SecondaryConditionFileButton, null);
+
             if (!File.Exists(FileTextBox.Text))
             {
                 ErrorProvider.SetError(FileButton, "ファイルを選択してください。");
@@ -54,17 +56,29 @@ namespace RepositoryModules
             }
         }
 
+        void SecondaryConditionFileButton_Click(object sender, EventArgs e)
+        {
+            SecondaryConditionFileDialog.FileName = SecondaryConditionFileTextBox.Text;
+
+            if (SecondaryConditionFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SecondaryConditionFileTextBox.Text = SecondaryConditionFileDialog.FileName;
+            }
+        }
+
         public static void Configure()
         {
             using (var Form = new ConfigForm1())
             {
                 Form.FileTextBox.Text = MySettings.Default.FilePath;
                 Form.FolderTextBox.Text = MySettings.Default.FolderPath;
+                Form.SecondaryConditionFileTextBox.Text = MySettings.Default.SecondaryConditionFilePath;
 
                 if (Form.ShowDialog() == DialogResult.OK)
                 {
                     MySettings.Default.FilePath = Form.FileTextBox.Text;
                     MySettings.Default.FolderPath = Form.FolderTextBox.Text;
+                    MySettings.Default.SecondaryConditionFilePath = Form.SecondaryConditionFileTextBox.Text;
                     MySettings.Default.Save();
                 }
             }

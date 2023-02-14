@@ -47,6 +47,8 @@
     <Compile Include="ConfigForm1.Designer.cs">
       <DependentUpon>ConfigForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="RepositoryModuleHelper.cs" />
+    <Compile Include="SecondaryCondition.cs" />
     <Compile Include="FixedLengthSpec.cs" />
     <Compile Include="ModeConfigForm1.cs">
       <SubType>Form</SubType>
@@ -63,8 +65,10 @@
     </Compile>
     <Compile Include="RepositoryModule1.cs" />
     <Compile Include="SecondaryLabelCriteria.cs" />
+    <Compile Include="SecondaryLabelBehavior.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MySettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MySettings.Designer.cs</LastGenOutput>
