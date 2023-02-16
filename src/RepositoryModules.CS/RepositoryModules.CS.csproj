@@ -48,7 +48,7 @@
       <DependentUpon>ConfigForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="RepositoryModuleHelper.cs" />
-    <Compile Include="SecondaryCondition.cs" />
+    <Compile Include="Condition.cs" />
     <Compile Include="FixedLengthSpec.cs" />
     <Compile Include="ModeConfigForm1.cs">
       <SubType>Form</SubType>
@@ -64,6 +64,8 @@
       <DependentUpon>MySettings.settings</DependentUpon>
     </Compile>
     <Compile Include="RepositoryModule1.cs" />
+    <Compile Include="SecondaryLabelTypes.cs" />
+    <Compile Include="SecondaryNoLabelBehavior.cs" />
     <Compile Include="SecondaryLabelCriteria.cs" />
     <Compile Include="SecondaryLabelBehavior.cs" />
   </ItemGroup>

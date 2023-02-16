@@ -11,7 +11,7 @@ namespace RepositoryModules
         static readonly IReadOnlyList<KeyValuePair<string, SecondaryLabelBehavior>> SecondaryLabelBehaviorViewModels = new[]
         {
             new KeyValuePair<string, SecondaryLabelBehavior>("許可", SecondaryLabelBehavior.Default),
-            new KeyValuePair<string, SecondaryLabelBehavior>("警告を表示", SecondaryLabelBehavior.Warnning),
+            new KeyValuePair<string, SecondaryLabelBehavior>("登録時に警告を表示", SecondaryLabelBehavior.Warnning),
             new KeyValuePair<string, SecondaryLabelBehavior>("拒否", SecondaryLabelBehavior.Deny)
         };
 
@@ -52,25 +52,37 @@ namespace RepositoryModules
                 form.PrimarySerialStartUpDown.Value = primaryLabelSpec.SerialNumberStartIndex;
                 form.PrimarySerialLengthUpDown.Value = primaryLabelSpec.SerialNumberLength;
 
-                form.NoneLabelBehaviorComboBox.DataSource = SecondaryLabelBehaviorViewModels.ToList();
+                form.AcceptC3LabelCheckBox.Checked = (secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.C3Label) == SecondaryLabelTypes.C3Label;
+                form.AcceptSingleSymbolLabelCeckBox.Checked = (secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.SingleSymbol) == SecondaryLabelTypes.SingleSymbol;
+
                 form.EqualsToPrimaryComboBox.DataSource = SecondaryLabelBehaviorViewModels.ToList();
                 form.SpecifiedByConditionComboBox.DataSource = SecondaryLabelBehaviorViewModels.ToList();
-                form.OtherLabelsComboBox.DataSource = SecondaryLabelBehaviorViewModels.ToList();
+                form.OtherNotSinglLabelComboBox.DataSource = SecondaryLabelBehaviorViewModels.ToList();
 
-                form.NoneLabelBehaviorComboBox.DisplayMember
+                form.NoLabelBehaviorComboBox.DataSource = new[]
+                {
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("許可", SecondaryNoLabelBehavior.Default),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("登録時に警告を表示", SecondaryNoLabelBehavior.Warnning),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("登録時にタグで品名確認(一致しないとき警告)", SecondaryNoLabelBehavior.TagRequest),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("登録時にタグで品名確認(一致しないとき拒否)", SecondaryNoLabelBehavior.TagRequired),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("拒否", SecondaryNoLabelBehavior.Deny)
+                };
+
+                form.NoLabelBehaviorComboBox.DisplayMember
                     = form.EqualsToPrimaryComboBox.DisplayMember
                     = form.SpecifiedByConditionComboBox.DisplayMember
-                    = form.OtherLabelsComboBox.DisplayMember = "Key";
+                    = form.OtherNotSinglLabelComboBox.DisplayMember = "Key";
 
-                form.NoneLabelBehaviorComboBox.ValueMember
+                form.NoLabelBehaviorComboBox.ValueMember
                     = form.EqualsToPrimaryComboBox.ValueMember
                     = form.SpecifiedByConditionComboBox.ValueMember
-                    = form.OtherLabelsComboBox.ValueMember ="Value";
+                    = form.OtherNotSinglLabelComboBox.ValueMember ="Value";
 
-                form.NoneLabelBehaviorComboBox.SelectedValue = secondaryLabelCriteria.NoLabelBehavior;
+                form.NoLabelBehaviorComboBox.SelectedValue = secondaryLabelCriteria.NoLabelBehavior;
+
                 form.EqualsToPrimaryComboBox.SelectedValue = secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior;
                 form.SpecifiedByConditionComboBox.SelectedValue = secondaryLabelCriteria.SpecifiedByConditionFileBehavior;
-                form.OtherLabelsComboBox.SelectedValue = secondaryLabelCriteria.OtherLabelsBehavior;
+                form.OtherNotSinglLabelComboBox.SelectedValue = secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior;
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -80,10 +92,16 @@ namespace RepositoryModules
                     primaryLabelSpec.SerialNumberStartIndex = (int)Math.Round(form.PrimarySerialStartUpDown.Value);
                     primaryLabelSpec.SerialNumberLength = (int)Math.Round(form.PrimarySerialLengthUpDown.Value);
 
-                    secondaryLabelCriteria.NoLabelBehavior = (SecondaryLabelBehavior)form.NoneLabelBehaviorComboBox.SelectedValue;
+                    var acceptTypes = SecondaryLabelTypes.None;
+                    acceptTypes |= form.AcceptC3LabelCheckBox.Checked ? SecondaryLabelTypes.C3Label : SecondaryLabelTypes.None;
+                    acceptTypes |= form.AcceptSingleSymbolLabelCeckBox.Checked ? SecondaryLabelTypes.SingleSymbol : SecondaryLabelTypes.None;
+
+                    secondaryLabelCriteria.AcceptableTypes = acceptTypes;
+
+                    secondaryLabelCriteria.NoLabelBehavior = (SecondaryNoLabelBehavior)form.NoLabelBehaviorComboBox.SelectedValue;
                     secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior = (SecondaryLabelBehavior)form.EqualsToPrimaryComboBox.SelectedValue;
                     secondaryLabelCriteria.SpecifiedByConditionFileBehavior = (SecondaryLabelBehavior)form.SpecifiedByConditionComboBox.SelectedValue;
-                    secondaryLabelCriteria.OtherLabelsBehavior = (SecondaryLabelBehavior)form.OtherLabelsComboBox.SelectedValue;
+                    secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior = (SecondaryLabelBehavior)form.OtherNotSinglLabelComboBox.SelectedValue;
 
                     Mode.ExtendedProperties[FixedLengthSpec.PropertyKeyForPrimary] = primaryLabelSpec;
                     Mode.ExtendedProperties[SecondaryLabelCriteria.PropertyKey] = secondaryLabelCriteria;
