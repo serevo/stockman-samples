@@ -5,7 +5,7 @@
         Default = 0,
         Warnning,
         Deny,
-        TagRequest,
-        TagRequired
+        WarningWhenTagNotMatched,
+        DenyWhenTagNotMatched
     }
 }

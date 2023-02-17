@@ -11,7 +11,7 @@ namespace RepositoryModules
         static readonly IReadOnlyList<KeyValuePair<string, SecondaryLabelBehavior>> SecondaryLabelBehaviorViewModels = new[]
         {
             new KeyValuePair<string, SecondaryLabelBehavior>("許可", SecondaryLabelBehavior.Default),
-            new KeyValuePair<string, SecondaryLabelBehavior>("登録時に警告を表示", SecondaryLabelBehavior.Warnning),
+            new KeyValuePair<string, SecondaryLabelBehavior>("警告", SecondaryLabelBehavior.Warnning),
             new KeyValuePair<string, SecondaryLabelBehavior>("拒否", SecondaryLabelBehavior.Deny)
         };
 
@@ -62,10 +62,10 @@ namespace RepositoryModules
                 form.NoLabelBehaviorComboBox.DataSource = new[]
                 {
                     new KeyValuePair<string, SecondaryNoLabelBehavior>("許可", SecondaryNoLabelBehavior.Default),
-                    new KeyValuePair<string, SecondaryNoLabelBehavior>("登録時に警告を表示", SecondaryNoLabelBehavior.Warnning),
-                    new KeyValuePair<string, SecondaryNoLabelBehavior>("登録時にタグで品名確認(一致しないとき警告)", SecondaryNoLabelBehavior.TagRequest),
-                    new KeyValuePair<string, SecondaryNoLabelBehavior>("登録時にタグで品名確認(一致しないとき拒否)", SecondaryNoLabelBehavior.TagRequired),
-                    new KeyValuePair<string, SecondaryNoLabelBehavior>("拒否", SecondaryNoLabelBehavior.Deny)
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("警告", SecondaryNoLabelBehavior.Warnning),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("拒否", SecondaryNoLabelBehavior.Deny),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("タグで品番照合 (合致しない場合警告) ", SecondaryNoLabelBehavior.WarningWhenTagNotMatched),
+                    new KeyValuePair<string, SecondaryNoLabelBehavior>("タグで品番照合 (合致しない場合拒否)", SecondaryNoLabelBehavior.DenyWhenTagNotMatched),
                 };
 
                 form.NoLabelBehaviorComboBox.DisplayMember
@@ -95,10 +95,11 @@ namespace RepositoryModules
                     var acceptTypes = SecondaryLabelTypes.None;
                     acceptTypes |= form.AcceptC3LabelCheckBox.Checked ? SecondaryLabelTypes.C3Label : SecondaryLabelTypes.None;
                     acceptTypes |= form.AcceptSingleSymbolLabelCeckBox.Checked ? SecondaryLabelTypes.SingleSymbol : SecondaryLabelTypes.None;
-
+                   
                     secondaryLabelCriteria.AcceptableTypes = acceptTypes;
 
                     secondaryLabelCriteria.NoLabelBehavior = (SecondaryNoLabelBehavior)form.NoLabelBehaviorComboBox.SelectedValue;
+                   
                     secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior = (SecondaryLabelBehavior)form.EqualsToPrimaryComboBox.SelectedValue;
                     secondaryLabelCriteria.SpecifiedByConditionFileBehavior = (SecondaryLabelBehavior)form.SpecifiedByConditionComboBox.SelectedValue;
                     secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior = (SecondaryLabelBehavior)form.OtherNotSinglLabelComboBox.SelectedValue;

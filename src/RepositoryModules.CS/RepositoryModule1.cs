@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Storex;
 
 namespace RepositoryModules
@@ -89,64 +88,29 @@ namespace RepositoryModules
                 .Select(o => o.ValidValue)
                 .ToList();
 
-            if ((_secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.C3Label) == SecondaryLabelTypes.C3Label)
-            {
-                var c3Labels = sources.OfType<C3Label>().ToList();
+            var c3Labels = sources
+                .Where(_ => (_secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.C3Label) == SecondaryLabelTypes.C3Label)
+                .OfType<C3Label>()
+                .Where(o => 
+                    (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny && o.PartNumber == primary.ItemNumber)
+                    | (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny && validConditionValues.Contains(o.PartNumber))
+                    | (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior != SecondaryLabelBehavior.Deny && o.PartNumber != primary.ItemNumber & !validConditionValues.Contains(o.PartNumber))
+                    )
+                .ToList();
 
-                if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny)
-                {
-                    var matchedPartNumC3Labels = c3Labels
-                        .Where(x => x.PartNumber == primary.ItemNumber)
-                        .ToList();
+            labels.AddRange(c3Labels);
 
-                    labels.AddRange(matchedPartNumC3Labels);
-                }
+            var singleSymbolLabels = sources
+                .Where(_ => (_secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.SingleSymbol) == SecondaryLabelTypes.SingleSymbol)
+                .OfType<Symbol>()
+                .Select(o => new BasicLabel(o) { ItemNumber = o.Value })
+                .Where(o => 
+                    (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny & o.ItemNumber == primary.ItemNumber)
+                    | (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny & validConditionValues.Contains(o.ItemNumber))
+                    )
+                .ToList();
 
-                if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny)
-                {
-                    var matchedConditionC3Labels = c3Labels
-                        .Where(x => validConditionValues.Contains(x.PartNumber))
-                        .ToList();
-
-                    labels.AddRange(matchedConditionC3Labels);
-                }
-
-                if (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior != SecondaryLabelBehavior.Deny)
-                {
-                    var otherC3Labels = c3Labels
-                        .Where(x => x.PartNumber != primary.ItemNumber)
-                        .Where(x => !validConditionValues.Contains(x.PartNumber))
-                        .ToList();
-
-                    labels.AddRange(otherC3Labels);
-                }
-            }
-
-            if((_secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.SingleSymbol) == SecondaryLabelTypes.SingleSymbol)
-            {
-                var singleSymbolLabels = sources
-                    .OfType<Symbol>()
-                    .Select(o => new BasicLabel(o) { ItemNumber = o.Value})
-                    .ToList();
-
-                if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny)
-                {
-                    var matchedSymbols = singleSymbolLabels
-                        .Where(x => x.ItemNumber == primary.ItemNumber)
-                        .ToList();
-
-                    labels.AddRange(matchedSymbols);
-                }
-
-                if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny)
-                {
-                    var matchedConditionC3Labels = singleSymbolLabels
-                        .Where(x => validConditionValues.Contains(x.ItemNumber))
-                        .ToList();
-
-                    labels.AddRange(matchedConditionC3Labels);
-                }
-            }
+            labels.AddRange(singleSymbolLabels);
 
             return Task.FromResult(labels.Distinct().ToArray());
         }
@@ -163,51 +127,75 @@ namespace RepositoryModules
                 throw new RepositoryModuleException("詳細データ フォルダが存在しません。");
             }
 
-            if(secondary is null 
-                && _secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Warnning
-                && MessageBox.Show("セカンダリ ラベルが必要です。無視して登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+            if(secondary is null) 
             {
-                return false;
-            }
-            else if (secondary is null && _secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Deny)
-            {
-                MessageBox.Show("セカンダリ ラベルが必要です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }            
-            else if(secondary is null
-                && (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.TagRequest | _secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.TagRequired)
-                && !tags.Any(o => o == primary.ItemNumber | _conditions.Any(p => p.PrimaryLabelItemNumber == primary.ItemNumber & p.ValidValue == o)))
-            {
-                if(_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.TagRequest
-                    && MessageBox.Show("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes) 
+                if(_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Warnning
+                    && !MessageHelper.AlertShow("セカンダリ ラベルが必要です。無視して登録しますか。")) 
                 {
                     return false;
                 }
-                else if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.TagRequired)
+                else if(_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Deny)
                 {
-                    MessageBox.Show("セカンダリ ラベル、又は対応するタグが必要です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageHelper.ErrorShow("セカンダリ ラベルが必要です。");
                     return false;
+                }
+                else if (_secondaryLabelCriteria.NoLabelBehavior != SecondaryNoLabelBehavior.Default) 
+                {
+                    var hasItemNumberEqualsToPrimary = tags.Any(o => o == primary.ItemNumber);
+                    var hasSpecifiedByConditionFile = tags.Any(o => _conditions.Any(p => p.PrimaryLabelItemNumber == primary.ItemNumber & o == p.ValidValue));
+
+                    if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.WarningWhenTagNotMatched 
+                        && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile
+                        && !MessageHelper.AlertShow("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。"))
+                    {
+                        return false;
+                    }
+                    else if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.DenyWhenTagNotMatched
+                        && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile)
+                    {
+                        MessageHelper.ErrorShow("セカンダリ ラベル、又は対応するタグがが必要です。");
+                        return false;
+                    }
+                    else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
+                        && hasItemNumberEqualsToPrimary 
+                        && _secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
+                        && hasSpecifiedByConditionFile
+                        && !MessageHelper.AlertShow("プライマリラベルの品番、及び対応表で指定されている品番と一致する文字がタグに含まれています。登録しますか。"))
+                    {
+                        return false;
+                    }
+                    else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
+                        && hasItemNumberEqualsToPrimary
+                        && !MessageHelper.AlertShow("プライマリラベルの品番と一致する文字がタグに含まれています。登録しますか。"))
+                    {
+                        return false;
+                    }
+                    else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
+                        && hasSpecifiedByConditionFile
+                        && !MessageHelper.AlertShow("対応表で指定されている品番と一致する文字がタグに含まれています。登録しますか。"))
+                    {
+                        return false;
+                    }
                 }
             }
             else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
                 && primary.ItemNumber == secondary.ItemNumber
-                && MessageBox.Show("セカンダリ ラベルは、プライマリラベルの品番と一致するものが選択されています。登録を続行しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                && !MessageHelper.AlertShow("セカンダリ ラベルは、プライマリラベルの品番と一致するものが選択されています。登録を続行しますか。"))
             {
                 return false;
             }
             else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
-                && _conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.ValidValue== secondary?.ItemNumber)
-                && MessageBox.Show("指定された セカンダリ ラベルは、プライマリ ラベルの品番とは一致しませんが対応表で指定されている品番です。登録を続行しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                && _conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.ValidValue == secondary.ItemNumber)
+                && !MessageHelper.AlertShow("指定された セカンダリ ラベルは、プライマリ ラベルの品番とは一致しませんが対応表で指定されている品番です。登録を続行しますか。"))
             {
                 return false;
-            }            
+            }
             else if (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior == SecondaryLabelBehavior.Warnning
-                && secondary != null 
                 && primary.ItemNumber != secondary.ItemNumber
                 && !_conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.ValidValue == secondary.ItemNumber)
-                && MessageBox.Show("C-3 ラベルはプライマリラベルや対応表と一致しないものが選択されています。登録しますか。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
-            { 
-                return false;             
+                && !MessageHelper.AlertShow("C-3 ラベルはプライマリラベルや対応表と一致しない品番が選択されています。登録しますか。"))
+            {
+                return false;
             }
 
             var timestamp = DateTime.Now;

@@ -7,6 +7,6 @@ namespace RepositoryModules
     {
         None,
         SingleSymbol,
-        C3Label
+        C3Label,
     }
 }
