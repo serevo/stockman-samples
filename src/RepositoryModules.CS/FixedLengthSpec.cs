@@ -17,7 +17,7 @@ namespace RepositoryModules
 
         public int SerialNumberLength { get; set; } = 1;
 
-        public bool TryGeneraLabel(Symbol symbol, out ILabel label)
+        public bool TryGenerateLabel(Symbol symbol, out ILabel label)
         {
             int minLength;
             minLength = Math.Max(ItemNumberStartIndex + ItemNumberLength - 1, SerialNumberStartIndex + SerialNumberLength - 1);

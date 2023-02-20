@@ -5,8 +5,8 @@ namespace RepositoryModules
     public class SecondaryLabelCriteria
     {
         public static string PropertyKey { get; } = "15db8aaf-3d90-42e0-9d69-dffcf5a6adc0";
-        
-        public SecondaryLabelTypes AcceptableTypes { get; set; }
+
+        public SecondaryLabelTypes AcceptableTypes { get; set; } = SecondaryLabelTypes.C3Label;
         
         [Obsolete]
         public bool IsRequired { get; set; }

@@ -69,6 +69,7 @@
     <Compile Include="SecondaryLabelCriteria.cs" />
     <Compile Include="SecondaryLabelBehavior.cs" />
     <Compile Include="SecondaryNoLabelBehavior.cs" />
+    <Compile Include="StringCompareHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
