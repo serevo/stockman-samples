@@ -24,11 +24,13 @@ namespace RepositoryModules
         {
             get
             {
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
                 if (OtherLabelsBehavior != SecondaryLabelBehavior.Default) 
                 {
                     _otherNotSingleSymbolLabelsBehavior = OtherLabelsBehavior;
                     OtherLabelsBehavior = SecondaryLabelBehavior.Default;
                 }
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
 
                 return _otherNotSingleSymbolLabelsBehavior;
             }

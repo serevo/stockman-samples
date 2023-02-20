@@ -49,7 +49,7 @@
     </Compile>
     <Compile Include="MessageHelper.cs" />
     <Compile Include="RepositoryModuleHelper.cs" />
-    <Compile Include="Condition.cs" />
+    <Compile Include="SecondaryCondition.cs" />
     <Compile Include="FixedLengthSpec.cs" />
     <Compile Include="ModeConfigForm1.cs">
       <SubType>Form</SubType>

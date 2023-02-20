@@ -77,7 +77,7 @@ namespace RepositoryModules
         }
 
         SecondaryLabelCriteria _secondaryLabelCriteria;
-        IReadOnlyList<Condition> _conditions;
+        IReadOnlyList<SecondaryCondition> _conditions;
 
         public Task<ILabel[]> FindSecondaryLabelsAsync(ILabel primary, ILabelSource[] sources, CancellationToken cancellationToken)
         {
@@ -85,7 +85,7 @@ namespace RepositoryModules
 
             var validConditionValues = _conditions
                 .Where(o => o.PrimaryLabelItemNumber == primary.ItemNumber)
-                .Select(o => o.ValidValue)
+                .Select(o => o.SecondaryItemNumber)
                 .ToList();
 
             var c3Labels = sources
@@ -130,49 +130,41 @@ namespace RepositoryModules
             if(secondary is null) 
             {
                 if(_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Warnning
-                    && !MessageHelper.AlertShow("セカンダリ ラベルが必要です。無視して登録しますか。")) 
+                    && !MessageHelper.ShowAlert("セカンダリ ラベルが必要です。無視して登録しますか。")) 
                 {
                     return false;
                 }
                 else if(_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Deny)
                 {
-                    MessageHelper.ErrorShow("セカンダリ ラベルが必要です。");
+                    MessageHelper.ShowError("セカンダリ ラベルが必要です。");
                     return false;
                 }
                 else if (_secondaryLabelCriteria.NoLabelBehavior != SecondaryNoLabelBehavior.Default) 
                 {
                     var hasItemNumberEqualsToPrimary = tags.Any(o => o == primary.ItemNumber);
-                    var hasSpecifiedByConditionFile = tags.Any(o => _conditions.Any(p => p.PrimaryLabelItemNumber == primary.ItemNumber & o == p.ValidValue));
+                    var hasSpecifiedByConditionFile = tags.Any(o => _conditions.Any(p => p.PrimaryLabelItemNumber == primary.ItemNumber & o == p.SecondaryItemNumber));
 
                     if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.WarningWhenTagNotMatched 
                         && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile
-                        && !MessageHelper.AlertShow("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。"))
+                        && !MessageHelper.ShowAlert("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。"))
                     {
                         return false;
                     }
                     else if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.DenyWhenTagNotMatched
                         && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile)
                     {
-                        MessageHelper.ErrorShow("セカンダリ ラベル、又は対応するタグがが必要です。");
-                        return false;
-                    }
-                    else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
-                        && hasItemNumberEqualsToPrimary 
-                        && _secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
-                        && hasSpecifiedByConditionFile
-                        && !MessageHelper.AlertShow("プライマリラベルの品番、及び対応表で指定されている品番と一致する文字がタグに含まれています。登録しますか。"))
-                    {
+                        MessageHelper.ShowError("セカンダリ ラベル、又は対応するタグが必要です。");
                         return false;
                     }
                     else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
                         && hasItemNumberEqualsToPrimary
-                        && !MessageHelper.AlertShow("プライマリラベルの品番と一致する文字がタグに含まれています。登録しますか。"))
+                        && !MessageHelper.ShowAlert("プライマリラベルと同じ品番がタグに含まれています。登録しますか。"))
                     {
                         return false;
                     }
                     else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
                         && hasSpecifiedByConditionFile
-                        && !MessageHelper.AlertShow("対応表で指定されている品番と一致する文字がタグに含まれています。登録しますか。"))
+                        && !MessageHelper.ShowAlert("対応表で指定されている品番がタグに含まれています。登録しますか。"))
                     {
                         return false;
                     }
@@ -180,20 +172,20 @@ namespace RepositoryModules
             }
             else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
                 && primary.ItemNumber == secondary.ItemNumber
-                && !MessageHelper.AlertShow("セカンダリ ラベルは、プライマリラベルの品番と一致するものが選択されています。登録を続行しますか。"))
+                && !MessageHelper.ShowAlert("指定された セカンダリ ラベルは、プライマリラベルと同じ品番です。登録を続行しますか。"))
             {
                 return false;
             }
             else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
-                && _conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.ValidValue == secondary.ItemNumber)
-                && !MessageHelper.AlertShow("指定された セカンダリ ラベルは、プライマリ ラベルの品番とは一致しませんが対応表で指定されている品番です。登録を続行しますか。"))
+                && _conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.SecondaryItemNumber == secondary.ItemNumber)
+                && !MessageHelper.ShowAlert("指定された セカンダリ ラベルは、プライマリ ラベルとは異なり対応表と同じ品番です。登録を続行しますか。"))
             {
                 return false;
             }
             else if (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior == SecondaryLabelBehavior.Warnning
                 && primary.ItemNumber != secondary.ItemNumber
-                && !_conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.ValidValue == secondary.ItemNumber)
-                && !MessageHelper.AlertShow("C-3 ラベルはプライマリラベルや対応表と一致しない品番が選択されています。登録しますか。"))
+                && !_conditions.Any(o => o.PrimaryLabelItemNumber == primary.ItemNumber & o.SecondaryItemNumber == secondary.ItemNumber)
+                && !MessageHelper.ShowAlert("指定された セカンダリ ラベルは、プライマリラベルや対応表と異なる品番です。登録しますか。"))
             {
                 return false;
             }
