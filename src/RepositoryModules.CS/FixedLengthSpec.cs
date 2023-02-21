@@ -23,7 +23,7 @@ namespace RepositoryModules
             minLength = Math.Max(ItemNumberStartIndex + ItemNumberLength - 1, SerialNumberStartIndex + SerialNumberLength - 1);
             minLength = Math.Max(minLength, PrefixKey?.Length ?? 0);
 
-            if (symbol.Value.Length >= minLength & (string.IsNullOrEmpty(PrefixKey) || symbol.Value.StartsWith(PrefixKey)))
+            if (symbol.Value.Length >= minLength & (string.IsNullOrEmpty(PrefixKey) || symbol.Value.StartsWith(PrefixKey, StringComparison.CurrentCultureIgnoreCase)))
             {
                 label = new BasicLabel(symbol)
                 {
