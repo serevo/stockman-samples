@@ -214,11 +214,11 @@ namespace RepositoryModules
 
                 var captureDataFolder = mFolder.CreateSubdirectory($"catpure#{i}");
 
-                File.WriteAllBytes($@"{captureDataFolder.FullName}\original.jpg", (byte[])captureData.OriginalImage);
+                IOHelper.WriteImage($@"{captureDataFolder.FullName}\original.jpg", captureData.OriginalImage.ToArray());
 
                 if (captureData.AdornedImage != null)
                 {
-                    File.WriteAllBytes($@"{captureDataFolder.FullName}\adorned.jpeg", (byte[])captureData.AdornedImage);
+                    IOHelper.WriteImage($@"{captureDataFolder.FullName}\adorned.jpeg", captureData.AdornedImage.ToArray());
                 }
 
                 if (captureData.LabelSources.Count > 0)
@@ -237,8 +237,6 @@ namespace RepositoryModules
             return true;
         }
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
     }
 }

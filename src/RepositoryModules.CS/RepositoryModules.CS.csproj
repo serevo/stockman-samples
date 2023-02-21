@@ -47,6 +47,7 @@
     <Compile Include="ConfigForm1.Designer.cs">
       <DependentUpon>ConfigForm1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IOHelper.cs" />
     <Compile Include="RepositoryModuleHelper.cs" />
     <Compile Include="SecondaryCondition.cs" />
     <Compile Include="FixedLengthSpec.cs" />

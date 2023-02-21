@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports System.Threading
+Imports RepositoryModules.RepositoryModules
 Imports Storex
 
 <RepositoryModuleExport("E0B3F83A-B417-43DB-8CCF-9916A2EB63C6", "簡易ファイルシステム", Description:="モードでシンボル内容等を設定します")>
@@ -152,11 +153,11 @@ Public Class RepositoryModule1
 
             Dim CaptureDataFolder = MyFolder.CreateSubdirectory($"catpure#{i}")
 
-            File.WriteAllBytes($"{CaptureDataFolder.FullName}\original.jpg", CaptureData.OriginalImage)
+            IOHelper.WriteImage($"{CaptureDataFolder.FullName}\original.jpg", CaptureData.OriginalImage)
 
             If CaptureData.AdornedImage IsNot Nothing Then
 
-                File.WriteAllBytes($"{CaptureDataFolder.FullName}\adorned.jpeg", CaptureData.AdornedImage)
+                IOHelper.WriteImage($"{CaptureDataFolder.FullName}\adorned.jpeg", CaptureData.AdornedImage)
             End If
 
             If CaptureData.LabelSources.Count > 0 Then
