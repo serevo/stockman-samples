@@ -1,18 +1,20 @@
-﻿namespace RepositoryModules
+﻿using System;
+
+namespace RepositoryModules
 {
     sealed class SecondaryCondition
     {
         public string PrimaryLabelItemNumber { get; }
 
-        public string SecondaryLabelPartNumber { get; }
+        public string SecondaryItemNumber { get; }
 
-        public SecondaryCondition(string primaryLabelItemNumber, string secondaryLabelPartNumber)
+        public SecondaryCondition(string primaryLabelItemNumber, string secondaryItemNumber)
         {
-            if (string.IsNullOrEmpty(primaryLabelItemNumber)) throw new System.ArgumentException($"'{nameof(primaryLabelItemNumber)}' を NULL または空にすることはできません。", nameof(primaryLabelItemNumber));
-            if (string.IsNullOrEmpty(secondaryLabelPartNumber)) throw new System.ArgumentException($"'{nameof(secondaryLabelPartNumber)}' を NULL または空にすることはできません。", nameof(secondaryLabelPartNumber));
-
+            if (string.IsNullOrWhiteSpace(primaryLabelItemNumber)) throw new ArgumentException($"'{nameof(primaryLabelItemNumber)}' を null または空白にすることはできません。", nameof(primaryLabelItemNumber));
+            if (string.IsNullOrWhiteSpace(secondaryItemNumber)) throw new ArgumentException($"'{nameof(secondaryItemNumber)}' を null または空白にすることはできません。", nameof(secondaryItemNumber));
+            
             PrimaryLabelItemNumber = primaryLabelItemNumber;
-            SecondaryLabelPartNumber = secondaryLabelPartNumber;
+            SecondaryItemNumber = secondaryItemNumber;
         }
     }
 }
