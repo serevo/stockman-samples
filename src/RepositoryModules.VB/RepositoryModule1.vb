@@ -152,11 +152,11 @@ Public Class RepositoryModule1
 
             Dim CaptureDataFolder = MyFolder.CreateSubdirectory($"catpure#{i}")
 
-            File.WriteAllBytes($"{CaptureDataFolder.FullName}\original.jpg", CaptureData.OriginalImage)
+            WriteImage($"{CaptureDataFolder.FullName}\original.jpg", CaptureData.OriginalImage.ToArray())
 
             If CaptureData.AdornedImage IsNot Nothing Then
 
-                File.WriteAllBytes($"{CaptureDataFolder.FullName}\adorned.jpeg", CaptureData.AdornedImage)
+                WriteImage($"{CaptureDataFolder.FullName}\adorned.jpeg", CaptureData.AdornedImage.ToArray())
             End If
 
             If CaptureData.LabelSources.Count > 0 Then

@@ -132,5 +132,8 @@
     <Compile Include="ModeHelper.vb" />
     <Compile Include="SecondaryLabelCriteria.vb" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IOHelper.vb" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
