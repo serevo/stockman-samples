@@ -149,9 +149,9 @@ namespace RepositoryModules
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(25, 135);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(155, 12);
+            this.label3.Size = new System.Drawing.Size(131, 12);
             this.label3.TabIndex = 8;
-            this.label3.Text = "C-3 品名対応表データ ファイル";
+            this.label3.Text = "品名対応表データ ファイル";
             // 
             // SecondaryConditionFileDialog
             // 

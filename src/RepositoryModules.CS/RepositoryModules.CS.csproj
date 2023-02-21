@@ -48,6 +48,7 @@
       <DependentUpon>ConfigForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="IOHelper.cs" />
+    <Compile Include="MessageHelper.cs" />
     <Compile Include="RepositoryModuleHelper.cs" />
     <Compile Include="SecondaryCondition.cs" />
     <Compile Include="FixedLengthSpec.cs" />
@@ -65,8 +66,11 @@
       <DependentUpon>MySettings.settings</DependentUpon>
     </Compile>
     <Compile Include="RepositoryModule1.cs" />
+    <Compile Include="SecondaryLabelTypes.cs" />
     <Compile Include="SecondaryLabelCriteria.cs" />
     <Compile Include="SecondaryLabelBehavior.cs" />
+    <Compile Include="SecondaryNoLabelBehavior.cs" />
+    <Compile Include="StringCompareHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
