@@ -93,6 +93,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MySettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SecondaryLabelTypes.vb" />
+    <Compile Include="SecondaryNoLabelBehavior.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConfigForm1.resx">
@@ -129,11 +131,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FixedLengthSpec.vb" />
-    <Compile Include="ModeHelper.vb" />
+    <Compile Include="ModeExtensions.vb" />
+    <Compile Include="RepositoryModuleHelper.vb" />
+    <Compile Include="SecondaryCondition.vb" />
+    <Compile Include="SecondaryLabelBehavior.vb" />
     <Compile Include="SecondaryLabelCriteria.vb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="IOHelper.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

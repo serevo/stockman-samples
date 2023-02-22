@@ -13,40 +13,52 @@ Option Explicit On
 
 
 
-<Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
- Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")>  _
+<Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.4.0.0")>
 Partial Friend NotInheritable Class MySettings
     Inherits Global.System.Configuration.ApplicationSettingsBase
-    
-    Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()),MySettings)
-    
+
+    Private Shared defaultInstance As MySettings = CType(Global.System.Configuration.ApplicationSettingsBase.Synchronized(New MySettings()), MySettings)
+
     Public Shared ReadOnly Property [Default]() As MySettings
         Get
             Return defaultInstance
         End Get
     End Property
-    
-    <Global.System.Configuration.UserScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+
+    <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
     Public Property FolderPath() As String
         Get
-            Return CType(Me("FolderPath"),String)
+            Return CType(Me("FolderPath"), String)
         End Get
         Set
             Me("FolderPath") = value
         End Set
     End Property
-    
-    <Global.System.Configuration.UserScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+
+    <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
     Public Property FilePath() As String
         Get
-            Return CType(Me("FilePath"),String)
+            Return CType(Me("FilePath"), String)
         End Get
         Set
             Me("FilePath") = value
+        End Set
+    End Property
+
+    <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("")>
+    Public Property SecondaryConditionFilePath() As String
+        Get
+            Return CType(Me("SecondaryConditionFilePath"), String)
+        End Get
+        Set
+            Me("SecondaryConditionFilePath") = value
         End Set
     End Property
 End Class
