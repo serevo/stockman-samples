@@ -26,7 +26,11 @@ Friend Module RepositoryModuleHelper
 
         Dim Text = File.ReadAllText(FilePath, Encoding.GetEncoding("shift_jis"))
 
-        Return Text.Split({Environment.NewLine}, StringSplitOptions.None).[Select](Function(x) x.Split(","c)).Where(Function(x) x.Length = 2).[Select](Function(x) New SecondaryCondition(x(0), x(1))).ToArray()
+        Return Text.Split({Environment.NewLine}, StringSplitOptions.None) _
+            .Select(Function(x) x.Split(","c)) _
+            .Where(Function(x) x.Length = 2) _
+            .Select(Function(x) New SecondaryCondition(x(0), x(1))) _
+            .ToArray()
     End Function
 
     Public Function ShowAlert(Message As String) As Boolean
