@@ -14,6 +14,7 @@ namespace RepositoryModules
         public SecondaryNoLabelBehavior NoLabelBehavior { get; set; }
 
         public SecondaryLabelBehavior ItemNumberEqualsToPrimaryOneBehavior { get; set; }
+
         public SecondaryLabelBehavior SpecifiedByConditionFileBehavior { get; set; }
 
         [Obsolete]
