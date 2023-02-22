@@ -16,24 +16,31 @@ Friend Module RepositoryModuleHelper
     End Sub
 
     Public Function ReadSecondaryConditionsFile() As SecondaryCondition()
-        Dim filePath = MySettings.Default.SecondaryConditionFilePath
 
-        If Not File.Exists(filePath) Then Return Array.Empty(Of SecondaryCondition)()
+        Dim FilePath = MySettings.Default.SecondaryConditionFilePath
 
-        Dim text = File.ReadAllText(filePath, Encoding.GetEncoding("shift_jis"))
+        If Not File.Exists(FilePath) Then
 
-        Return text.Split({Environment.NewLine}, StringSplitOptions.None).[Select](Function(x) x.Split(","c)).Where(Function(x) x.Length = 2).[Select](Function(x) New SecondaryCondition(x(0), x(1))).ToArray()
+            Return Array.Empty(Of SecondaryCondition)()
+        End If
+
+        Dim Text = File.ReadAllText(FilePath, Encoding.GetEncoding("shift_jis"))
+
+        Return Text.Split({Environment.NewLine}, StringSplitOptions.None).[Select](Function(x) x.Split(","c)).Where(Function(x) x.Length = 2).[Select](Function(x) New SecondaryCondition(x(0), x(1))).ToArray()
     End Function
 
-    Public Function ShowAlert(message As String) As Boolean
-        Return MessageBox.Show(message, "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes
+    Public Function ShowAlert(Message As String) As Boolean
+
+        Return MessageBox.Show(Message, "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes
     End Function
 
-    Public Sub ShowError(message As String)
-        MessageBox.Show(message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    Public Sub ShowError(Message As String)
+
+        MessageBox.Show(Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
     End Sub
 
-    Public Function CompareIgnoreCase(a As String, b As String) As Boolean
-        Return String.Compare(a, b, True) = 0
+    Public Function CompareIgnoreCase(A As String, B As String) As Boolean
+
+        Return String.Compare(A, B, True) = 0
     End Function
 End Module

@@ -12,9 +12,12 @@ Friend Class ModeConfigForm1
     End Sub
 
     Private Sub OkButton_Click(sender As Object, e As EventArgs)
+
         If String.IsNullOrEmpty(PrimaryPrefixKeyTextBox.Text.TrimEnd()) Then
+
             ErrorProvider.SetError(PrimaryPrefixKeyTextBox, "入力してください")
         Else
+
             ErrorProvider.SetError(PrimaryPrefixKeyTextBox, Nothing)
         End If
 
@@ -22,6 +25,7 @@ Friend Class ModeConfigForm1
     End Sub
 
     Public Shared Sub Configure(Mode As IMode)
+
         Dim PrimaryLabelSpec As FixedLengthSpec = Nothing
         Dim SecondaryLabelCriteria As SecondaryLabelCriteria = Nothing
 
@@ -30,11 +34,12 @@ Friend Class ModeConfigForm1
         SecondaryLabelCriteria = If(Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, SecondaryLabelCriteria), SecondaryLabelCriteria, New SecondaryLabelCriteria())
 
         Using form = New ModeConfigForm1()
-            form.PrimaryPrefixKeyTextBox.Text = primaryLabelSpec.PrefixKey
-            form.PrimaryItemStartUpDown.Value = primaryLabelSpec.ItemNumberStartIndex
-            form.PrimaryItemLengthUpDown.Value = primaryLabelSpec.ItemNumberLength
-            form.PrimarySerialStartUpDown.Value = primaryLabelSpec.SerialNumberStartIndex
-            form.PrimarySerialLengthUpDown.Value = primaryLabelSpec.SerialNumberLength
+
+            form.PrimaryPrefixKeyTextBox.Text = PrimaryLabelSpec.PrefixKey
+            form.PrimaryItemStartUpDown.Value = PrimaryLabelSpec.ItemNumberStartIndex
+            form.PrimaryItemLengthUpDown.Value = PrimaryLabelSpec.ItemNumberLength
+            form.PrimarySerialStartUpDown.Value = PrimaryLabelSpec.SerialNumberStartIndex
+            form.PrimarySerialLengthUpDown.Value = PrimaryLabelSpec.SerialNumberLength
 
             form.AcceptC3LabelCheckBox.Checked = (SecondaryLabelCriteria.AcceptableTypes And SecondaryLabelTypes.C3Label) = SecondaryLabelTypes.C3Label
             form.AcceptSingleSymbolLabelCeckBox.Checked = (SecondaryLabelCriteria.AcceptableTypes And SecondaryLabelTypes.SingleSymbol) = SecondaryLabelTypes.SingleSymbol
@@ -56,30 +61,30 @@ Friend Class ModeConfigForm1
             form.SpecifiedByConditionComboBox.DisplayMember = NameOf(KeyValuePair(Of String, SecondaryLabelBehavior).Key)
             form.OtherNotSinglLabelComboBox.DisplayMember = NameOf(KeyValuePair(Of String, SecondaryLabelBehavior).Key)
 
-
             form.NoLabelBehaviorComboBox.ValueMember = NameOf(KeyValuePair(Of String, SecondaryNoLabelBehavior).Value)
             form.EqualsToPrimaryComboBox.ValueMember = NameOf(KeyValuePair(Of String, SecondaryLabelBehavior).Value)
             form.SpecifiedByConditionComboBox.ValueMember = NameOf(KeyValuePair(Of String, SecondaryLabelBehavior).Value)
             form.OtherNotSinglLabelComboBox.ValueMember = NameOf(KeyValuePair(Of String, SecondaryLabelBehavior).Value)
 
-            form.NoLabelBehaviorComboBox.SelectedValue = secondaryLabelCriteria.NoLabelBehavior
+            form.NoLabelBehaviorComboBox.SelectedValue = SecondaryLabelCriteria.NoLabelBehavior
 
-            form.EqualsToPrimaryComboBox.SelectedValue = secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior
-            form.SpecifiedByConditionComboBox.SelectedValue = secondaryLabelCriteria.SpecifiedByConditionFileBehavior
-            form.OtherNotSinglLabelComboBox.SelectedValue = secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior
+            form.EqualsToPrimaryComboBox.SelectedValue = SecondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior
+            form.SpecifiedByConditionComboBox.SelectedValue = SecondaryLabelCriteria.SpecifiedByConditionFileBehavior
+            form.OtherNotSinglLabelComboBox.SelectedValue = SecondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior
 
             If form.ShowDialog() = DialogResult.OK Then
-                primaryLabelSpec.PrefixKey = form.PrimaryPrefixKeyTextBox.Text
-                primaryLabelSpec.ItemNumberStartIndex = Math.Round(form.PrimaryItemStartUpDown.Value)
-                primaryLabelSpec.ItemNumberLength = Math.Round(form.PrimaryItemLengthUpDown.Value)
-                primaryLabelSpec.SerialNumberStartIndex = Math.Round(form.PrimarySerialStartUpDown.Value)
-                primaryLabelSpec.SerialNumberLength = Math.Round(form.PrimarySerialLengthUpDown.Value)
 
-                Dim acceptTypes = SecondaryLabelTypes.None
-                acceptTypes = acceptTypes Or If(form.AcceptC3LabelCheckBox.Checked, SecondaryLabelTypes.C3Label, SecondaryLabelTypes.None)
-                acceptTypes = acceptTypes Or If(form.AcceptSingleSymbolLabelCeckBox.Checked, SecondaryLabelTypes.SingleSymbol, SecondaryLabelTypes.None)
+                PrimaryLabelSpec.PrefixKey = form.PrimaryPrefixKeyTextBox.Text
+                PrimaryLabelSpec.ItemNumberStartIndex = Math.Round(form.PrimaryItemStartUpDown.Value)
+                PrimaryLabelSpec.ItemNumberLength = Math.Round(form.PrimaryItemLengthUpDown.Value)
+                PrimaryLabelSpec.SerialNumberStartIndex = Math.Round(form.PrimarySerialStartUpDown.Value)
+                PrimaryLabelSpec.SerialNumberLength = Math.Round(form.PrimarySerialLengthUpDown.Value)
 
-                SecondaryLabelCriteria.AcceptableTypes = acceptTypes
+                Dim AcceptTypes = SecondaryLabelTypes.None
+                AcceptTypes = AcceptTypes Or If(form.AcceptC3LabelCheckBox.Checked, SecondaryLabelTypes.C3Label, SecondaryLabelTypes.None)
+                AcceptTypes = AcceptTypes Or If(form.AcceptSingleSymbolLabelCeckBox.Checked, SecondaryLabelTypes.SingleSymbol, SecondaryLabelTypes.None)
+
+                SecondaryLabelCriteria.AcceptableTypes = AcceptTypes
 
                 SecondaryLabelCriteria.NoLabelBehavior = CType(form.NoLabelBehaviorComboBox.SelectedValue, SecondaryNoLabelBehavior)
 

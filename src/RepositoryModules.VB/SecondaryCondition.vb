@@ -3,11 +3,19 @@
 
     Public ReadOnly Property SecondaryItemNumber As String
 
-    Public Sub New(primaryLabelItemNumber As String, secondaryItemNumber As String)
-        If String.IsNullOrWhiteSpace(primaryLabelItemNumber) Then Throw New ArgumentException($"'{NameOf(primaryLabelItemNumber)}' を null または空白にすることはできません。", NameOf(primaryLabelItemNumber))
-        If String.IsNullOrWhiteSpace(secondaryItemNumber) Then Throw New ArgumentException($"'{NameOf(secondaryItemNumber)}' を null または空白にすることはできません。", NameOf(secondaryItemNumber))
+    Public Sub New(PrimaryLabelItemNumber As String, SecondaryItemNumber As String)
 
-        Me.PrimaryLabelItemNumber = primaryLabelItemNumber
-        Me.SecondaryItemNumber = secondaryItemNumber
+        If String.IsNullOrWhiteSpace(PrimaryLabelItemNumber) Then
+
+            Throw New ArgumentException($"'{NameOf(PrimaryLabelItemNumber)}' を null または空白にすることはできません。", NameOf(PrimaryLabelItemNumber))
+        End If
+
+        If String.IsNullOrWhiteSpace(SecondaryItemNumber) Then
+
+            Throw New ArgumentException($"'{NameOf(SecondaryItemNumber)}' を null または空白にすることはできません。", NameOf(SecondaryItemNumber))
+        End If
+
+        Me.PrimaryLabelItemNumber = PrimaryLabelItemNumber
+        Me.SecondaryItemNumber = SecondaryItemNumber
     End Sub
 End Class

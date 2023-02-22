@@ -9,6 +9,7 @@
     Public Property NoLabelBehavior As SecondaryNoLabelBehavior
 
     Public Property ItemNumberEqualsToPrimaryOneBehavior As SecondaryLabelBehavior
+
     Public Property SpecifiedByConditionFileBehavior As SecondaryLabelBehavior
 
     <Obsolete>
@@ -17,10 +18,12 @@
     Private _otherNotSingleSymbolLabelsBehavior As SecondaryLabelBehavior
     Public Property OtherNotSingleSymbolLabelsBehavior As SecondaryLabelBehavior
         Get
+#Disable Warning BC40008 ' 型またはメンバーが旧型式です
             If OtherLabelsBehavior <> SecondaryLabelBehavior.Default Then
                 _otherNotSingleSymbolLabelsBehavior = OtherLabelsBehavior
                 OtherLabelsBehavior = SecondaryLabelBehavior.Default
             End If
+#Enable Warning BC40008 ' 型またはメンバーが旧型式です
 
             Return _otherNotSingleSymbolLabelsBehavior
         End Get

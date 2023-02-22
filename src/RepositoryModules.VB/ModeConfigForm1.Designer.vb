@@ -381,32 +381,32 @@ Partial Class ModeConfigForm1
 
         End Sub
 
-        Friend OkButton As Button
-        Friend PrimaryPrefixKeyTextBox As TextBox
-        Friend ErrorProvider As ErrorProvider
-        Friend Label2 As Label
-        Friend PrimaryItemStartUpDown As NumericUpDown
-        Friend Label3 As Label
-        Friend PrimaryItemLengthUpDown As NumericUpDown
-        Friend Label4 As Label
-        Friend Label6 As Label
-        Friend PrimarySerialLengthUpDown As NumericUpDown
-        Friend Label7 As Label
-        Friend PrimarySerialStartUpDown As NumericUpDown
-        Friend InputCancelButton As Button
-        Friend label8 As Label
-        Private OtherNotSinglLabelComboBox As ComboBox
-        Friend label5 As Label
-        Private SpecifiedByConditionComboBox As ComboBox
-        Friend label1 As Label
-        Private EqualsToPrimaryComboBox As ComboBox
-        Friend label9 As Label
-        Private NoLabelBehaviorComboBox As ComboBox
-        Private tabControl1 As TabControl
-        Private tabPage1 As TabPage
-        Private tabPage2 As TabPage
-        Private AcceptSingleSymbolLabelCeckBox As CheckBox
-        Private AcceptC3LabelCheckBox As CheckBox
-        Private label10 As Label
-        Private groupBox1 As GroupBox
+    Friend WithEvents OkButton As Button
+    Friend WithEvents PrimaryPrefixKeyTextBox As TextBox
+    Friend WithEvents ErrorProvider As ErrorProvider
+    Friend WithEvents Label2 As Label
+    Friend WithEvents PrimaryItemStartUpDown As NumericUpDown
+    Friend WithEvents Label3 As Label
+    Friend WithEvents PrimaryItemLengthUpDown As NumericUpDown
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents PrimarySerialLengthUpDown As NumericUpDown
+    Friend WithEvents Label7 As Label
+    Friend WithEvents PrimarySerialStartUpDown As NumericUpDown
+    Friend WithEvents InputCancelButton As Button
+    Friend WithEvents label8 As Label
+    Private WithEvents OtherNotSinglLabelComboBox As ComboBox
+    Friend WithEvents label5 As Label
+    Private WithEvents SpecifiedByConditionComboBox As ComboBox
+    Friend WithEvents label1 As Label
+    Private WithEvents EqualsToPrimaryComboBox As ComboBox
+    Friend WithEvents label9 As Label
+    Private WithEvents NoLabelBehaviorComboBox As ComboBox
+    Private WithEvents tabControl1 As TabControl
+    Private WithEvents tabPage1 As TabPage
+    Private WithEvents tabPage2 As TabPage
+    Private WithEvents AcceptSingleSymbolLabelCeckBox As CheckBox
+    Private WithEvents AcceptC3LabelCheckBox As CheckBox
+    Private WithEvents label10 As Label
+    Private WithEvents groupBox1 As GroupBox
 End Class

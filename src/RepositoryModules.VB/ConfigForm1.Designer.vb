@@ -61,7 +61,6 @@ Partial Class ConfigForm1
         Me.OkButton.TabIndex = 6
         Me.OkButton.Text = "OK"
         Me.OkButton.UseVisualStyleBackColor = True
-        AddHandler Me.OkButton.Click, New EventHandler(AddressOf OkButton_Click)
         ' 
         ' ErrorProvider
         ' 
@@ -93,7 +92,6 @@ Partial Class ConfigForm1
         Me.FileButton.TabIndex = 2
         Me.FileButton.Text = "..."
         Me.FileButton.UseVisualStyleBackColor = True
-        AddHandler FileButton.Click, New EventHandler(AddressOf FileButton_Click)
         ' 
         ' FolderButton
         ' 
@@ -105,7 +103,6 @@ Partial Class ConfigForm1
         Me.FolderButton.TabIndex = 5
         Me.FolderButton.Text = "..."
         Me.FolderButton.UseVisualStyleBackColor = True
-        AddHandler FolderButton.Click, New EventHandler(AddressOf FolderButton_Click)
         ' 
         ' FolderTextBox
         ' 
@@ -138,7 +135,6 @@ Partial Class ConfigForm1
         Me.SecondaryConditionFileButton.TabIndex = 10
         Me.SecondaryConditionFileButton.Text = "..."
         Me.SecondaryConditionFileButton.UseVisualStyleBackColor = True
-        AddHandler Me.SecondaryConditionFileButton.Click, New EventHandler(AddressOf SecondaryConditionFileButton_Click)
         ' 
         ' SecondaryConditionFileTextBox
         ' 
