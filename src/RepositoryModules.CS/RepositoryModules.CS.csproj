@@ -47,8 +47,6 @@
     <Compile Include="ConfigForm1.Designer.cs">
       <DependentUpon>ConfigForm1.cs</DependentUpon>
     </Compile>
-    <Compile Include="IOHelper.cs" />
-    <Compile Include="MessageHelper.cs" />
     <Compile Include="RepositoryModuleHelper.cs" />
     <Compile Include="SecondaryCondition.cs" />
     <Compile Include="FixedLengthSpec.cs" />
@@ -58,7 +56,7 @@
     <Compile Include="ModeConfigForm1.Designer.cs">
       <DependentUpon>ModeConfigForm1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModeHelper.cs" />
+    <Compile Include="ModeExtensions.cs" />
     <Compile Include="MySettings.cs" />
     <Compile Include="MySettings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -70,7 +68,6 @@
     <Compile Include="SecondaryLabelCriteria.cs" />
     <Compile Include="SecondaryLabelBehavior.cs" />
     <Compile Include="SecondaryNoLabelBehavior.cs" />
-    <Compile Include="StringCompareHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

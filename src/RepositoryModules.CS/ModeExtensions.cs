@@ -3,7 +3,7 @@ using Storex;
 
 namespace RepositoryModules
 {
-    public static class ModeHelper
+    public static class ModeExtensions
     {
         public static bool TryExtractProperty<T>(this IMode mode, string key, out T value) where T : class
         {

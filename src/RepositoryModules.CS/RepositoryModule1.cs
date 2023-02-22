@@ -9,6 +9,8 @@ using Storex;
 
 namespace RepositoryModules
 {
+    using static RepositoryModuleHelper;
+
     [RepositoryModuleExport("E0B3F83A-B417-43DB-8CCF-9916A2EB63C6", "簡易ファイルシステム", Description = "モードでシンボル内容等を設定します")]
     public class RepositoryModule1 : IRepositoryModule
     {
@@ -49,13 +51,13 @@ namespace RepositoryModules
                 throw new RepositoryModuleException("詳細データ フォルダが正しく設定されていません。");
             }
 
-            if (!Mode.TryExtractProperty<FixedLengthSpec>(FixedLengthSpec.PropertyKeyForPrimary, out _priaryLabelFixedLengthSpec) |
-                !Mode.TryExtractProperty<SecondaryLabelCriteria>(SecondaryLabelCriteria.PropertyKey, out _secondaryLabelCriteria))
+            if (!Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, out _priaryLabelFixedLengthSpec) |
+                !Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, out _secondaryLabelCriteria))
             {
                 throw new RepositoryModuleException("モードが構成されていません。");
             }
 
-            _conditions = RepositoryModuleHelper.ReadSecondaryConditionsFile();
+            _conditions = ReadSecondaryConditionsFile();
 
             _currentMode = Mode;
             _currentUser = UserInfo;
@@ -85,7 +87,7 @@ namespace RepositoryModules
 
             var validConditionValues = _secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny ?
                 _conditions
-                    .Where(o => StringCompareHelper.CompareIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber))
+                    .Where(o => EqualsIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber))
                     .Select(o => o.SecondaryItemNumber)
                     .ToArray() :
                 Array.Empty<string>();
@@ -94,9 +96,9 @@ namespace RepositoryModules
                 .Where(_ => (_secondaryLabelCriteria.AcceptableTypes & SecondaryLabelTypes.C3Label) == SecondaryLabelTypes.C3Label)
                 .OfType<C3Label>()
                 .Where(o =>
-                    (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny && StringCompareHelper.CompareIgnoreCase(o.PartNumber, primary.ItemNumber))
-                    | (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny && validConditionValues.Any(p => StringCompareHelper.CompareIgnoreCase(o.PartNumber, p)))
-                    | (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior != SecondaryLabelBehavior.Deny && !StringCompareHelper.CompareIgnoreCase(o.PartNumber, primary.ItemNumber) & !validConditionValues.Any(p => StringCompareHelper.CompareIgnoreCase(o.PartNumber, p)))
+                    (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny && EqualsIgnoreCase(o.PartNumber, primary.ItemNumber))
+                    | (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny && validConditionValues.Any(p => EqualsIgnoreCase(o.PartNumber, p)))
+                    | (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior != SecondaryLabelBehavior.Deny && !EqualsIgnoreCase(o.PartNumber, primary.ItemNumber) & !validConditionValues.Any(p => EqualsIgnoreCase(o.PartNumber, p)))
                     )
                 .ToList();
 
@@ -108,8 +110,8 @@ namespace RepositoryModules
                 .Where(x => !_priaryLabelFixedLengthSpec.TryGenerateLabel(x, out _))
                 .Select(o => new BasicLabel(o) { ItemNumber = o.Value })
                 .Where(o =>
-                    (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny & StringCompareHelper.CompareIgnoreCase(o.ItemNumber, primary.ItemNumber))
-                    | (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny & validConditionValues.Any(p => StringCompareHelper.CompareIgnoreCase(o.ItemNumber, p)))
+                    (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior != SecondaryLabelBehavior.Deny & EqualsIgnoreCase(o.ItemNumber, primary.ItemNumber))
+                    | (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny & validConditionValues.Any(p => EqualsIgnoreCase(o.ItemNumber, p)))
                     )
                 .ToList();
 
@@ -133,67 +135,67 @@ namespace RepositoryModules
             if (secondary is null)
             {
                 if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Warnning
-                    && !MessageHelper.ShowAlert("セカンダリ ラベルが必要です。無視して登録しますか。"))
+                    && !ShowAlert("セカンダリ ラベルが必要です。無視して登録しますか。"))
                 {
                     return false;
                 }
                 else if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.Deny)
                 {
-                    MessageHelper.ShowError("セカンダリ ラベルが必要です。");
+                    ShowError("セカンダリ ラベルが必要です。");
                     return false;
                 }
                 else if (_secondaryLabelCriteria.NoLabelBehavior != SecondaryNoLabelBehavior.Default)
                 {
-                    var hasItemNumberEqualsToPrimary = tags.Any(o => StringCompareHelper.CompareIgnoreCase(o, primary.ItemNumber));
+                    var hasItemNumberEqualsToPrimary = tags.Any(o => EqualsIgnoreCase(o, primary.ItemNumber));
                     var hasSpecifiedByConditionFile = tags
                         .Any(o => _conditions
-                            .Any(p => StringCompareHelper.CompareIgnoreCase(p.PrimaryLabelItemNumber, primary.ItemNumber)
-                                & StringCompareHelper.CompareIgnoreCase(o, p.SecondaryItemNumber)
+                            .Any(p => EqualsIgnoreCase(p.PrimaryLabelItemNumber, primary.ItemNumber)
+                                & EqualsIgnoreCase(o, p.SecondaryItemNumber)
                                 )
                             );
 
                     if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.WarningWhenTagNotMatched
                         && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile
-                        && !MessageHelper.ShowAlert("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。"))
+                        && !ShowAlert("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。"))
                     {
                         return false;
                     }
                     else if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.DenyWhenTagNotMatched
                         && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile)
                     {
-                        MessageHelper.ShowError("セカンダリ ラベル、又は対応するタグが必要です。");
+                        ShowError("セカンダリ ラベル、又は対応するタグが必要です。");
                         return false;
                     }
                     else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
                         && hasItemNumberEqualsToPrimary
-                        && !MessageHelper.ShowAlert("プライマリラベルと同じ品番がタグに含まれています。登録しますか。"))
+                        && !ShowAlert("プライマリラベルと同じ品番がタグに含まれています。登録しますか。"))
                     {
                         return false;
                     }
                     else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
                         && hasSpecifiedByConditionFile
-                        && !MessageHelper.ShowAlert("対応表で指定されている品番がタグに含まれています。登録しますか。"))
+                        && !ShowAlert("対応表で指定されている品番がタグに含まれています。登録しますか。"))
                     {
                         return false;
                     }
                 }
             }
             else if (_secondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior == SecondaryLabelBehavior.Warnning
-                && StringCompareHelper.CompareIgnoreCase(primary.ItemNumber, secondary.ItemNumber)
-                && !MessageHelper.ShowAlert("指定された セカンダリ ラベルは、プライマリラベルと同じ品番です。登録を続行しますか。"))
+                && EqualsIgnoreCase(primary.ItemNumber, secondary.ItemNumber)
+                && !ShowAlert("指定された セカンダリ ラベルは、プライマリラベルと同じ品番です。登録を続行しますか。"))
             {
                 return false;
             }
             else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
-                && _conditions.Any(o => StringCompareHelper.CompareIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber) & StringCompareHelper.CompareIgnoreCase(o.SecondaryItemNumber, secondary.ItemNumber))
-                && !MessageHelper.ShowAlert("指定された セカンダリ ラベルは、プライマリ ラベルとは異なり対応表と同じ品番です。登録を続行しますか。"))
+                && _conditions.Any(o => EqualsIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber) & EqualsIgnoreCase(o.SecondaryItemNumber, secondary.ItemNumber))
+                && !ShowAlert("指定された セカンダリ ラベルは、プライマリ ラベルとは異なり対応表と同じ品番です。登録を続行しますか。"))
             {
                 return false;
             }
             else if (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior == SecondaryLabelBehavior.Warnning
-                && !StringCompareHelper.CompareIgnoreCase(primary.ItemNumber, secondary.ItemNumber)
-                && !_conditions.Any(o => StringCompareHelper.CompareIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber) & StringCompareHelper.CompareIgnoreCase(o.SecondaryItemNumber, secondary.ItemNumber))
-                && !MessageHelper.ShowAlert("指定された セカンダリ ラベルは、プライマリラベルや対応表と異なる品番です。登録しますか。"))
+                && !EqualsIgnoreCase(primary.ItemNumber, secondary.ItemNumber)
+                && !_conditions.Any(o => EqualsIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber) & EqualsIgnoreCase(o.SecondaryItemNumber, secondary.ItemNumber))
+                && !ShowAlert("指定された セカンダリ ラベルは、プライマリラベルや対応表と異なる品番です。登録しますか。"))
             {
                 return false;
             }
@@ -240,11 +242,11 @@ namespace RepositoryModules
 
                 var captureDataFolder = mFolder.CreateSubdirectory($"catpure#{i}");
 
-                IOHelper.WriteImage($@"{captureDataFolder.FullName}\original.jpg", captureData.OriginalImage.ToArray());
+                WriteImage($@"{captureDataFolder.FullName}\original.jpg", captureData.OriginalImage.ToArray());
 
                 if (captureData.AdornedImage != null)
                 {
-                    IOHelper.WriteImage($@"{captureDataFolder.FullName}\adorned.jpeg", captureData.AdornedImage.ToArray());
+                    WriteImage($@"{captureDataFolder.FullName}\adorned.jpeg", captureData.AdornedImage.ToArray());
                 }
 
                 if (captureData.LabelSources.Count > 0)

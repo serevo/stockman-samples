@@ -1,12 +1,24 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace RepositoryModules
 {
     static class RepositoryModuleHelper
     {
+        public static void WriteImage(string path, byte[] image)
+        {
+            using (var ms = new MemoryStream(image))
+            using (var bitmap = new Bitmap(ms))
+            {
+                bitmap.Save(path, ImageFormat.Jpeg);
+            }
+        }
+
         public static SecondaryCondition[] ReadSecondaryConditionsFile()
         {
             var filePath = MySettings.Default.SecondaryConditionFilePath;
@@ -22,5 +34,18 @@ namespace RepositoryModules
                 .Select(x => new SecondaryCondition(x[0], x[1]))
                 .ToArray();
         }
+
+        public static bool ShowAlert(string message) => MessageBox.Show(message, "警告"
+            , MessageBoxButtons.YesNo
+            , MessageBoxIcon.Exclamation
+            , MessageBoxDefaultButton.Button2
+            ) == DialogResult.Yes;
+
+        public static void ShowError(string message) => MessageBox.Show(message, "エラー"
+            , MessageBoxButtons.OK
+            , MessageBoxIcon.Error
+            );
+
+        public static bool EqualsIgnoreCase(string a, string b) => string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase);
     }
 }
