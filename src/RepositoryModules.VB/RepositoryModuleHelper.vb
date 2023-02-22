@@ -39,8 +39,8 @@ Friend Module RepositoryModuleHelper
         MessageBox.Show(Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error)
     End Sub
 
-    Public Function CompareIgnoreCase(A As String, B As String) As Boolean
+    Public Function EqualsIgnoreCase(A As String, B As String) As Boolean
 
-        Return String.Compare(A, B, True) = 0
+        Return String.Equals(A, B, StringComparison.CurrentCultureIgnoreCase)
     End Function
 End Module
