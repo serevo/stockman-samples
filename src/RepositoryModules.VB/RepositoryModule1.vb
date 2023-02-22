@@ -35,6 +35,7 @@ Public Class RepositoryModule1
     End Function
 
     Public Function PrepareAsync(Mode As IMode, UserInfo As IUser, cancellationToken As CancellationToken) As Task(Of Boolean) Implements IRepositoryModule.PrepareAsync
+
         If Not File.Exists(MySettings.Default.FilePath) Then
 
             Throw New RepositoryModuleException("概要データ ファイルが正しく設定されていません。")
@@ -48,6 +49,7 @@ Public Class RepositoryModule1
 
         If Not Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, PrimaryLabelSpec) _
             Or Not Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, SecondaryLabelCriteria) Then
+
             Throw New RepositoryModuleException("モードが構成されていません。")
         End If
 
@@ -167,52 +169,64 @@ Public Class RepositoryModule1
             Return False
         End If
 
-        Dim Timestamp = Date.Now
+        Dim Timestamp As Date = Date.Now
 
         Dim MyFile = New FileInfo(MySettings.Default.FilePath)
 
         Using SW = New StreamWriter(MyFile.FullName, True, TextEncoding)
 
-            If MyFile.Length = 0L Then
+            If MyFile.Length = 0 Then
 
-                Await SW.WriteLineAsync(String.Join(vbTab, New String() {"PrimaryPartNumber", "PrimarySerialNumber", "SecondaryPartNumber", "SecondarySerialNumber", "ModeId", "UserName", "Timestamp"}))
+                Await SW.WriteLineAsync(String.Join(vbTab, New String() {
+                    "PrimaryPartNumber",
+                    "PrimarySerialNumber",
+                    "SecondaryPartNumber",
+                    "SecondarySerialNumber",
+                    "ModeId",
+                    "UserName",
+                    "Timestamp"
+                    }))
             End If
 
-            Await SW.WriteLineAsync(String.Join(vbTab, New String() {Primary.ItemNumber, Primary.SerialNumber, Secondary?.ItemNumber, Secondary?.SerialNumber, CurrentMode.Id.ToString(), CurrentUser?.DisplayName, $"{Timestamp:yyyy/MM/dd HH:mm:ss.fff}"}))
+            Await SW.WriteLineAsync(String.Join(vbTab, New String() {
+                Primary.ItemNumber,
+                Primary.SerialNumber,
+                Secondary?.ItemNumber,
+                Secondary?.SerialNumber,
+                CurrentMode.Id.ToString(),
+                CurrentUser?.DisplayName,
+                $"{Timestamp:yyyy/MM/dd HH:mm:ss.fff}"
+                }))
         End Using
 
-        Dim MFolder = New DirectoryInfo(MySettings.Default.FolderPath)
+        Dim MyFolder = New DirectoryInfo(MySettings.Default.FolderPath)
 
-        MFolder = MFolder.CreateSubdirectory($"{Timestamp:yyyy-MM-dd HH-mm-ss.fff}")
+        MyFolder = MyFolder.CreateSubdirectory($"{Timestamp:yyyy-MM-dd HH-mm-ss.fff}")
 
-        Dim i = 1, loopTo As Integer = CaptureDatas.Count()
+        For i = 1 To CaptureDatas.Count
 
-        While i <= loopTo
+            Dim CaptureData As CaptureData = CaptureDatas(i - 1)
 
-            Dim CaptureData = CaptureDatas(i - 1)
-
-            Dim CaptureDataFolder = MFolder.CreateSubdirectory($"catpure#{i}")
+            Dim CaptureDataFolder = MyFolder.CreateSubdirectory($"catpure#{i}")
 
             WriteImage($"{CaptureDataFolder.FullName}\original.jpg", CaptureData.OriginalImage.ToArray())
 
             If CaptureData.AdornedImage IsNot Nothing Then
 
                 WriteImage($"{CaptureDataFolder.FullName}\adorned.jpeg", CaptureData.AdornedImage.ToArray())
-
             End If
 
             If CaptureData.LabelSources.Count > 0 Then
 
-                Dim SymbolValues = CaptureData.LabelSources.SelectMany(Function(x) x.Symbols.[Select](Function(xx) xx.Value)).ToArray()
+                Dim SymbolValues() As String = CaptureData.LabelSources.SelectMany(Function(x) x.Symbols.Select(Function(xx) xx.Value)).ToArray()
 
                 File.WriteAllLines($"{CaptureDataFolder.FullName}\symbols.txt", SymbolValues)
             End If
-
-            i += 1
-        End While
+        Next
 
         If Tags.Length > 0 Then
-            File.WriteAllLines($"{MFolder.FullName}\tags.txt", Tags)
+
+            File.WriteAllLines($"{MyFolder.FullName}\tags.txt", Tags)
         End If
 
         Return True
