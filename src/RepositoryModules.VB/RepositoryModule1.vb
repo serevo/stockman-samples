@@ -14,6 +14,8 @@ Public Class RepositoryModule1
     Private PrimaryLabelSpec As FixedLengthSpec
     Private SecondaryLabelCriteria As SecondaryLabelCriteria
 
+    Private Conditions As IReadOnlyList(Of SecondaryCondition)
+
     Public ReadOnly Property IsConfiguable As Boolean = True Implements IModule.IsConfiguable
 
     Public ReadOnly Property IsModeConfiguable As Boolean = True Implements IRepositoryModule.CanConfigureMode
@@ -32,7 +34,8 @@ Public Class RepositoryModule1
         Return Task.CompletedTask
     End Function
 
-    Public Function PrepareAsync(Mode As IMode, UserInfo As IUser, cancellationToken As CancellationToken) As Task(Of Boolean) Implements IRepositoryModule.PrepareAsync
+    Public Function PrepareAsync(Mode As IMode, UserInfo As IUser, cancellationToken As CancellationToken) As Task(Of Boolean) _
+        Implements IRepositoryModule.PrepareAsync
 
         If Not File.Exists(MySettings.Default.FilePath) Then
 
@@ -47,8 +50,11 @@ Public Class RepositoryModule1
 
         If Not Mode.TryExtractProperty(FixedLengthSpec.PropertyKeyForPrimary, PrimaryLabelSpec) _
             Or Not Mode.TryExtractProperty(SecondaryLabelCriteria.PropertyKey, SecondaryLabelCriteria) Then
+
             Throw New RepositoryModuleException("モードが構成されていません。")
         End If
+
+        Conditions = ReadSecondaryConditionsFile()
 
         CurrentMode = Mode
         CurrentUser = UserInfo
@@ -56,7 +62,8 @@ Public Class RepositoryModule1
         Return Task.FromResult(True)
     End Function
 
-    Public Async Function FindPrimaryLabelAsync(Sources() As ILabelSource, cancellationToken As CancellationToken) As Task(Of ILabel) Implements IRepositoryModule.FindPrimaryLabelAsync
+    Public Async Function FindPrimaryLabelAsync(Sources() As ILabelSource, cancellationToken As CancellationToken) As Task(Of ILabel) _
+        Implements IRepositoryModule.FindPrimaryLabelAsync
 
         Await Task.CompletedTask
 
@@ -67,7 +74,7 @@ Public Class RepositoryModule1
 
                     Dim LabelDefinition As FixedLengthSpec = Nothing
                     Dim Label As BasicLabel = Nothing
-                    Dim IsMatch = PrimaryLabelSpec.TryGeneraLabel(x, Label)
+                    Dim IsMatch = PrimaryLabelSpec.TryGenerateLabel(x, Label)
 
                     Return New With {IsMatch, Label}
                 End Function
@@ -79,40 +86,137 @@ Public Class RepositoryModule1
         Return If(MatchSymbols.Length = 1, MatchSymbols(0), Nothing)
     End Function
 
-    Public Async Function FindSecondaryLabelsAsync(Primary As ILabel, Sources() As ILabelSource, cancellationToken As CancellationToken) As Task(Of ILabel()) Implements IRepositoryModule.FindSecondaryLabelsAsync
+    Public Function FindSecondaryLabelsAsync(Primary As ILabel, Sources As ILabelSource(), cancellationToken As CancellationToken) As Task(Of ILabel()) _
+        Implements IRepositoryModule.FindSecondaryLabelsAsync
 
-        Await Task.CompletedTask
+        Dim Labels = New List(Of ILabel)()
 
-        Dim MatchSymbols = Sources _
-            .OfType(Of C3Label) _
-            .Where(Function(x) x.PartNumber = Primary.ItemNumber) _
-            .Cast(Of ILabel) _
-            .ToArray()
+        Dim ValidConditionValues = If(SecondaryLabelCriteria.SpecifiedByConditionFileBehavior <> SecondaryLabelBehavior.Deny,
+            Conditions _
+                .Where(Function(o) EqualsIgnoreCase(o.PrimaryLabelItemNumber, Primary.ItemNumber)) _
+                .Select(Function(o) o.SecondaryItemNumber) _
+                .ToArray(),
+            Array.Empty(Of String)()
+            )
 
-        Return MatchSymbols
+        Dim C3Labels = Sources _
+            .Where(Function(__) (SecondaryLabelCriteria.AcceptableTypes And SecondaryLabelTypes.C3Label) = SecondaryLabelTypes.C3Label) _
+            .OfType(Of C3Label)() _
+            .Where(Function(o) _
+                SecondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior <> SecondaryLabelBehavior.Deny _
+                    AndAlso EqualsIgnoreCase(o.PartNumber, Primary.ItemNumber) _
+                Or SecondaryLabelCriteria.SpecifiedByConditionFileBehavior <> SecondaryLabelBehavior.Deny _
+                    AndAlso ValidConditionValues.Any(Function(p) EqualsIgnoreCase(o.PartNumber, p)) _
+                Or SecondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior <> SecondaryLabelBehavior.Deny _
+                    AndAlso Not EqualsIgnoreCase(o.PartNumber, Primary.ItemNumber) And Not ValidConditionValues.Any(Function(p) EqualsIgnoreCase(o.PartNumber, p))
+                ) _
+            .ToList()
+
+        Labels.AddRange(C3Labels)
+
+        Dim Label As ILabel = Nothing
+
+        Dim SingleSymbolLabels = Sources _
+            .Where(Function(__) (SecondaryLabelCriteria.AcceptableTypes And SecondaryLabelTypes.SingleSymbol) = SecondaryLabelTypes.SingleSymbol) _
+            .OfType(Of Symbol)() _
+            .Where(Function(x) Not PrimaryLabelSpec.TryGenerateLabel(x, Label)) _
+            .Select(Function(o) New BasicLabel(o) With {.ItemNumber = o.Value}) _
+            .Where(Function(o) _
+                SecondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior <> SecondaryLabelBehavior.Deny _
+                    And EqualsIgnoreCase(o.ItemNumber, Primary.ItemNumber) _
+                Or SecondaryLabelCriteria.SpecifiedByConditionFileBehavior <> SecondaryLabelBehavior.Deny _
+                    And ValidConditionValues.Any(Function(p) EqualsIgnoreCase(o.ItemNumber, p))
+                ) _
+            .ToList()
+
+        Labels.AddRange(SingleSymbolLabels)
+
+        Return Task.FromResult(Labels.ToArray())
     End Function
 
-    Public Async Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas() As CaptureData, Tags() As String, cancellationToken As CancellationToken) As Task(Of Boolean) Implements IRepositoryModule.RegisterAsync
+    Public Async Function RegisterAsync(Primary As ILabel, Secondary As ILabel, CaptureDatas As CaptureData(), Tags As String(), cancellationToken As CancellationToken) As Task(Of Boolean) _
+        Implements IRepositoryModule.RegisterAsync
 
         If Not File.Exists(MySettings.Default.FilePath) Then
-
             Throw New RepositoryModuleException("概要データ ファイルが存在しません。")
         End If
 
         If Not Directory.Exists(MySettings.Default.FolderPath) Then
-
             Throw New RepositoryModuleException("詳細データ フォルダが存在しません。")
         End If
 
-        If SecondaryLabelCriteria.IsRequired And Secondary Is Nothing Then
+        If Secondary Is Nothing Then
 
-            If MsgBox("C-3 ラベルが必要です。無視して登録しますか。", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo Or MsgBoxStyle.ApplicationModal Or MsgBoxStyle.DefaultButton2, "警告") <> MsgBoxResult.Yes Then
+            If SecondaryLabelCriteria.NoLabelBehavior = SecondaryNoLabelBehavior.Warnning _
+                AndAlso Not ShowAlert("セカンダリ ラベルが必要です。無視して登録しますか。") Then
 
                 Return False
+
+            ElseIf SecondaryLabelCriteria.NoLabelBehavior = SecondaryNoLabelBehavior.Deny Then
+
+                ShowError("セカンダリ ラベルが必要です。")
+                Return False
+
+            ElseIf SecondaryLabelCriteria.NoLabelBehavior <> SecondaryNoLabelBehavior.Default Then
+
+                Dim hasItemNumberEqualsToPrimary = Tags.Any(Function(o) EqualsIgnoreCase(o, Primary.ItemNumber))
+                Dim hasSpecifiedByConditionFile = Tags _
+                    .Any(Function(o) _
+                        Conditions.Any(Function(p) _
+                            EqualsIgnoreCase(p.PrimaryLabelItemNumber, Primary.ItemNumber) _
+                            And EqualsIgnoreCase(o, p.SecondaryItemNumber)
+                            )
+                        )
+
+                If SecondaryLabelCriteria.NoLabelBehavior = SecondaryNoLabelBehavior.WarningWhenTagNotMatched _
+                    AndAlso Not hasItemNumberEqualsToPrimary _
+                    AndAlso Not hasSpecifiedByConditionFile _
+                    AndAlso Not ShowAlert("セカンダリ ラベル、又は対応するタグが必要です。無視して登録しますか。") Then
+
+                    Return False
+                ElseIf SecondaryLabelCriteria.NoLabelBehavior = SecondaryNoLabelBehavior.DenyWhenTagNotMatched _
+                    AndAlso Not hasItemNumberEqualsToPrimary _
+                    AndAlso Not hasSpecifiedByConditionFile Then
+
+                    ShowError("セカンダリ ラベル、又は対応するタグが必要です。")
+                    Return False
+                ElseIf SecondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior = SecondaryLabelBehavior.Warnning _
+                    AndAlso hasItemNumberEqualsToPrimary _
+                    AndAlso Not ShowAlert("プライマリラベルと同じ品番がタグに含まれています。登録しますか。") Then
+
+                    Return False
+                ElseIf SecondaryLabelCriteria.SpecifiedByConditionFileBehavior = SecondaryLabelBehavior.Warnning _
+                    AndAlso hasSpecifiedByConditionFile _
+                    AndAlso Not ShowAlert("対応表で指定されている品番がタグに含まれています。登録しますか。") Then
+
+                    Return False
+                End If
             End If
+        ElseIf SecondaryLabelCriteria.ItemNumberEqualsToPrimaryOneBehavior = SecondaryLabelBehavior.Warnning _
+            AndAlso EqualsIgnoreCase(Primary.ItemNumber, Secondary.ItemNumber) _
+            AndAlso Not ShowAlert("指定された セカンダリ ラベルは、プライマリラベルと同じ品番です。登録を続行しますか。") Then
+
+            Return False
+        ElseIf SecondaryLabelCriteria.SpecifiedByConditionFileBehavior = SecondaryLabelBehavior.Warnning _
+            AndAlso Conditions _
+                .Any(Function(o) EqualsIgnoreCase(o.PrimaryLabelItemNumber, Primary.ItemNumber) _
+                    And EqualsIgnoreCase(o.SecondaryItemNumber, Secondary.ItemNumber)
+                    ) _
+            AndAlso Not ShowAlert("指定された セカンダリ ラベルは、プライマリ ラベルとは異なり対応表と同じ品番です。登録を続行しますか。") Then
+
+            Return False
+        ElseIf SecondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior = SecondaryLabelBehavior.Warnning _
+            AndAlso Not EqualsIgnoreCase(Primary.ItemNumber, Secondary.ItemNumber) _
+            AndAlso Not Conditions _
+                .Any(Function(o) EqualsIgnoreCase(o.PrimaryLabelItemNumber, Primary.ItemNumber) _
+                    And EqualsIgnoreCase(o.SecondaryItemNumber, Secondary.ItemNumber)
+                    ) _
+            AndAlso Not ShowAlert("指定された セカンダリ ラベルは、プライマリラベルや対応表と異なる品番です。登録しますか。") Then
+
+            Return False
         End If
 
-        Dim Timestamp As Date = Now
+        Dim Timestamp As Date = Date.Now
 
         Dim MyFile = New FileInfo(MySettings.Default.FilePath)
 

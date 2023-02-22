@@ -3,7 +3,7 @@ Imports System.Runtime.InteropServices
 Imports Newtonsoft.Json
 Imports Storex
 
-Public Module ModeHelper
+Public Module ModeExtensions
 
     <Extension>
     Public Function TryExtractProperty(Of T As Class)(Mode As IMode, Key As String, <Out> ByRef Value As T) As Boolean

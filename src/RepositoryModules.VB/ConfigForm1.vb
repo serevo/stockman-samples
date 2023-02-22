@@ -1,10 +1,7 @@
-﻿
-Imports System.IO
+﻿Imports System.IO
 
 Friend Class ConfigForm1
-
     Sub New()
-
         InitializeComponent()
     End Sub
 
@@ -13,6 +10,8 @@ Friend Class ConfigForm1
         ErrorProvider.SetError(FileButton, Nothing)
 
         ErrorProvider.SetError(FolderButton, Nothing)
+
+        ErrorProvider.SetError(SecondaryConditionFileButton, Nothing)
 
         If Not File.Exists(FileTextBox.Text) Then
 
@@ -51,17 +50,29 @@ Friend Class ConfigForm1
         End If
     End Sub
 
+    Private Sub SecondaryConditionFileButton_Click(sender As Object, e As EventArgs) Handles SecondaryConditionFileButton.Click
+
+        SecondaryConditionFileDialog.FileName = SecondaryConditionFileTextBox.Text
+
+        If SecondaryConditionFileDialog.ShowDialog() = DialogResult.OK Then
+
+            SecondaryConditionFileTextBox.Text = SecondaryConditionFileDialog.FileName
+        End If
+    End Sub
+
     Public Shared Sub Configure()
 
         Using Form = New ConfigForm1()
 
             Form.FileTextBox.Text = MySettings.Default.FilePath
             Form.FolderTextBox.Text = MySettings.Default.FolderPath
+            Form.SecondaryConditionFileTextBox.Text = MySettings.Default.SecondaryConditionFilePath
 
             If Form.ShowDialog() = DialogResult.OK Then
 
                 MySettings.Default.FilePath = Form.FileTextBox.Text
                 MySettings.Default.FolderPath = Form.FolderTextBox.Text
+                MySettings.Default.SecondaryConditionFilePath = Form.SecondaryConditionFileTextBox.Text
                 MySettings.Default.Save()
             End If
         End Using
