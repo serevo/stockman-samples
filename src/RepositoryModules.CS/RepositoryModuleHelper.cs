@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,20 +20,22 @@ namespace RepositoryModules
             }
         }
 
-        public static SecondaryCondition[] ReadSecondaryConditionsFile()
+        public static IReadOnlyDictionary<string, IEnumerable<string>> ReadSecondaryConditionsFile()
         {
             var filePath = MySettings.Default.SecondaryConditionFilePath;
 
             if (!File.Exists(filePath))
-                return Array.Empty<SecondaryCondition>();
+                return new Dictionary<string, IEnumerable<string>>(StringComparer.CurrentCultureIgnoreCase);
 
             var text = File.ReadAllText(filePath, Encoding.GetEncoding("shift_jis"));
 
             return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
                 .Select(x => x.Split(','))
                 .Where(x => x.Length == 2)
-                .Select(x => new SecondaryCondition(x[0], x[1]))
-                .ToArray();
+                .Select(x => new { primaryItemNumber = x[0], secondaryItemNumber = x[1] })
+                .GroupBy(x => x.primaryItemNumber, StringComparer.CurrentCultureIgnoreCase)
+                .ToDictionary(o => o.Key, o => o.Select(oo => oo.secondaryItemNumber).ToArray().AsEnumerable(), StringComparer.CurrentCultureIgnoreCase)
+                ;
         }
 
         public static bool ShowAlert(string message) => MessageBox.Show(message, "警告"

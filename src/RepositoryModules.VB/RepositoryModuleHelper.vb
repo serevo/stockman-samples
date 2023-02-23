@@ -15,13 +15,13 @@ Friend Module RepositoryModuleHelper
         End Using
     End Sub
 
-    Public Function ReadSecondaryConditionsFile() As SecondaryCondition()
+    Public Function ReadSecondaryConditionsFile() As IReadOnlyDictionary(Of String, IEnumerable(Of String))
 
         Dim FilePath = MySettings.Default.SecondaryConditionFilePath
 
         If Not File.Exists(FilePath) Then
 
-            Return Array.Empty(Of SecondaryCondition)()
+            Return New Dictionary(Of String, IEnumerable(Of String))(StringComparer.CurrentCultureIgnoreCase)
         End If
 
         Dim Text = File.ReadAllText(FilePath, Encoding.GetEncoding("shift_jis"))
@@ -29,8 +29,12 @@ Friend Module RepositoryModuleHelper
         Return Text.Split({Environment.NewLine}, StringSplitOptions.None) _
             .Select(Function(x) x.Split(","c)) _
             .Where(Function(x) x.Length = 2) _
-            .Select(Function(x) New SecondaryCondition(x(0), x(1))) _
-            .ToArray()
+            .Select(Function(x) New With {
+                .primaryItemNumber = x(0),
+                .secondaryItemNumber = x(1)
+            }) _
+            .GroupBy(Function(x) x.primaryItemNumber, StringComparer.CurrentCultureIgnoreCase) _
+            .ToDictionary(Function(o) o.Key, Function(o) o.Select(Function(oo) oo.secondaryItemNumber).ToArray().AsEnumerable(), StringComparer.CurrentCultureIgnoreCase)
     End Function
 
     Public Function ShowAlert(Message As String) As Boolean

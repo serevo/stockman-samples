@@ -57,7 +57,7 @@ namespace RepositoryModules
                 throw new RepositoryModuleException("モードが構成されていません。");
             }
 
-            _conditions = ReadSecondaryConditionsFile();
+            _conditionDictionary = ReadSecondaryConditionsFile();
 
             _currentMode = Mode;
             _currentUser = UserInfo;
@@ -79,17 +79,16 @@ namespace RepositoryModules
         }
 
         SecondaryLabelCriteria _secondaryLabelCriteria;
-        IReadOnlyList<SecondaryCondition> _conditions;
+        IReadOnlyDictionary<string, IEnumerable<string>> _conditionDictionary;
 
         public Task<ILabel[]> FindSecondaryLabelsAsync(ILabel primary, ILabelSource[] sources, CancellationToken cancellationToken)
         {
             var labels = new List<ILabel>();
 
-            var validConditionValues = _secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny ?
-                _conditions
-                    .Where(o => EqualsIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber))
-                    .Select(o => o.SecondaryItemNumber)
-                    .ToArray() :
+            var validConditionValues = 
+                _secondaryLabelCriteria.SpecifiedByConditionFileBehavior != SecondaryLabelBehavior.Deny
+                    &&  _conditionDictionary.TryGetValue(primary.ItemNumber, out var strings) ? 
+                strings :
                 Array.Empty<string>();
 
             var c3Labels = sources
@@ -147,12 +146,8 @@ namespace RepositoryModules
                 else if (_secondaryLabelCriteria.NoLabelBehavior != SecondaryNoLabelBehavior.Default)
                 {
                     var hasItemNumberEqualsToPrimary = tags.Any(o => EqualsIgnoreCase(o, primary.ItemNumber));
-                    var hasSpecifiedByConditionFile = tags
-                        .Any(o => _conditions
-                            .Any(p => EqualsIgnoreCase(p.PrimaryLabelItemNumber, primary.ItemNumber)
-                                & EqualsIgnoreCase(o, p.SecondaryItemNumber)
-                                )
-                            );
+                    var hasSpecifiedByConditionFile = 
+                        tags.Any(o => _conditionDictionary.TryGetValue(primary.ItemNumber, out var strings) && strings.Any(p => EqualsIgnoreCase(o, p)));
 
                     if (_secondaryLabelCriteria.NoLabelBehavior == SecondaryNoLabelBehavior.WarningWhenTagNotMatched
                         && !hasItemNumberEqualsToPrimary && !hasSpecifiedByConditionFile
@@ -187,14 +182,15 @@ namespace RepositoryModules
                 return false;
             }
             else if (_secondaryLabelCriteria.SpecifiedByConditionFileBehavior == SecondaryLabelBehavior.Warnning
-                && _conditions.Any(o => EqualsIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber) & EqualsIgnoreCase(o.SecondaryItemNumber, secondary.ItemNumber))
+                && _conditionDictionary.TryGetValue(primary.ItemNumber, out var strings1) 
+                && strings1.Any(o => EqualsIgnoreCase(o, secondary.ItemNumber))
                 && !ShowAlert("指定された セカンダリ ラベルは、プライマリ ラベルとは異なり対応表と同じ品番です。登録を続行しますか。"))
             {
                 return false;
             }
             else if (_secondaryLabelCriteria.OtherNotSingleSymbolLabelsBehavior == SecondaryLabelBehavior.Warnning
                 && !EqualsIgnoreCase(primary.ItemNumber, secondary.ItemNumber)
-                && !_conditions.Any(o => EqualsIgnoreCase(o.PrimaryLabelItemNumber, primary.ItemNumber) & EqualsIgnoreCase(o.SecondaryItemNumber, secondary.ItemNumber))
+                && !(_conditionDictionary.TryGetValue(primary.ItemNumber, out var strings2) && strings2.Any(o => EqualsIgnoreCase(o, secondary.ItemNumber)))
                 && !ShowAlert("指定された セカンダリ ラベルは、プライマリラベルや対応表と異なる品番です。登録しますか。"))
             {
                 return false;
