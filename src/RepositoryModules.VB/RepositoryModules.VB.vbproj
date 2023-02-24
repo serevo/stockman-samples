@@ -133,7 +133,6 @@
     <Compile Include="FixedLengthSpec.vb" />
     <Compile Include="ModeExtensions.vb" />
     <Compile Include="RepositoryModuleHelper.vb" />
-    <Compile Include="SecondaryCondition.vb" />
     <Compile Include="SecondaryLabelBehavior.vb" />
     <Compile Include="SecondaryLabelCriteria.vb" />
   </ItemGroup>
