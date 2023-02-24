@@ -27,7 +27,7 @@ STOCK-MAN やモジュール開発の概要については次のページをご�
 
 ## サンプルの種類
 
-サンプルには次の３種類のモジュールが含まれており、それぞれが Visual Basic .NET と C# の両方で書かれています。尚、ビルド後のファイルは全て `src\bin` フォルダーに出力されます。
+サンプルには次の３種類のモジュールが含まれており、それぞれが Visual Basic .NET と C# の両方で書かれていて、UIには[System.Windows.Forms](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0)を用いています。尚、ビルド後のファイルは全て `src\bin` フォルダーに出力されます。
 
 
 
@@ -35,7 +35,7 @@ STOCK-MAN やモジュール開発の概要については次のページをご�
 ### `AuthenticationModule1`
 
 CSVファイル (ID と 氏名)  を使用し、ダイアログボックスでユーザーに入力された ID で認証します。モジュール設定として CSV ファイルを選択します。他に次の型も使用します。
-  - `AuthenticationForm1`: 認証用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
+  - `AuthenticationForm1`: 認証用ダイアログボックス
   - `User`:  認証結果として返す `IUser` インターフェイス実装
   - `AuthenticationModuleHelper`:  ファイル入出力用ヘルパー
 
@@ -45,7 +45,7 @@ CSVファイル (ID と 氏名)  を使用し、ダイアログボックスで�
 
 CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧から選択して認証します。モジュール設定として CSV ファイルを選択します。他に次の型も使用します。
 
-  - `AuthenticationForm2`: 認証用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0)
+  - `AuthenticationForm2`: 認証用ダイアログボックス
   - `User`:  認証結果で返す `IUser` インターフェイスの実装
   - `AuthenticationModuleHelper`:  ファイル入出力用ヘルパー
 
@@ -55,6 +55,8 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
 
 データ保管モジュールは、STOCK-MANアプリで検出されたシンボルから主要なラベルを特定する役割と、データを保存する役割を持ち、このサンプルでは下記の条件で行います。
 
+※Windows OS のデータベースでは大文字小文字を区別しない為、このサンプルでの文字比較も大文字小文字を同じ文字として扱います。
+
 #### 1.データの保存
 １つのファイル (概要データ) と１つのフォルダー (詳細データ) でデータを管理します。
  - 概要データ：プライマリ/セカンダリ ラベルの品番とシリアルナンバー、作業者、タイムスタンプを書き込むログファイル
@@ -62,33 +64,28 @@ CSVファイル (ID と 氏名)  を使用し、ユーザーが氏名を一覧�
 
  次の型を使用します。
 
- - `SecondaryLabelCriteria`: 品番確認動作の定義
- - `ConfigForm1`: モジュール設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0)。上記のファイルとフォルダのパスを指定します。
+ - `ConfigForm1`: モジュール設定用ダイアログボックス。上記のファイルとフォルダのパスを指定します。
 
-#### 2.プライマリ ラベルの指定
- テキストの開始文字、品番/シリアルの開始位置と文字数をモード設定として保存します。モジュール設定の条件を満たす単一シンボルをプライマリ ラベルとしてSTOCK-MANアプリに返します。次の型を使用します。
+#### 2.プライマリ ラベル
+ テキストの開始文字、品番/シリアルの開始位置と文字数を設定します。この条件を満たす単一シンボルをプライマリ ラベルとして返します。次の型を使用します。
 
- - `FixedLengthSpec`:プライマリ ラベルの定義 
- - `ModeConfigForm1`:  モード設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
+ - `FixedLengthSpec`: プライマリ ラベルの設定用 
+ - `ModeConfigForm1`: モード設定用ダイアログボックス 
  
-#### 3.セカンダリ ラベルの指定・品番確認
- - C-3 ラベル/単一シンボルラベルをセカンダリ ラベルの対象とするかの指定
- 1. プライマリラベルの品番と 一致する品番を持つ 対象ラベル
- 2. CSVファイル (プライマリ ラベル品番 と指定品番)で指定された品番を持つ 対象ラベル
- 3. 1と2に当てはまらない C-3 ラベル(対象のとき) 
- 4. 上記を満たすセカンダリ ラベルが存在しないときの保存時動作
+#### 3.セカンダリ ラベル・品番照合
+  C-3 ラベルと単一シンボルラベルのうち下記条件に対して有効無効を設定し、有効なものをセカンダリ ラベルとして用います。
+ 1. プライマリラベルと一致するもの
+ 2. 品番対応表 (プライマリ ラベル品番 と指定品番)で指定されているもの
+ 3. 1と2に当てはまらない C-3 ラベル
 
- - 1～3のラベルに対し、有効(許可・警告)、無効(拒否)を指定します。有効のとき上記条件を満たし、かつプライマリラベルの定義に当てはまらないラベルをセカンダリラベルの一覧として返します。保存の際に指定されたセカンダリ ラベルが警告の条件と一致する場合、警告ダイアログを表示し保存の続行・中止を選択します。
- - 4に対しては許可・警告・拒否・タグによる照合(警告・拒否)を指定します。警告の場合は警告ダイアログを表示し保存の続行・中止を選択、拒否の場合エラーダイアログを表示し保存を中止します。タグによる照合が指定されている場合、1,2で有効に指定されている品番がタグに含まれているかを確認し、含まれている場合は1,2と同じ動作を、含まれていない場合は警告ダイアログ、又はエラーダイアログを表示します。
- 上記の内容をモード設定として保存します。次の型を使用します。
+ 品番照合とはデータの保存前にプライマリ ラベルと指定されたセカンダリ ラベルが上記の有効な条件を満たしているか確認し、設定に応じて保存の決行・中止を判断します。 セカンダリ ラベルが存在しない場合、タグによる品番照合を行う設定にすることもできます。次の型を使用します。
  
- - `FixedLengthSpec`:プライマリ ラベルの定義 
- - `SecondaryLabelCriteria`: セカンダリ ラベルと品番確認動作の定義
- - `SecondaryLabelTypes`: セカンダリ ラベル有効ラベルの列挙体
- - `SecondaryNoLabelBehavior`: 記録時のセカンダリ ラベルがない時の品番確認動作の列挙体
- - `SecondaryLabelBehavior`: セカンダリ ラベルの特定や品番確認時動作の列挙体
- - `ConfigForm1`: モジュール設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 。対応表ファイルの場所を保存します。
- - `ModeConfigForm1`:  モード設定用ダイアログボックス ([System.Windows.Forms)](https://learn.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0) 
+ - `SecondaryLabelCriteria`: セカンダリ ラベルと品番確認の設定用
+	- `SecondaryLabelTypes`: セカンダリ ラベルのラベル種類の列挙体
+	- `SecondaryNoLabelBehavior`: 記録時のセカンダリ ラベルがない時の品番確認動作の列挙体
+	- `SecondaryLabelBehavior`: セカンダリ ラベルの特定や品番確認時動作の列挙体
+ - `ConfigForm1`: モジュール設定用ダイアログボックス。対応表ファイルの場所を保存します。
+ - `ModeConfigForm1`:  モード設定用ダイアログボックス。
 
  このモジュールでは他に次の型を使用します。
   - `RepositoryModuleHelper`: 画像ファイルの書込み、対応表ファイルの読込、メッセージダイアログの共通化の機能を持つヘルパー
