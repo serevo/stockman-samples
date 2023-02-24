@@ -19,12 +19,7 @@ Friend Module RepositoryModuleHelper
 
         Dim FilePath = MySettings.Default.SecondaryConditionFilePath
 
-        If Not File.Exists(FilePath) Then
-
-            Return New Dictionary(Of String, IEnumerable(Of String))(StringComparer.CurrentCultureIgnoreCase)
-        End If
-
-        Dim Text = File.ReadAllText(FilePath, Encoding.GetEncoding("shift_jis"))
+        Dim Text = If(File.Exists(FilePath), File.ReadAllText(FilePath, Encoding.GetEncoding("shift_jis")), String.Empty)
 
         Return Text.Split({Environment.NewLine}, StringSplitOptions.None) _
             .Select(Function(x) x.Split(","c)) _

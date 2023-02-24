@@ -24,10 +24,7 @@ namespace RepositoryModules
         {
             var filePath = MySettings.Default.SecondaryConditionFilePath;
 
-            if (!File.Exists(filePath))
-                return new Dictionary<string, IEnumerable<string>>(StringComparer.CurrentCultureIgnoreCase);
-
-            var text = File.ReadAllText(filePath, Encoding.GetEncoding("shift_jis"));
+            var text = File.Exists(filePath) ? File.ReadAllText(filePath, Encoding.GetEncoding("shift_jis")) : string.Empty;
 
             return text.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
                 .Select(x => x.Split(','))
